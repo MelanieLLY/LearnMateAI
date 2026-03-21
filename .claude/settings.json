@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allowlist": {
+      "glob": ["src/**", "tests/**", "prisma/**", "CLAUDE.md"],
+      "commands": ["npm", "git", "npx", "node"]
+    },
+    "disallowlist": {
+      "glob": [".env", "node_modules/**", ".git/**"]
+    }
+  }
+}
