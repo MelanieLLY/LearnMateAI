@@ -74,6 +74,28 @@ def create_module(db: Session, instructor_id: int, payload: ModuleCreate) -> Mod
     return module
 
 
+def delete_module(db: Session, module_id: int, instructor_id: int) -> None:
+    """Delete an existing module owned by the given instructor.
+
+    Args:
+        db: The active database session.
+        module_id: Primary key of the module to delete.
+        instructor_id: ID of the instructor making the request.
+
+    Raises:
+        HTTPException: 404 if no module with ``module_id`` exists.
+        HTTPException: 403 if the module exists but belongs to a different instructor.
+    """
+    module = get_module_by_id(db, module_id)
+    if not module:
+        raise HTTPException(status_code=404, detail="Module not found")
+    if module.instructor_id != instructor_id:
+        raise HTTPException(status_code=403, detail="Not authorized to delete this module")
+
+    db.delete(module)
+    db.commit()
+
+
 def update_module(
     db: Session, module_id: int, instructor_id: int, payload: ModuleUpdate
 ) -> Module:

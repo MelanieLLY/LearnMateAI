@@ -67,3 +67,28 @@ def edit_module(
     """
     instructor_id = int(current_user["sub"])
     return module_service.update_module(db, module_id, instructor_id, payload)
+
+
+@router.delete("/modules/{module_id}", status_code=204)
+def delete_module(
+    module_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+) -> None:
+    """Permanently delete a module owned by the authenticated instructor.
+
+    Args:
+        module_id: Path parameter identifying the module to delete.
+        db: Injected database session.
+        current_user: Decoded JWT payload; guaranteed to have ``role == "instructor"``.
+
+    Returns:
+        ``None`` — FastAPI sends an empty 204 No Content response.
+
+    Raises:
+        HTTPException: 401 if the request is unauthenticated.
+        HTTPException: 403 if the user is not an instructor or does not own the module.
+        HTTPException: 404 if no module with ``module_id`` exists.
+    """
+    instructor_id = int(current_user["sub"])
+    module_service.delete_module(db, module_id, instructor_id)

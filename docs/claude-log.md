@@ -289,3 +289,52 @@ After:   422 added, matching create_module's Raises section
   - Docstrings on delete_module() and the route handler                                                                                                                                                                           
   - The 404/403 guard sequence in delete_module mirrors update_module exactly — that's intentional and correct.
 ```
+
+## Session 11: Delete API - RED Phase
+
+**User Prompt:**
+> Great plan. Now enter the RED Phase for the Delete Module API.
+> Write failing pytest tests for "Delete Module" covering:
+> 1. Happy Path: Successfully delete a module -> Expect 200/204.
+> 2. Not Found: Try to delete a non-existent module -> Expect 404.
+> 3. Unauthorized: Not the owner or not authenticated -> Expect 401/403.
+> Write ONLY the tests first, run them, and prove they FAIL.
+
+**Claude Output (Pytest FAILED Log summary):**
+```text
+=========================================================================================== short test summary info ============================================================================================
+FAILED tests/backend/test_delete_module.py::TestDeleteModule::test_delete_module_success - AssertionError: {"detail":"Method Not Allowed"}
+FAILED tests/backend/test_delete_module.py::TestDeleteModule::test_delete_module_not_found - AssertionError: {"detail":"Method Not Allowed"}
+FAILED tests/backend/test_delete_module.py::TestDeleteModule::test_delete_module_unauthenticated - AssertionError: {"detail":"Method Not Allowed"}
+FAILED tests/backend/test_delete_module.py::TestDeleteModule::test_delete_module_student_role_forbidden - AssertionError: {"detail":"Method Not Allowed"}
+FAILED tests/backend/test_delete_module.py::TestDeleteModule::test_delete_module_wrong_instructor - AssertionError: {"detail":"Method Not Allowed"}
+============================================================================================== 5 failed in 0.08s ===============================================================================================
+```
+
+**Screenshot Evidence:**
+![Delete API RED Phase](screenshot/06_Delete_RED_phase_failing_tests.png)
+
+
+## Session 12: Delete API - GREEN Phase
+
+**User Prompt:**
+> Now, implement the backend code to make the 'Delete Module' tests pass (GREEN phase). Run pytest to verify.
+> Ensure all 5 tests pass successfully.
+
+**Claude Output (Pytest PASSED Log summary):**
+```text
+============================================================================================= test session starts ==============================================================================================
+platform darwin -- Python 3.12.0, pytest-9.0.2, pluggy-1.6.0
+rootdir: /Users/melaniey/Github/LearnMateAI
+configfile: pytest.ini
+plugins: cov-7.1.0, asyncio-0.21.1, anyio-3.7.1
+asyncio: mode=Mode.STRICT
+collected 5 items                                                                                                                                                                                              
+
+tests/backend/test_delete_module.py .....                                                                                                                                                                [100%]
+
+============================================================================================== 5 passed in 0.04s ===============================================================================================
+```
+
+**Screenshot Evidence:**
+![Delete API GREEN Phase](screenshot/07_Delete_GREEN_phase_passed.png)
