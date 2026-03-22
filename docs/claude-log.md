@@ -167,7 +167,7 @@ a799ad5 refactor(#2): improve create module API structure and update dependencie
 ```
 
 **Screenshot Evidence:**
-![TDD Commits History](screenshot/03_TDD_commits_history.png)
+![Mid-Way TDD Commits History (Create API Completed)](screenshot/03_TDD_commits_history.png)
 
 ## Session 6.5: Explore & Plan (Edit API)
 
@@ -369,3 +369,14 @@ Returns:
 
 Every other function in the file documents its return value. The delete was the sole exception; the addition makes the docstring style uniform across the whole module.
 ```
+
+## Session 14: Final TDD Commits History Review
+
+**User Prompt:**
+> Print the final TDD commits history.
+
+**Terminal Command:**
+`git log --oneline -n 12`
+
+**Screenshot Evidence:**
+![Final TDD Commits History (Create, Edit, Delete APIs Completed)](screenshot/08_Final_TDD_commits_history.png)
