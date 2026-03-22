@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+<!-- HW4 Required Context Imports -->
+@import project_proposal.md
+@import "planning files/learnmate-sprint-plan.md"
+
 ---
 
 ## Project Overview
@@ -51,42 +55,21 @@ npx prisma db seed
 
 ## Architecture
 
-**Monolith MVP:** Single Next.js (App Router) + Express codebase.
+**Tech Stack:** Node.js / React with Vite (Frontend) + Python / FastAPI (Backend API), kept within a single Monorepo.
 
 ```
 src/
-├── app/            # Next.js App Router pages and API routes
-├── features/
-│   ├── instructor/ # uploadMaterial, getAnalytics
-│   ├── student/    # submitNotes, takeQuiz, getHint
-│   ├── synthesis/  # generateSummary, generateFlashcards, generateQuiz (all call Claude API)
-│   └── evaluation/ # evaluateContent (LLM-as-judge), calculateMetrics
-├── api/            # Express route handlers (instructor, student, evaluation, auth)
-├── services/
-│   ├── claudeAPI.ts  # Single wrapper for all Claude API calls
-│   ├── storage.ts    # File system (dev) / S3 (prod)
-│   └── auth.ts       # JWT generation/verification
-├── db/
-│   └── client.ts   # Prisma client singleton
-└── utils/          # logger, errors, constants
-prisma/
-├── schema.prisma   # Source of truth for all DB types
-└── seed.ts
-tests/
-├── integration/    # Full user-flow tests (notes → quiz → feedback)
-└── e2e/            # Playwright (instructor upload → generate → analytics)
+├── frontend/       # React Frontend (Vite, TypeScript, Tailwind)
+└── backend/        # FastAPI Backend (Python)
+    └── db/         # PostgreSQL Database schemas and ORM clients
 ```
 
 ### Key Decisions
 
-- **Claude API for all AI:** synthesis, quiz generation, hints, and LLM-as-judge evaluation all go through `src/services/claudeAPI.ts`.
-- **Prisma:** All DB access via Prisma ORM. SQLite in dev, PostgreSQL in prod — switching is transparent.
+- **Monorepo Structure:** Frontend and Backend are in the same repository but in explicitly separated subdirectories (`/frontend` and `/backend`) to avoid IDE conflicts and red squiggles.
+- **LLM Engine:** All Claude API calls handled by dedicated AI agent modules in the Python backend.
+- **Testing:** We use `vitest` for frontend testing and `pytest` for backend testing (minimum 80% coverage).
 - **Authentication:** JWT with bcrypt. No OAuth for MVP.
-- **File storage:** `./uploads/` in dev, AWS S3 in prod.
-- **REST API endpoints:**
-  - `POST /api/instructor/materials`, `GET /api/instructor/analytics`
-  - `POST /api/student/notes`, `POST /api/student/quiz/:id/submit`
-  - `POST /api/evaluation/assess`
 
 ---
 
@@ -100,7 +83,25 @@ git commit -m "feat(scope): GREEN - minimal implementation"
 git commit -m "refactor(scope): improve quality"
 ```
 
-Mock Claude API and DB calls in unit tests (`jest.mock()`). Integration tests under `tests/integration/` hit a real (test) database.
+Tests MUST be written BEFORE implementation code. Mock external API calls.
+
+---
+
+## Do's and Don'ts (Strictly Enforced)
+
+### Do's
+- Write failing tests first.
+- Strict adherence to PEP 8 for Python and Strict Mode for TypeScript.
+- Write high-quality docstrings for Python AI algorithms.
+- Commit frequently with conventional commits containing Issue IDs (e.g., `feat(#2): add module API`).
+
+### Don'ts
+- **No `any` types** in TypeScript.
+- **Never mask TS errors** with `// @ts-ignore`.
+- **Never hardcode secrets** (Claude API keys, DB strings) in public files; use `.env`.
+- Do not modify frontend routes when assigned a backend task unless specifically requested.
+
+---
 
 ---
 

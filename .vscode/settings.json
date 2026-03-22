@@ -1,0 +1,10 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/backend"
+  ],
+  "eslint.workingDirectories": [
+    "./frontend"
+  ],
+  "typescript.tsdk": "frontend/node_modules/typescript/lib"
+}

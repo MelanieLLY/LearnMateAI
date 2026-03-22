@@ -8,27 +8,37 @@
 ## Sprint 1: Foundation + Module System (Mar 24 – Mar 30)
 
 **Day 1-2: Person A solo — scaffolding**
-- Next.js + FastAPI project setup, folder structure, DB schema
+- React (Vite) + FastAPI project setup, folder structure, DB schema
 - Auth system: JWT login/register, role-based middleware (student / instructor / admin)
 - GitHub org + repos, CI/CD pipeline (GitHub Actions: lint + test on PR)
-- CLAUDE.md written (for HW4)
+- CLAUDE.md configured (including project context, stack, testing strategy, and permissions setup for HW4)
 - Team contract established
 
 **Day 3-7: Both devs in parallel**
 
 | Person A | Person B |
 |---|---|
-| **Feature: Instructor module management** | **Feature: Student module experience** |
-| Create/edit/delete module (API + UI) | Student module list + browse UI |
-| Upload materials to S3 (API + UI) | View/download materials page |
-| Define learning objectives per module | Student note upload (API + UI) |
+| **Feature: Instructor Module Management (Target for HW4)** | **Feature: Student module experience** |
+| Module Management API (Create/Edit/Delete) | Student module list + browse UI |
+| Instructor UI for Module Management | View/download materials page |
+| Upload materials to S3 (API + UI) | Student note upload (API + UI) |
+| Define learning objectives per module | |
+
+> **🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**
+> Claude, build the "Module Management API" backend feature using strict TDD. Follow this exact 4-phase workflow (Explore → Plan → Implement → Commit):
+> 1. **Explore:** Use Glob, Grep, Read to understand the existing code stack and directory structure.
+> 2. **Plan:** Use Plan mode to outline the backend endpoints. Write failing tests first.
+> 3. **Implement (TDD):** Run tests (Red), implement minimum code to pass (Green), and refactor. Repeat for all API operations.
+> 4. **Commit:** Create clean commits with meaningful messages showing the Red-Green-Refactor process for git history.
 
 **Sprint 1 deliverables:**
 - Auth flow end-to-end
-- Instructor creates module, uploads PDF, sets objectives
+- Instructor Module APIs (Developed strictly via TDD for HW4)
 - Student browses modules, views materials, uploads personal notes
 - CI/CD: auto test + deploy to dev on merge
 - CLAUDE.md + team contract
+- **HW4 Target:** Annotated Claude Code session log
+- **HW4 Target:** 1-2 page reflection document on workflow
 
 ---
 
@@ -36,30 +46,30 @@
 
 | Person A | Person B |
 |---|---|
-| **Feature: AI content generation + eval** | **Feature: Quiz & feedback loop** |
+| **Feature: Agentic Content Gen (3+ Features)** | **Feature: Quiz & feedback loop** |
 | Context builder: merge materials + notes | Quiz-taking UI (MCQ + open-ended) |
-| 3 parallel agents (summary / flashcard / quiz) | Quiz submission API + answer storage |
-| Summary display page | AI feedback on quiz answers (heuristic hints) |
-| Flashcard display page | Quiz results page with score + explanations |
-| LLM-as-judge eval system | Eval quality badge display on generated content |
-| Store eval history in DB | |
+| Feature 1: Study Summary Generation Agent | Quiz submission API + answer storage |
+| Feature 2: Flashcard Generation Agent | Feature 3: Quiz Gen Agent (includes hints for MCQ options) |
+| Summary & Flashcard display pages | AI dynamic hints for open-ended quiz answers |
+| LLM-as-judge eval system for all outputs | Quiz results page with score + explanations |
+| Store eval history in DB for reporting | Eval quality badge display on generated content |
 
 **Sprint 2 deliverables:**
-- "Generate study content" triggers 3 agents in parallel
+- 3+ distinct features built with parallel agents (Summary, Flashcard, Quiz)
 - Summary, flashcards, quiz all render correctly
-- Student takes quiz, gets AI feedback and hints
-- Eval engine auto-scores every generation, history stored
+- Student takes quiz, gets pre-generated hints for MCQ and dynamic hints for open-ended
+- Eval engine auto-scores every LLM generation using LLM-as-judge, history stored
 - CI/CD: add staging environment
 
 ---
 
-## Sprint 3: Reports, Production & Polish (Apr 7 – Apr 15)
+## **Sprint 3: Reports, Production & Polish (Apr 7 – Apr 15)**
 
 | Person A | Person B |
 |---|---|
-| **Feature: Instructor report** | **Feature: Admin dashboard** |
-| Aggregated class report API (anonymous stats) | Admin user management (API + UI) |
-| Report dashboard UI (common gaps, avg scores) | Eval history dashboard + trend charts |
+| **Feature: Instructor report** | **Feature: System Eval & MLOps** |
+| Aggregated class report API (anonymous stats) | Eval metrics dashboard (For dev/testing view) |
+| Report dashboard UI (common gaps, avg scores) | LLM quality trend charts & LLM-as-judge reports |
 | | |
 | **Then split remaining work:** | |
 | Sentry + Grafana setup | UI polish (loading states, responsive) |
@@ -68,7 +78,7 @@
 
 **Sprint 3 deliverables:**
 - Instructor anonymous class performance report
-- Admin user management + eval trend graphs
+- Eval trend graphs & generation metrics dashboard for testing
 - Sentry + Grafana dashboards live
 - Security hardened, production deployed
 - Documentation package complete
