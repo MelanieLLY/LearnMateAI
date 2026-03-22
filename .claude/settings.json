@@ -1,11 +1,31 @@
 {
   "permissions": {
-    "allowlist": {
-      "glob": ["src/**", "tests/**", "prisma/**", "CLAUDE.md"],
-      "commands": ["npm", "git", "npx", "node"]
-    },
-    "disallowlist": {
-      "glob": [".env", "node_modules/**", ".git/**"]
-    }
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(git:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pytest:*)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
+      "Bash(uvicorn:*)",
+      "Bash(alembic:*)",
+      "Edit(src/**)",
+      "Write(src/**)",
+      "Edit(tests/**)",
+      "Write(tests/**)",
+      "Edit(CLAUDE.md)",
+      "Write(CLAUDE.md)"
+    ],
+    "deny": [
+      "Edit(.env)",
+      "Write(.env)",
+      "Edit(node_modules/**)",
+      "Write(node_modules/**)",
+      "Edit(.git/**)",
+      "Write(.git/**)"
+    ]
   }
 }
