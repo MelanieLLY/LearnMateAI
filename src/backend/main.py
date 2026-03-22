@@ -1,3 +1,9 @@
+"""LearnMateAI FastAPI application entry point.
+
+Creates the FastAPI ``app`` instance, initialises the database schema, and
+registers all API routers under the ``/api/v1`` prefix.
+"""
+
 from fastapi import FastAPI
 
 from src.backend.database import Base, engine
