@@ -2,6 +2,9 @@
 
 **Due:** Sunday by 11:59pm | **Points:** 50 | Pair Work Encouraged
 
+### Author
+老师的官方要求
+
 ### Objective
 Demonstrate mastery of the Claude Code development workflow by setting up a project, using the Explore→Plan→Implement→Commit pattern, and doing TDD through Claude Code.
 

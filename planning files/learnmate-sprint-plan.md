@@ -4,6 +4,9 @@
 > Deadline: Apr 19
 
 ---
+## Author
+我自己和AI一起写的 自用笔记
+
 
 ## Sprint 1: Foundation + Module System (Mar 24 – Mar 30)
 

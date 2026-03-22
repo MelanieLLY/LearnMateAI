@@ -43,3 +43,9 @@ def instructor_token() -> str:
 def student_token() -> str:
     """JWT for a user with the 'student' role (user_id=2)."""
     return _make_token(user_id=2, role="student")
+
+
+@pytest.fixture
+def second_instructor_token() -> str:
+    """JWT for a second instructor (user_id=3), used to test ownership checks."""
+    return _make_token(user_id=3, role="instructor")

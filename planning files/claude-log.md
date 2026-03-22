@@ -36,7 +36,6 @@ CLAUDE.md — Three fixes:
   "permissions": {
     "allow": [
       "Bash(npm:*)",
-      "Bash(git:*)",
       "Bash(npx:*)",
       "Bash(node:*)",
       "Bash(python:*)",
@@ -159,4 +158,27 @@ tests/backend/test_create_module.py ..... [100%]
 a799ad5 refactor(#2): improve create module API structure and update dependencies
 257d1f9 feat(#2): GREEN - implement create module API to pass tests
 4922be3 test(#2): RED - add failing tests for create module API
+```
+
+## Session 7: Edit API - RED Phase
+
+**User Prompt:**
+> Great. Now we move to the Edit Module API. Again, enter the RED Phase first.
+> Write failing pytest tests for "Edit Module" to cover:
+> 1. Happy Path: Successfully edit a module title/description -> Expect 200.
+> 2. Not Found: Try to edit a non-existent module -> Expect 404.
+> 3. Unauthorized: Not the owner or not authenticated -> Expect 401/403.
+> Write ONLY the tests first, run them in the terminal, and prove they FAIL.
+> (Do not automatically commit, I will review first.)
+
+**Claude Output (Pytest FAILED Log summary):**
+```text
+================================ short test summary info =================================
+FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_success - AssertionError: {"detail":"Not Found"}
+FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_partial_update - AssertionError: {"detail":"Not Found"}
+FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_not_found - AssertionError: assert 'module' in 'not found'
+FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_unauthenticated - AssertionError: {"detail":"Not Found"}
+FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_student_role_forbidden - AssertionError: {"detail":"Not Found"}
+FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_wrong_instructor - AssertionError: {"detail":"Not Found"}
+=================================== 6 failed in 0.08s ====================================
 ```
