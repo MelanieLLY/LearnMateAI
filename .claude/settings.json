@@ -2,7 +2,6 @@
   "permissions": {
     "allow": [
       "Bash(npm:*)",
-      "Bash(git:*)",
       "Bash(npx:*)",
       "Bash(node:*)",
       "Bash(python:*)",

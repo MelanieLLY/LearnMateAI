@@ -1,0 +1,45 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node & Frontend (Vite/React)
+node_modules/
+dist/
+dist-ssr/
+*.local
+.npm/
+package-lock.json
+
+# Python & Backend (FastAPI)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Pytest & Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Environments
+.env.*
+
+# IDEs & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
+!/.claude/settings.json
+!/.claude/settings.local.json

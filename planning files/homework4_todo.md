@@ -50,9 +50,9 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 展示对 `Explore` 工具的使用，并规划出 TDD 测试步骤。
 
 2.给claude发的指令
-> `We are working on Issue #2: Instructor Module Management API. `
-> `First, use your Explore tools (Glob, Grep, Read) to understand the current backend directory structure.`
-> `Then, switch to the planning phase. Provide a step-by-step TDD plan (Red-Green-Refactor) for implementing the Create Module API. Do NOT write the actual endpoint code yet. Write ONLY the failing test first.`
+> `We are working on Issue #2: Instructor Module Management API.`
+> `First, use your Explore tools (Glob, Grep, Read) to understand the current backend directory structure (specifically FastAPI routes, schemas, and tests).`
+> `Then, switch to the planning phase. Provide a step-by-step TDD plan (Red-Green-Refactor) for implementing the Create Module API. Do NOT write the actual endpoint code yet.`
 
 3.task 的收尾工作 
 检查 Claude 的回复是否正确规划了目录。
@@ -67,7 +67,14 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 只写出用来测 Create Module 的 Pytest 测试模块，然后让其在终端执行并报错。
 
 2.给claude发的指令
-> `Follow your plan. Now, write the Pytest test case for the 'Create Module' API. And then RUN the test using the command line to prove that it fails (RED phase).`
+> `Now we are entering the RED Phase.`
+> `Do NOT write the actual endpoint code yet. I want you to FIRST write the FULL failing pytest suite for "Create Module".`
+> `To ensure we cover the real business logic, please explicitly include tests for the following scenarios:`
+> `1. Happy Path: Successfully create a module with valid payload -> Expect 201.`
+> `2. Missing Title: Fail to create without a required field (e.g., empty or missing title) -> Expect 422.`
+> `3. Duplicate Title: Fail to create if the same instructor tries to create a module with an already existing title -> Expect 409 Conflict.`
+> `4. Unauthorized: Fail to create if the requester is not authenticated or not an instructor -> Expect 401/403.`
+> `Write ONLY the failing tests first, executing them via terminal to strictly prove they fail.`
 
 3.task 的收尾工作 
 立刻执行 Commit：
