@@ -121,6 +121,9 @@ FAILED tests/backend/test_create_module.py::TestCreateModule::test_create_module
 =================================== 6 failed in 0.11s ====================================
 ```
 
+**Screenshot Evidence:**
+![Create API RED Phase](screenshot/01_RED_phase_failing_tests.png)
+
 ## Session 5: Implement - GREEN Phase
 
 **User Prompt:**
@@ -144,6 +147,9 @@ tests/backend/test_create_module.py ..... [100%]
 ========= 6 passed, 4 warnings in 0.07s =========
 ```
 
+**Screenshot Evidence:**
+![Create API GREEN Phase](screenshot/02_01_GREEN_phase_passed.png)
+
 ## Session 6: Implement - REFACTOR Phase
 
 **User Prompt:**
@@ -158,6 +164,27 @@ tests/backend/test_create_module.py ..... [100%]
 a799ad5 refactor(#2): improve create module API structure and update dependencies
 257d1f9 feat(#2): GREEN - implement create module API to pass tests
 4922be3 test(#2): RED - add failing tests for create module API
+```
+
+**Screenshot Evidence:**
+![TDD Commits History](screenshot/03_TDD_commits_history.png)
+
+## Session 6.5: Explore & Plan (Edit API)
+
+**User Prompt:**
+> Before we start writing tests for the Edit API, please use your Explore tools to review how we implemented the Create API (especially the schemas and routes).
+> Then output a TDD plan for implementing the Edit Module API.
+
+**Claude Output (TDD Plan summary):**
+```text
+  ---                                                                                                                                                                                                                                               
+  Summary of Edit API Plan
+                    
+  1. test(#2):    RED   - add failing tests for edit module API (covering 200, 404, 403, 401)
+  2. feat(#2):    GREEN - implement edit module endpoint to pass tests                                                                                                                                                                               
+  3. refactor(#2): improve edit API security checks and docstrings
+  ---             
+  Ready to move to the RED phase for Edit API.
 ```
 
 ## Session 7: Edit API - RED Phase
@@ -181,4 +208,56 @@ FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_unaut
 FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_student_role_forbidden - AssertionError: {"detail":"Not Found"}
 FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_wrong_instructor - AssertionError: {"detail":"Not Found"}
 =================================== 6 failed in 0.08s ====================================
+```
+
+**Screenshot Evidence:**
+![Edit API RED Phase](screenshot/04_Edit_RED_phase_failing_tests.png)
+
+
+## Session 8: Edit API - GREEN Phase
+
+**User Prompt:**
+> Now, implement the minimum code required in the backend API to make the 'Edit Module' tests pass (GREEN phase). Run pytest again to verify it passes.
+> Do not over-engineer, just make sure all 6 tests in test_edit_module.py pass.
+> (Do not commit yet, wait for my instruction.)
+
+**Claude Output (Pytest PASSED Log summary):**
+```text
+====================================================================================================== test session starts =======================================================================================================
+platform darwin -- Python 3.12.0, pytest-9.0.2, pluggy-1.6.0
+rootdir: /Users/melaniey/Github/LearnMateAI
+configfile: pytest.ini
+plugins: cov-7.1.0, asyncio-0.21.1, anyio-3.7.1
+asyncio: mode=Mode.STRICT
+collected 6 items                                                                                                                                                                                                                
+
+tests/backend/test_edit_module.py ......                                                                                                                                                                                   [100%]
+
+======================================================================================================= 6 passed in 0.05s ========================================================================================================
+```
+
+**Screenshot Evidence:**
+![Edit API GREEN Phase](screenshot/05_Edit_GREEN_phase_passed.png)
+
+
+## Session 9: Edit API - REFACTOR Phase
+
+**User Prompt:**
+> Now, refactor the Edit Module code. Ensure strict PEP 8 compliance, add high-quality docstrings, and extract complex logic to `module_service.py` if needed. 
+> Run tests again to ensure it remains GREEN (REFACTOR phase).
+> (Do not commit yet, wait for my instruction.)
+
+**Claude Output (Refactor Summary):**
+```text
+Before:  update_module() contained inline:                                                                                                                                                                                      
+             db.query(Module).filter(Module.id == module_id).first()                                                                                                                                                            
+                                                                                                                                                                                                                                
+After:   get_module_by_id(db, module_id) → Module | None                                                                                                                                                                        
+             mirrors the existing get_module_by_title() pattern                                                                                                                                                                 
+             update_module() calls it by name — intent is immediately readable                                                                                                                                                  
+             Delete Module (next) will reuse it without duplication                                                                                                                                                             
+                                                                                                                                                                                                                                
+routers/modules.py — docstring consistency:                                                                                                                                                                                     
+Before:  edit_module Raises section missing 422                                                                                                                                                                                 
+After:   422 added, matching create_module's Raises section  
 ```

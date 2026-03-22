@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from src.backend.database import get_db
 from src.backend.dependencies import require_instructor
-from src.backend.schemas.module import ModuleCreate, ModuleResponse
+from src.backend.schemas.module import ModuleCreate, ModuleResponse, ModuleUpdate
 from src.backend.services import module_service
 
 router = APIRouter()
@@ -39,3 +39,31 @@ def create_module(
     """
     instructor_id = int(current_user["sub"])
     return module_service.create_module(db, instructor_id, payload)
+
+
+@router.put("/modules/{module_id}", response_model=ModuleResponse, status_code=200)
+def edit_module(
+    module_id: int,
+    payload: ModuleUpdate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+) -> ModuleResponse:
+    """Partially update a module owned by the authenticated instructor.
+
+    Args:
+        module_id: Path parameter identifying the module to update.
+        payload: Validated request body; only provided fields are overwritten.
+        db: Injected database session.
+        current_user: Decoded JWT payload; guaranteed to have ``role == "instructor"``.
+
+    Returns:
+        The updated module serialised as a ``ModuleResponse`` with HTTP 200.
+
+    Raises:
+        HTTPException: 401 if the request is unauthenticated.
+        HTTPException: 403 if the user is not an instructor or does not own the module.
+        HTTPException: 404 if no module with ``module_id`` exists.
+        HTTPException: 422 if the request body fails Pydantic validation.
+    """
+    instructor_id = int(current_user["sub"])
+    return module_service.update_module(db, module_id, instructor_id, payload)
