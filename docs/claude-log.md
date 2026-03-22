@@ -261,3 +261,31 @@ routers/modules.py — docstring consistency:
 Before:  edit_module Raises section missing 422                                                                                                                                                                                 
 After:   422 added, matching create_module's Raises section  
 ```
+
+## Session 10: Delete API - Explore & Plan
+
+**User Prompt:**
+> Excellent. Now we move to the final API: Delete Module. 
+> Before we start writing tests, please use your Explore tools to check the current db schemas and routes. 
+> Then, output a TDD plan for implementing the Delete API. 
+> (Do not write any code yet.)
+
+**Claude Output (TDD Plan summary):**
+```text
+  All 5 tests will fail with 404 {"detail":"Not Found"} (route missing) — clean RED.                                                                                                                                                    
+                  
+  GREEN — minimum implementation                                                                                                                                                                                                  
+                  
+  1. delete_module(db, module_id, instructor_id) in module_service.py:                                                                                                                                                            
+    - Call get_module_by_id() → raise 404 if None
+    - Check module.instructor_id != instructor_id → raise 403                                                                                                                                                                     
+    - db.delete(module) + db.commit()                                                                                                                                                                                             
+  2. Route in routers/modules.py:                                                                                                                                                                                                 
+    - @router.delete("/modules/{module_id}", status_code=204) — no response_model (204 has no body)                                                                                                                               
+    - Return None (FastAPI sends empty response automatically)                                                                                                                                                                    
+                                                                                                                                                                                                                                  
+  REFACTOR — expected improvements                                                                                                                                                                                                
+                                                                                                                                                                                                                                  
+  - Docstrings on delete_module() and the route handler                                                                                                                                                                           
+  - The 404/403 guard sequence in delete_module mirrors update_module exactly — that's intentional and correct.
+```

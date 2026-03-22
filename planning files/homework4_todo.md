@@ -172,12 +172,28 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 4.需要得到的文字记录有哪些 
 - [ ] 文本复制：此阶段如果有特别漂亮的重构总结，可复制留存。
 
-### tasks 8 Delete API TDD - 阶段一：失败的测试 (RED 阶段)
+### tasks 8.1 Delete API - 阶段零：Explore & Plan (探索与规划)
+1.task的目的
+让 Claude 先探索并输出针对 Delete API 的实现计划，满足作业里 Explore -> Plan 的打分要求。
+
+2.给claude发的指令
+> `Excellent. Now we move to the final API: Delete Module. `
+> `Before we start writing tests, please use your Explore tools to check the current db schemas and routes. `
+> `Then, output a brief TDD plan for implementing the Delete API. `
+> `(Do not write any code yet.)`
+
+3.task 的收尾工作 
+等待输出一份包含 RED-GREEN-REFACTOR 的规划即可。
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：复制它的 Plan 规划。
+
+### tasks 8.2 Delete API TDD - 阶段一：失败的测试 (RED 阶段)
 1.task的目的
 为 Delete Module 编写测试代码并报错 (RED 阶段)。
 
 2.给claude发的指令
-> `Excellent. Now we move to the final API: Delete Module. Enter the RED Phase.`
+> `Great plan. Now enter the RED Phase for the Delete Module API.`
 > `Write failing pytest tests for "Delete Module" covering:`
 > `1. Happy Path: Successfully delete a module -> Expect 200/204.`
 > `2. Not Found: Try to delete a non-existent module -> Expect 404.`
