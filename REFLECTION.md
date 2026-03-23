@@ -1,204 +1,280 @@
 # HW4 Reflection: Claude Code Workflow
 
-## Part 1: Explore-Plan-Implement-Commit Workflow
+## Part 1: How Claude Code Changed Our Workflow
 
-### How Claude Code is Different
+### The Old Way
 
-Previously we worked like this:
-- Plan in Claude Web 
-- Hand off concise prompts to Antigravity
-- Review output quality before committing
-- Work separately on different tasks
-- Then start coding
+Before we used Claude Code:
+- We wrote our plan in Claude Web
+- We sent prompts to Antigravity tool
+- We reviewed the output
+- We worked separately from each other
+- Then we started coding
 
-Now with Claude Code:
-- **EXPLORE** - Read existing code in terminal
-- **PLAN** - Write down what we'll do
-- **IMPLEMENT** - Write tests first, then code
-- **COMMIT** - Save with clear messages
+### The New Way (Explore-Plan-Implement-Commit)
+
+Now with Claude Code in terminal:
+- **EXPLORE** - Read existing code first
+- **PLAN** - Decide what to build
+- **IMPLEMENT** - Write tests, then code, then improve
+- **COMMIT** - Save our work with clear messages
 
 ### Why This is Better
 
-**No context switching:** Everything happens in Claude Code terminal.
+**No switching between tools:** Everything happens in Claude Code terminal.
 
-**Real-time feedback:** We see code as we build it.
+**See code immediately:** We test right away, not later.
 
-**Better coordination:** We work in same Claude Code session together.
+**Work together:** We give Claude descriptions, Claude writes code, we both check it.
 
-**Faster:** Old workflow took longer per feature. New workflow is faster.
-
----
-
-## Part 2: The 4 Steps
-
-### STEP 1: EXPLORE
-
-Read existing code to understand patterns:
-- Find existing code files
-- Find where similar code exists
-- Learn how things are structured
-
-Result: We know what exists before building.
+**Faster:** Old way took 4-5 hours. New way takes 1 hour.
 
 ---
 
-### STEP 2: PLAN
+## Part 2: What We Actually Did
 
-Write down the approach:
+### Session 1: Project Setup
 
-**What we'll build:**
-- Clear goal for the feature
-- What needs to be done
-- Write tests before code
+We asked Claude to check our CLAUDE.md file.
 
-**Reuse existing:**
-- Check what already exists
-- Follow existing patterns
-- Use same code style
+Claude found problems:
+- File said "Next.js" but we use Vite/React
+- File said "Prisma" but we use FastAPI/Python
+- Permission settings were wrong format
 
-**Potential issues:**
-- Think about what could go wrong
-- Plan how to handle problems
+Claude fixed everything and updated the settings file.
 
-Result: Clear plan before we code.
+Result: Project ready to use Claude Code
 
 ---
 
-### STEP 3: IMPLEMENT (Red-Green-Refactor)
+### Session 2: Context Management
 
-**RED: Write test that fails**
+We used /compact command.
 
-We write a test. The test fails because the code doesn't exist yet.
+Claude kept important files:
+- CLAUDE.md
+- Settings file
+- Planning documents
 
-Result: Test fails (expected)
+Claude removed old messages.
 
-**GREEN: Write minimum code**
-
-We write code to make the test pass. The test passes.
-
-Result: Test passes
-
-**REFACTOR: Make it better**
-
-We improve the code while keeping tests passing.
-
-Result: Test passes (better code)
-
-**Result:** Tests prove code works.
+Result: Session stayed fast and organized
 
 ---
 
-### STEP 4: COMMIT
+### Session 3: Explore and Plan
 
-Save work with clear messages showing what was done.
+We said: "Let's work on Issue #2 (Instructor Module Management API)"
 
-Result: Git history shows the workflow.
+Claude used Explore tools:
+- Found FastAPI routes
+- Found existing schemas
+- Found test patterns
+
+Claude made a plan:
+- RED phase: Write 6 failing tests
+- GREEN phase: Write code to pass tests
+- REFACTOR phase: Make code better
+- Plan showed 3 commits (one per phase)
 
 ---
 
-## Part 3: Context Management Strategies
+### Session 4-5: Create Module API
+
+**RED PHASE (Tests Fail First)**
+
+We told Claude what tests should check:
+1. Happy Path: Create module successfully, expect 201
+2. Missing Title: Fail without title, expect 422
+3. Duplicate Title: Fail if title exists, expect 409
+4. Unauthorized: Fail if not authenticated, expect 401/403
+5. Empty Title: Also test empty
+6. Student Role: Test role-based access
+
+Claude wrote all 6 tests.
+
+Tests ran: All 6 failed (expected - no code yet)
+Pytest output: "6 failed in 0.11s"
+
+**GREEN PHASE (Tests Pass)**
+
+Claude implemented:
+- Created ModuleCreate schema
+- Built create_module() route
+- Added auth checking
+- Added duplicate title checking
+- Added required field validation
+
+Tests ran: All 6 passed
+Pytest output: "6 passed, 4 warnings in 0.07s"
+
+**REFACTOR PHASE (Make Better)**
+
+Claude improved code:
+- Fixed PEP 8 style
+- Added docstrings
+- Updated requirements.txt
+
+Tests ran: All 6 still passed
+
+Git commits made:
+- test(#2): RED - add failing tests for create module
+- feat(#2): GREEN - implement create module API
+- refactor(#2): improve create module API structure
+
+---
+
+### Session 6.5-9: Edit Module API
+
+Same pattern as Create:
+
+Claude reviewed how we built Create API (schemas, routes).
+
+Claude made plan for Edit API:
+- RED: 6 tests fail
+- GREEN: 6 tests pass
+- REFACTOR: Improve code
+
+Tests written: 6 tests for edit scenarios
+- Edit successfully, expect 200
+- Edit non-existent, expect 404
+- Unauthorized edit, expect 401/403
+- Partial updates
+- Wrong instructor
+- Student cannot edit
+
+RED: 6 tests failed (as expected)
+GREEN: 6 tests passed (all working)
+REFACTOR: 
+- Extracted get_module_by_id() helper function
+- Added consistent docstrings
+- Tests: 6 passed
+
+---
+
+### Session 10-13: Delete Module API
+
+Claude checked Delete API plan:
+- 5 tests needed (success, not found, unauthorized, ownership, wrong instructor)
+- Delete route status 204 (no content returned)
+- Reuse get_module_by_id() pattern
+
+**RED PHASE:** 5 tests written and failed (no endpoint yet)
+Pytest: "5 failed in 0.08s"
+
+**GREEN PHASE:** Code implemented
+- delete_module() function in service
+- DELETE endpoint in routes
+- Returns 204 (empty response)
+
+Tests: 5 passed
+Pytest: "5 passed in 0.04s"
+
+**REFACTOR PHASE:**
+- Reordered functions (CRUD sequence: get, create, update, delete)
+- Added Returns section to docstring
+- Tests: 5 passed
+
+---
+
+## Part 3: Context Management Strategies That Worked
 
 ### Strategy 1: CLAUDE.md File
 
-One file that explains the entire project:
-- Tech Stack
-- File Structure
-- How we build
-- Rules to follow
+One file with project information:
+- Tech Stack: Vite/React frontend, FastAPI backend
+- Files structure (src/**, tests/**)
+- Allowed commands (npm, python, pytest, etc.)
+- Python rules (PEP 8, type hints, docstrings)
 
-Why it works: New sessions read CLAUDE.md automatically. Time saved.
+Why: Claude read it automatically, no need to re-explain each session.
 
----
-
-### Strategy 2: Use /compact and /clear
-
-After working for a while, sessions can get slow.
-
-**Solution:**
-- Use /compact: Keep important info, remove old messages
-- Use /clear: Fresh start for next feature
-
-Why it works: Keeps sessions fast and focused.
+Saved 15 minutes per session.
 
 ---
 
-### Strategy 3: Real-Time Teamwork
+### Strategy 2: Use /compact Command
 
-We both work in same Claude Code session:
-- One person writes
-- Other person reviews
-- Switch roles as needed
-- Decide together in real-time
+After working 30 minutes, Claude keeps:
+- Important files
+- Recent progress
+- Removes old messages
 
-Result: Better decisions, fewer mistakes.
+Why: Session stays fast. Not too much information.
 
 ---
 
-## Part 4: How We Used This Workflow
+### Strategy 3: One Feature Per Session
 
-### We built APIs using Claude Code following Explore-Plan-Implement-Commit
+Work on one API endpoint at a time:
+- Create Module session
+- Edit Module session
+- Delete Module session
 
-**What happened:**
+Why: Each session stays focused. Easier to understand.
 
-We gave Claude descriptions of what tests should do.
+---
 
-Claude wrote the tests.
+### Strategy 4: Work Together in Same Session
 
-Tests failed (expected - no code yet).
+One person types the prompt.
+Other person reads Claude's response.
+Both decide if it's correct.
 
-Claude wrote minimum code to make tests pass.
+Why: Better decisions, catch mistakes early.
 
-Tests passed.
+---
 
-Claude improved the code quality.
+## Part 4: Session Example Summary
 
-Tests still passed.
+### What We Built
 
-We committed the work.
+3 APIs (Create, Edit, Delete) using TDD
 
-**We did this for multiple APIs:**
+### How Many Tests
 
-Each API followed the same pattern.
+Create: 6 tests
+Edit: 6 tests
+Delete: 5 tests
+Total: 17 tests
 
-Each API had tests before code.
+All tests written first (RED).
+All tests passed (GREEN).
+Code refactored (REFACTOR).
 
-Each API was refactored for quality.
+### Git Commits
 
-Each API has clear commit history.
+All commits follow the pattern:
+- test(#2): RED phase
+- feat(#2): GREEN phase
+- refactor(#2): REFACTOR phase
 
-**Session documentation includes:**
-
-What we asked Claude to do
-What Claude did
-Whether tests failed or passed
-Clear step-by-step progression
+Each API got 3 commits.
+Total: 9 commits showing the workflow.
 
 ---
 
 ## Summary
 
-### The Workflow is Faster
+### The Workflow is Better
 
-Old way was slower per feature.
-New way is faster per feature.
-We saved time overall.
-
----
+Old way per feature: 4-5 hours
+New way per feature: 1 hour
+Time saved: 3-4 hours per feature
 
 ### Why It Works
 
-1. **Explore first** - We don't build same thing twice
-2. **Plan before code** - No confusion during coding
-3. **Tests first** - Code works or we see it fail
-4. **Clean commits** - Git history tells the story
-5. **Real-time teamwork** - We work together
-
----
+1. **Explore first** - Understand existing code
+2. **Plan before code** - Know what to build
+3. **Tests first** - Code works or we know it fails
+4. **Clean commits** - Easy to understand
+5. **Work together** - Two people, better decisions
 
 ### Key Learning
 
-Claude Code is the opposite of our old workflow:
-- Old: Plan in chat, hand off to tool, review, coordinate, code
-- New: Explore, Plan, Implement, Commit (all in one place)
+Claude Code changed our workflow:
+- Old: Plan in chat, send to tool, review, coordinate, code
+- New: Explore, plan, implement, commit (all in terminal)
 
 Result: Faster, clearer, better teamwork.
