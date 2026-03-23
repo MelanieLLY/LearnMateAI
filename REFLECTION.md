@@ -202,9 +202,3 @@ Claude Code is the opposite of our old workflow:
 - New: Explore, Plan, Implement, Commit (all in one place)
 
 Result: Faster, clearer, better teamwork.
-
----
-
-**Written by:** @Liuyi & @Jing Ng  
-**Date:** March 22, 2026  
-**Course:** Advanced AI Development
