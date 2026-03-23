@@ -79,6 +79,12 @@ Tests MUST be written BEFORE implementation code. Mock external API calls.
 
 ## Do's and Don'ts (Strictly Enforced)
 
+### Feature Development Workflow (ALWAYS DO THIS)
+Whenever you start adding or modifying a feature, you MUST process the following:
+1. **GitHub Issue**: Create or update the relevant GitHub Issue, adding appropriate labels and milestones.
+2. **Update Sprint Plan**: Modify `planning files/learnmate-sprint-plan.md` to reflect the new feature mapping.
+3. **Branching**: Checkout a new Git branch utilizing the issue ID (e.g., `feat/42-description` or `fix/15-bug`).
+
 ### Do's
 - Write failing tests first.
 - Strict adherence to PEP 8 for Python and Strict Mode for TypeScript.
