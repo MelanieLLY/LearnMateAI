@@ -27,12 +27,13 @@
 | Upload materials to S3 (API + UI) | Student note upload (API + UI) |
 | Define learning objectives per module | |
 
-> **🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**
-> Claude, build the "Module Management API" backend feature using strict TDD. Follow this exact 4-phase workflow (Explore → Plan → Implement → Commit):
-> 1. **Explore:** Use Glob, Grep, Read to understand the existing code stack and directory structure.
-> 2. **Plan:** Use Plan mode to outline the backend endpoints. Write failing tests first.
-> 3. **Implement (TDD):** Run tests (Red), implement minimum code to pass (Green), and refactor. Repeat for all API operations.
-> 4. **Commit:** Create clean commits with meaningful messages showing the Red-Green-Refactor process for git history.
+> ~~**🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**~~
+> *(✅ STATUS: HW4 SUBMITTED. The strict Claude Code CLI TDD workflow and formatting constraints below are no longer enforced. We are free to refactor and develop normally.)*
+> ~~Claude, build the "Module Management API" backend feature using strict TDD. Follow this exact 4-phase workflow (Explore → Plan → Implement → Commit):~~
+> ~~1. **Explore:** Use Glob, Grep, Read to understand the existing code stack and directory structure.~~
+> ~~2. **Plan:** Use Plan mode to outline the backend endpoints. Write failing tests first.~~
+> ~~3. **Implement (TDD):** Run tests (Red), implement minimum code to pass (Green), and refactor. Repeat for all API operations.~~
+> ~~4. **Commit:** Create clean commits with meaningful messages showing the Red-Green-Refactor process for git history.~~
 
 **Sprint 1 deliverables:**
 - Auth flow end-to-end
@@ -40,8 +41,8 @@
 - Student browses modules, views materials, uploads personal notes
 - CI/CD: auto test + deploy to dev on merge
 - CLAUDE.md + team contract
-- **HW4 Target:** Annotated Claude Code session log
-- **HW4 Target:** 1-2 page reflection document on workflow
+- ~~**HW4 Target:** Annotated Claude Code session log~~ (✅ Submitted)
+- ~~**HW4 Target:** 1-2 page reflection document on workflow~~ (✅ Submitted)
 
 ---
 
