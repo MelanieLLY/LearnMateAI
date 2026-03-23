@@ -21,34 +21,24 @@ LearnMateAI is an AI-powered collaborative learning platform. Instructors upload
 ## Commands
 
 ```bash
-# Dev server (Next.js, http://localhost:3000)
-npm run dev
+# --- Frontend (React + Vite, http://localhost:5173) ---
+npm run dev              # Start Vite dev server
+npm test                 # Run vitest (all frontend tests)
+npm test -- --watch      # Watch mode during TDD
+npm test -- generateQuiz.test.ts  # Single test file
+npm test -- --coverage   # Coverage report
+npm run test:e2e         # E2E tests
+npm run lint             # ESLint
+npx tsc --noEmit         # TypeScript type-check only
 
-# All tests
-npm test
-
-# Tests in watch mode (use during TDD)
-npm test -- --watch
-
-# Single test file
-npm test -- generateQuiz.test.ts
-
-# Coverage
-npm test -- --coverage
-
-# E2E tests
-npm run test:e2e
-
-# Lint
-npm run lint
-
-# Type check only
-npx tsc --noEmit
-
-# Prisma migrations
-npx prisma migrate dev --name <migration_name>
-npx prisma studio        # Visual DB browser
-npx prisma db seed
+# --- Backend (FastAPI + Python) ---
+uvicorn src.backend.main:app --reload  # Start FastAPI dev server (http://localhost:8000)
+pytest                   # Run all backend tests
+pytest tests/backend/    # Run backend tests only
+pytest --cov=src/backend --cov-report=term-missing  # Coverage
+alembic upgrade head     # Run DB migrations
+alembic revision --autogenerate -m "<migration_name>"  # Generate migration
+pip install -r requirements.txt  # Install Python dependencies
 ```
 
 ---
@@ -109,16 +99,28 @@ Tests MUST be written BEFORE implementation code. Mock external API calls.
 
 - `strict: true` — no `any`, explicit return types on all functions
 - Components: `PascalCase`; functions/variables: `camelCase`; constants: `UPPER_SNAKE_CASE`; DB tables: `snake_case`
-- Use `logger` utility (from `src/utils/logger.ts`), never `console.log`
+- Use `logger` utility (from `src/frontend/utils/logger.ts`), never `console.log`
 - Prettier `printWidth: 100`
+
+---
+
+## Python Conventions
+
+- PEP 8 strict: 4-space indent, 100-char line limit, snake_case for functions/variables
+- Type hints required on all function signatures (Python 3.10+)
+- Write Google-style docstrings on all AI agent modules and public functions
+- Use Python `logging` module — never `print()`
+- FastAPI routers live in `src/backend/routers/`; DB models in `src/backend/models/`; AI agents in `src/backend/agents/`
+- SQLAlchemy for ORM; Alembic for migrations; Pydantic for request/response schemas
+- Mock external API calls (Claude API) in all pytest tests
 
 ---
 
 ## Permissions (`.claude/settings.json`)
 
-Write access is scoped to `src/**`, `tests/**`, `prisma/**`, `CLAUDE.md`.
+Write access is scoped to `src/**`, `tests/**`, `CLAUDE.md`.
 Disallowed: `.env`, `node_modules/**`, `.git/**`.
-Allowed commands: `npm`, `git`, `npx`, `node`.
+Allowed commands: `npm`, `git`, `npx`, `node`, `python`, `python3`, `pytest`, `pip`, `pip3`, `uvicorn`, `alembic`.
 
 ## Context Management
 

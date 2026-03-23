@@ -7,6 +7,9 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 - planning files/整体架构-从用户到数据的完整链路.png
 - planning files/核心的 AI 处理流程-当学生请求生成学习内容时-系统内部发生了什么.png
 
+## Author
+我自己和AI一起写的 自用笔记
+
 # 步骤
 ## Part 1: Claude Code Project Setup
 ### tasks 1 初始化 Claude Code 及环境配置
@@ -50,9 +53,9 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 展示对 `Explore` 工具的使用，并规划出 TDD 测试步骤。
 
 2.给claude发的指令
-> `We are working on Issue #2: Instructor Module Management API. `
-> `First, use your Explore tools (Glob, Grep, Read) to understand the current backend directory structure.`
-> `Then, switch to the planning phase. Provide a step-by-step TDD plan (Red-Green-Refactor) for implementing the Create Module API. Do NOT write the actual endpoint code yet. Write ONLY the failing test first.`
+> `We are working on Issue #2: Instructor Module Management API.`
+> `First, use your Explore tools (Glob, Grep, Read) to understand the current backend directory structure (specifically FastAPI routes, schemas, and tests).`
+> `Then, switch to the planning phase. Provide a step-by-step TDD plan (Red-Green-Refactor) for implementing the Create Module API. Do NOT write the actual endpoint code yet.`
 
 3.task 的收尾工作 
 检查 Claude 的回复是否正确规划了目录。
@@ -67,7 +70,14 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 只写出用来测 Create Module 的 Pytest 测试模块，然后让其在终端执行并报错。
 
 2.给claude发的指令
-> `Follow your plan. Now, write the Pytest test case for the 'Create Module' API. And then RUN the test using the command line to prove that it fails (RED phase).`
+> `Now we are entering the RED Phase.`
+> `Do NOT write the actual endpoint code yet. I want you to FIRST write the FULL failing pytest suite for "Create Module".`
+> `To ensure we cover the real business logic, please explicitly include tests for the following scenarios:`
+> `1. Happy Path: Successfully create a module with valid payload -> Expect 201.`
+> `2. Missing Title: Fail to create without a required field (e.g., empty or missing title) -> Expect 422.`
+> `3. Duplicate Title: Fail to create if the same instructor tries to create a module with an already existing title -> Expect 409 Conflict.`
+> `4. Unauthorized: Fail to create if the requester is not authenticated or not an instructor -> Expect 401/403.`
+> `Write ONLY the failing tests first, executing them via terminal to strictly prove they fail.`
 
 3.task 的收尾工作 
 立刻执行 Commit：
@@ -112,18 +122,122 @@ homework4的各种要求请见: planning files/homework4_requirment.md
 - [ ] 文本复制：复制你在终端运行 `git log` 后，显示的三个连续的历史记录 (`test RED` -> `feat GREEN` -> `refactor`)。(有截图更好)
 
 
-### tasks 5 剩余API的完整 TDD 循环
+### tasks 5 Edit API TDD - 阶段一：失败的测试 (RED 阶段)
 1.task的目的
-完成 Edit 和 Delete。
+为 Edit Module 编写测试代码并执行，确保终端报错 (RED 阶段)。
 
 2.给claude发的指令
-> `Great. Now do the exact same strict TDD flow (Red-Green-Refactor) for the Edit Module API. Write failing tests, show them fail, implement, pass, then refactor. Let's do it step by step.`
+> `Great. Now we move to the Edit Module API. Again, enter the RED Phase first.`
+> `Write failing pytest tests for "Edit Module" to cover:`
+> `1. Happy Path: Successfully edit a module title/description -> Expect 200.`
+> `2. Not Found: Try to edit a non-existent module -> Expect 404.`
+> `3. Unauthorized: Not the owner or not authenticated -> Expect 401/403.`
+> `Write ONLY the tests first, run them in the terminal, and prove they FAIL.`
 
 3.task 的收尾工作 
-每完成一个是同样的 3 个 commit操作。
+立刻执行 Commit：
+`git add .`
+`git commit -m "test(#2): RED - add failing tests for edit module API"`
 
 4.需要得到的文字记录有哪些 
-- [ ] 文本复制：复制 Edit 和 Delete 阶段的又一次报错和成功日志。
+- [ ] 文本复制：再次复制终端爆出的包含 FAILED 报错的信息并留存。(必须截图)
+
+### tasks 6 Edit API TDD - 阶段二：代码实现 (GREEN 阶段)
+1.task的目的
+实现 Edit 接口，使测试全部通过。
+
+2.给claude发的指令
+> `Now, implement the minimum code required in the backend API to make the 'Edit Module' tests pass (GREEN phase). Run pytest again to verify it passes.`
+
+3.task 的收尾工作 
+立刻执行 Commit：
+`git add .`
+`git commit -m "feat(#2): GREEN - implement edit module API to pass tests"`
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：复制终端中显示 PASSED 返回成功的日志。
+
+### tasks 7 Edit API TDD - 阶段三：代码重构 (REFACTOR 阶段)
+1.task的目的
+优化 Edit 接口代码，确保依然测试通过。
+
+2.给claude发的指令
+> `Now, refactor the Edit Module code. Ensure strict PEP 8 compliance and add docstrings. Run tests again to ensure it remains GREEN (REFACTOR phase).`
+
+3.task 的收尾工作 
+立刻执行 Commit：
+`git add .`
+`git commit -m "refactor(#2): improve edit module API structure"`
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：此阶段如果有特别漂亮的重构总结，可复制留存。
+
+### tasks 8.1 Delete API - 阶段零：Explore & Plan (探索与规划)
+1.task的目的
+让 Claude 先探索并输出针对 Delete API 的实现计划，满足作业里 Explore -> Plan 的打分要求。
+
+2.给claude发的指令
+> `Excellent. Now we move to the final API: Delete Module. `
+> `Before we start writing tests, please use your Explore tools to check the current db schemas and routes. `
+> `Then, output a brief TDD plan for implementing the Delete API. `
+> `(Do not write any code yet.)`
+
+3.task 的收尾工作 
+等待输出一份包含 RED-GREEN-REFACTOR 的规划即可。
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：复制它的 Plan 规划。
+
+### tasks 8.2 Delete API TDD - 阶段一：失败的测试 (RED 阶段)
+1.task的目的
+为 Delete Module 编写测试代码并报错 (RED 阶段)。
+
+2.给claude发的指令
+> `Great plan. Now enter the RED Phase for the Delete Module API.`
+> `Write failing pytest tests for "Delete Module" covering:`
+> `1. Happy Path: Successfully delete a module -> Expect 200/204.`
+> `2. Not Found: Try to delete a non-existent module -> Expect 404.`
+> `3. Unauthorized: Not the owner or not authenticated -> Expect 401/403.`
+> `Write ONLY the tests first, run them, and prove they FAIL.`
+
+3.task 的收尾工作 
+立刻执行 Commit：
+`git add .`
+`git commit -m "test(#2): RED - add failing tests for delete module API"`
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：再次复制 Delete 阶段的 FAILED 错误文本。(必须截图)
+
+### tasks 9 Delete API TDD - 阶段二：代码实现 (GREEN 阶段)
+1.task的目的
+实现 Delete 接口，使测试全部通过。
+
+2.给claude发的指令
+> `Now, implement the backend code to make the 'Delete Module' tests pass (GREEN phase). Run pytest to verify.`
+
+3.task 的收尾工作 
+立刻执行 Commit：
+`git add .`
+`git commit -m "feat(#2): GREEN - implement delete module API to pass tests"`
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：复制终端中显示 PASSED 返回成功的日志。
+
+### tasks 10 Delete API TDD - 阶段三：代码重构 (REFACTOR 阶段)
+1.task的目的
+优化 Delete 接口代码并验证。
+
+2.给claude发的指令
+> `Finally, refactor the Delete Module code. Check for PEP 8 and docstrings. Run tests a final time to ensure the complete suite is GREEN (REFACTOR phase).`
+
+3.task 的收尾工作 
+立刻执行 Commit：
+`git add .`
+`git commit -m "refactor(#2): improve delete module API structure"`
+**执行 `git log --oneline -n 10` 以打印整个 TDD 的华丽历史。**
+
+4.需要得到的文字记录有哪些 
+- [ ] 文本复制：复制展示刚才 Edit 和 Delete 全部流程的一连串 Git 历史供老师检阅。(有截图更好)
 
 
 ## Part 4: Reflection

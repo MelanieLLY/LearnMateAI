@@ -1,3 +1,5 @@
+这是已经提交给老师的文件,理论上已经属于不可修改的项目描述文件. 实在要修改的话也不是不行,但是要老师批准.
+
 Project Name: LearnMateAI AI - Collaborative Modular Learning Platform
 
 Short Description: LearnMateAI is an AI-powered study platform that synthesizes instructor materials and student notes to automatically generate summaries, flashcards, and quizzes. Instructors initialize learning modules by uploading core reading materials and defining key learning objectives; students can supplement these with their own study notes. The system utilizes AI to synthesize both sources, automatically generating tailored summaries, flashcards, and practice quizzes. LearnMateAI distinguishes between Instructor-assigned Quizzes and AI-generated Self-practice, providing intelligent feedback on practice results. To assist instructors, the platform generates anonymous aggregated reports on class-wide performance, helping identify common knowledge gaps.

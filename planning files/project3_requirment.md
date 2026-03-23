@@ -1,6 +1,9 @@
-## Project 3: Team Application with Advanced AI
+## Project 3: Team Application with Advanced AI 
 
 **Due:** Apr 19 by 11:59pm | **Points:** 200 | **Weight:** 20% of final grade
+
+### Author
+老师的官方要求
 
 ### Objective
 Build a production-grade application with advanced AI techniques as a team.
