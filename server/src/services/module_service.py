@@ -7,8 +7,8 @@ handlers stay thin and this logic can be reused or unit-tested independently.
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from src.backend.models.module import Module
-from src.backend.schemas.module import ModuleCreate, ModuleUpdate
+from src.models.module import Module
+from src.schemas.module import ModuleCreate, ModuleUpdate
 
 
 def get_module_by_id(db: Session, module_id: int) -> Module | None:

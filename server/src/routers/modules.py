@@ -7,10 +7,10 @@ enforce auth via dependencies, and delegate business logic to ``module_service``
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from src.backend.database import get_db
-from src.backend.dependencies import require_instructor
-from src.backend.schemas.module import ModuleCreate, ModuleResponse, ModuleUpdate
-from src.backend.services import module_service
+from src.database import get_db
+from src.dependencies import require_instructor
+from src.schemas.module import ModuleCreate, ModuleResponse, ModuleUpdate
+from src.services import module_service
 
 router = APIRouter()
 

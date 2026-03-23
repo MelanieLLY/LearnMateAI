@@ -6,8 +6,8 @@ registers all API routers under the ``/api/v1`` prefix.
 
 from fastapi import FastAPI
 
-from src.backend.database import Base, engine
-from src.backend.routers.modules import router as modules_router
+from src.database import Base, engine
+from src.routers.modules import router as modules_router
 
 Base.metadata.create_all(bind=engine)
 
