@@ -104,19 +104,6 @@ When I built the second feature (Flashcards), I used the improved skill.
 - Use this template: Overview, Endpoint, Request, Response, Errors
 - **Easier:** Didn't forget anything
 
-## Time Comparison
-
-| Phase | Task 1 (v1) | Task 2 (v2) | Faster? |
-|-------|------------|------------|---------|
-| EXPLORE | 2 min | 2 min | Same |
-| PLAN | 3 min | 3 min | Same |
-| RED | 5 min | 5 min | Same |
-| GREEN | 7 min | 6 min | 1 min faster |
-| COMMIT | 2 min | 2 min | Same |
-| **TOTAL** | **19 min** | **18 min** | 1 min faster |
-
-**Important:** The skill did not just make me faster. It made me more confident and consistent.
-
 ## What I Learned
 
 ### The Skill Solved Real Problems
