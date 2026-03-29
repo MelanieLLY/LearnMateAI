@@ -40,6 +40,23 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="Invalid token")
 
 
+def require_student(user: dict = Depends(get_current_user)) -> dict:
+    """Extend ``get_current_user`` to enforce the student role.
+
+    Args:
+        user: The decoded JWT payload returned by ``get_current_user``.
+
+    Returns:
+        The same ``user`` dict, unchanged, if the role check passes.
+
+    Raises:
+        HTTPException: 403 if the authenticated user's role is not ``"student"``.
+    """
+    if user.get("role") != "student":
+        raise HTTPException(status_code=403, detail="Student role required")
+    return user
+
+
 def require_instructor(user: dict = Depends(get_current_user)) -> dict:
     """Extend ``get_current_user`` to enforce the instructor role.
 
