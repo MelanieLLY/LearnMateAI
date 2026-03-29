@@ -257,11 +257,15 @@ All 6 tests now pass ✅
  
 **No broken tests:** 29/29 total tests pass ✅
  
-<img width="600" alt="Screenshot 2026-03-28 at 6 49 01 PM" src="https://github.com/user-attachments/assets/13b294da-0371-41f8-9bf3-fe90b0ef3ec6" />
+<img width="600" alt="Screenshot 2026-03-28 at 7 12 58 PM" src="https://github.com/user-attachments/assets/b395c292-40d7-4520-94cb-15d12aa34428" />
+<img width="600" alt="Screenshot 2026-03-28 at 7 13 16 PM" src="https://github.com/user-attachments/assets/dc131694-6067-422a-9ca6-3fcda65bb6f1" />
+<img width="600" alt="Screenshot 2026-03-28 at 7 13 29 PM" src="https://github.com/user-attachments/assets/f82b6e0d-2525-4735-9de8-df87b3ea11c6" />
+<img width="600" alt="Screenshot 2026-03-28 at 7 13 50 PM" src="https://github.com/user-attachments/assets/5ae05690-22c2-4225-9337-c365374a9448" />
 
 #### Phase 5: REFACTOR
 Code was already clean - skipped
- <img width="400" alt="Screenshot 2026-03-28 at 6 49 20 PM" src="https://github.com/user-attachments/assets/18d4e345-18a6-414a-9138-c0dcdcd73a42" />
+
+<img width="400" alt="Screenshot 2026-03-28 at 6 49 20 PM" src="https://github.com/user-attachments/assets/18d4e345-18a6-414a-9138-c0dcdcd73a42" />
 
 #### Phase 6: COMMIT
 **3 Git Commits:**
