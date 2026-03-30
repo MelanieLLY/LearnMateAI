@@ -1,3 +1,7 @@
+> 🛑 **STATUS: SUBMITTED & DONE** 🛑
+> Homework 4 has already been submitted on a separate branch. 
+> All strict HW4 requirements (using Claude Code CLI, forced TDD commit history, etc.) can now be completely IGNORED. We are free to refactor and develop normally.
+
 # 背景
 是project 3的前置作业,侧重点不一样. 
 homework4的各种要求请见: planning files/homework4_requirment.md

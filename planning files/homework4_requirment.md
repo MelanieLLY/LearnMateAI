@@ -1,3 +1,7 @@
+> 🛑 **STATUS: SUBMITTED & DONE** 🛑
+> Homework 4 has already been submitted on a separate branch. 
+> All strict HW4 requirements (using Claude Code CLI, forced TDD commit history, etc.) can now be completely IGNORED. We are free to refactor and develop normally.
+
 ## HW4: Claude Code Workflow & TDD
 
 **Due:** Sunday by 11:59pm | **Points:** 50 | Pair Work Encouraged

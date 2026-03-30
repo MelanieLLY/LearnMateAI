@@ -19,7 +19,7 @@ ALGORITHM = "HS256"
 os.environ["SECRET_KEY"] = TEST_SECRET_KEY
 
 
-from src.backend.main import app  # noqa: E402  (must come after env var is set)
+from src.main import app  # noqa: E402  (must come after env var is set)
 
 
 def _make_token(user_id: int, role: str) -> str:

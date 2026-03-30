@@ -5,9 +5,9 @@ import logging
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from src.backend.agents.flashcard_agent import generate_flashcards_from_content
-from src.backend.models.flashcard import Flashcard
-from src.backend.models.module import Module
+from src.agents.flashcard_agent import generate_flashcards_from_content
+from src.models.flashcard import Flashcard
+from src.models.module import Module
 
 logger = logging.getLogger(__name__)
 

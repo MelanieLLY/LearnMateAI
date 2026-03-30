@@ -3,9 +3,9 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from src.backend.models.module import Module
-from src.backend.models.student_note import StudentNote
-from src.backend.schemas.student_note import StudentNoteCreate
+from src.models.module import Module
+from src.models.student_note import StudentNote
+from src.schemas.student_note import StudentNoteCreate
 
 
 def upload_student_note(

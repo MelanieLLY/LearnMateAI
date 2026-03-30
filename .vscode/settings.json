@@ -1,7 +1,15 @@
 {
-  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.defaultInterpreterPath": "/Users/melaniey/Github/LearnMateAI/server/.venv/bin/python",
   "python.analysis.extraPaths": [
-    "${workspaceFolder}/backend"
+    "/Users/melaniey/Github/LearnMateAI/server"
+  ],
+  "python.autoComplete.extraPaths": [
+    "/Users/melaniey/Github/LearnMateAI/server"
+  ],
+  "python.testing.pytestEnabled": true,
+  "python.testing.cwd": "/Users/melaniey/Github/LearnMateAI/server",
+  "python.testing.pytestArgs": [
+    "tests"
   ],
   "eslint.workingDirectories": [
     "./frontend"

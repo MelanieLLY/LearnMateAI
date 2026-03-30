@@ -3,10 +3,10 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from src.backend.database import get_db
-from src.backend.dependencies import require_student
-from src.backend.schemas.student_note import StudentNoteCreate, StudentNoteResponse
-from src.backend.services.student_note_service import upload_student_note
+from src.database import get_db
+from src.dependencies import require_student
+from src.schemas.student_note import StudentNoteCreate, StudentNoteResponse
+from src.services.student_note_service import upload_student_note
 
 router = APIRouter()
 

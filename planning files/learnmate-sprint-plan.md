@@ -10,8 +10,8 @@
 
 ## Sprint 1: Foundation + Module System (Mar 24 – Mar 30)
 
-**Day 1-2: Person A solo — scaffolding**
-- React (Vite) + FastAPI project setup, folder structure, DB schema
+**Day 1-2: Person A solo — Sprint 1: System Foundation & Scaffolding**
+- Next.js + FastAPI project setup, folder structure, DB schema
 - Auth system: JWT login/register, role-based middleware (student / instructor / admin)
 - GitHub org + repos, CI/CD pipeline (GitHub Actions: lint + test on PR)
 - CLAUDE.md configured (including project context, stack, testing strategy, and permissions setup for HW4)
@@ -21,18 +21,19 @@
 
 | Person A | Person B |
 |---|---|
-| **Feature: Instructor Module Management (Target for HW4)** | **Feature: Student module experience** |
+| **Instructor Module Management Core API (Backend) (Target for HW4)**<br>**Instructor Module Management UI (Frontend)** | **Feature: Student module experience** |
 | Module Management API (Create/Edit/Delete) | Student module list + browse UI |
 | Instructor UI for Module Management | View/download materials page |
 | Upload materials to S3 (API + UI) | Student note upload (API + UI) |
 | Define learning objectives per module | |
 
-> **🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**
-> Claude, build the "Module Management API" backend feature using strict TDD. Follow this exact 4-phase workflow (Explore → Plan → Implement → Commit):
-> 1. **Explore:** Use Glob, Grep, Read to understand the existing code stack and directory structure.
-> 2. **Plan:** Use Plan mode to outline the backend endpoints. Write failing tests first.
-> 3. **Implement (TDD):** Run tests (Red), implement minimum code to pass (Green), and refactor. Repeat for all API operations.
-> 4. **Commit:** Create clean commits with meaningful messages showing the Red-Green-Refactor process for git history.
+> ~~**🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**~~
+> *(✅ STATUS: HW4 SUBMITTED. The strict Claude Code CLI TDD workflow and formatting constraints below are no longer enforced. We are free to refactor and develop normally.)*
+> ~~Claude, build the "Module Management API" backend feature using strict TDD. Follow this exact 4-phase workflow (Explore → Plan → Implement → Commit):~~
+> ~~1. **Explore:** Use Glob, Grep, Read to understand the existing code stack and directory structure.~~
+> ~~2. **Plan:** Use Plan mode to outline the backend endpoints. Write failing tests first.~~
+> ~~3. **Implement (TDD):** Run tests (Red), implement minimum code to pass (Green), and refactor. Repeat for all API operations.~~
+> ~~4. **Commit:** Create clean commits with meaningful messages showing the Red-Green-Refactor process for git history.~~
 
 **Sprint 1 deliverables:**
 - Auth flow end-to-end
@@ -40,8 +41,8 @@
 - Student browses modules, views materials, uploads personal notes
 - CI/CD: auto test + deploy to dev on merge
 - CLAUDE.md + team contract
-- **HW4 Target:** Annotated Claude Code session log
-- **HW4 Target:** 1-2 page reflection document on workflow
+- ~~**HW4 Target:** Annotated Claude Code session log~~ (✅ Submitted)
+- ~~**HW4 Target:** 1-2 page reflection document on workflow~~ (✅ Submitted)
 
 ---
 
@@ -49,7 +50,7 @@
 
 | Person A | Person B |
 |---|---|
-| **Feature: Agentic Content Gen (3+ Features)** | **Feature: Quiz & feedback loop** |
+| **Feature: Agentic Content Generation (3+ Features)** | **Feature: Quiz & feedback loop** |
 | Context builder: merge materials + notes | Quiz-taking UI (MCQ + open-ended) |
 | Feature 1: Study Summary Generation Agent | Quiz submission API + answer storage |
 | Feature 2: Flashcard Generation Agent | Feature 3: Quiz Gen Agent (includes hints for MCQ options) |
@@ -74,7 +75,7 @@
 | Aggregated class report API (anonymous stats) | Eval metrics dashboard (For dev/testing view) |
 | Report dashboard UI (common gaps, avg scores) | LLM quality trend charts & LLM-as-judge reports |
 | | |
-| **Then split remaining work:** | |
+| **Feature: Production & Polish** | |
 | Sentry + Grafana setup | UI polish (loading states, responsive) |
 | Security (rate limiting, OWASP, secrets) | Documentation (README, API docs, blog post) |
 | CI/CD: canary/blue-green deploy to prod | Presentation slides |

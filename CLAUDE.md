@@ -32,13 +32,13 @@ npm run lint             # ESLint
 npx tsc --noEmit         # TypeScript type-check only
 
 # --- Backend (FastAPI + Python) ---
-uvicorn src.backend.main:app --reload  # Start FastAPI dev server (http://localhost:8000)
-pytest                   # Run all backend tests
-pytest tests/backend/    # Run backend tests only
-pytest --cov=src/backend --cov-report=term-missing  # Coverage
-alembic upgrade head     # Run DB migrations
-alembic revision --autogenerate -m "<migration_name>"  # Generate migration
-pip install -r requirements.txt  # Install Python dependencies
+cd server && uvicorn src.main:app --reload  # Start FastAPI dev server (http://localhost:8000)
+cd server && pytest                   # Run all backend tests
+cd server && pytest tests/            # Run backend tests only
+cd server && pytest --cov=src --cov-report=term-missing  # Coverage
+cd server && alembic upgrade head     # Run DB migrations
+cd server && alembic revision --autogenerate -m "<migration_name>"  # Generate migration
+cd server && pip install -r requirements.txt  # Install Python dependencies
 ```
 
 ---
@@ -48,15 +48,15 @@ pip install -r requirements.txt  # Install Python dependencies
 **Tech Stack:** Node.js / React with Vite (Frontend) + Python / FastAPI (Backend API), kept within a single Monorepo.
 
 ```
-src/
-├── frontend/       # React Frontend (Vite, TypeScript, Tailwind)
-└── backend/        # FastAPI Backend (Python)
-    └── db/         # PostgreSQL Database schemas and ORM clients
+frontend/       # React Frontend (Vite, TypeScript, Tailwind) - To be created
+server/         # FastAPI Backend (Python)
+├── src/        # Backend application code
+└── tests/      # Backend testing suite
 ```
 
 ### Key Decisions
 
-- **Monorepo Structure:** Frontend and Backend are in the same repository but in explicitly separated subdirectories (`/frontend` and `/backend`) to avoid IDE conflicts and red squiggles.
+- **Monorepo Structure:** Frontend and Backend are in the same repository but in explicitly separated root directories (`/frontend` and `/server`) to avoid IDE conflicts and red squiggles.
 - **LLM Engine:** All Claude API calls handled by dedicated AI agent modules in the Python backend.
 - **Testing:** We use `vitest` for frontend testing and `pytest` for backend testing (minimum 80% coverage).
 - **Authentication:** JWT with bcrypt. No OAuth for MVP.
@@ -78,6 +78,12 @@ Tests MUST be written BEFORE implementation code. Mock external API calls.
 ---
 
 ## Do's and Don'ts (Strictly Enforced)
+
+### Feature Development Workflow (ALWAYS DO THIS)
+Whenever you start adding or modifying a feature, you MUST process the following:
+1. **GitHub Issue**: Create or update the relevant GitHub Issue, adding appropriate labels and milestones.
+2. **Update Sprint Plan**: Modify `planning files/learnmate-sprint-plan.md` to reflect the new feature mapping.
+3. **Branching**: Checkout a new Git branch utilizing the issue ID (e.g., `feat/42-description` or `fix/15-bug`).
 
 ### Do's
 - Write failing tests first.
@@ -118,7 +124,7 @@ Tests MUST be written BEFORE implementation code. Mock external API calls.
 
 ## Permissions (`.claude/settings.json`)
 
-Write access is scoped to `src/**`, `tests/**`, `CLAUDE.md`.
+Write access is scoped to `server/src/**`, `server/tests/**`, `CLAUDE.md`.
 Disallowed: `.env`, `node_modules/**`, `.git/**`.
 Allowed commands: `npm`, `git`, `npx`, `node`, `python`, `python3`, `pytest`, `pip`, `pip3`, `uvicorn`, `alembic`.
 

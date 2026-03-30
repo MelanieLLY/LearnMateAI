@@ -3,10 +3,10 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from src.backend.database import get_db
-from src.backend.dependencies import require_student
-from src.backend.schemas.flashcard import FlashcardResponse
-from src.backend.services.flashcard_service import (
+from src.database import get_db
+from src.dependencies import require_student
+from src.schemas.flashcard import FlashcardResponse
+from src.services.flashcard_service import (
     generate_and_store_flashcards,
     get_flashcards_for_module,
 )
