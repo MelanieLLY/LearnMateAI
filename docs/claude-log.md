@@ -1,8 +1,14 @@
-# Homework 4 Claude Code Session Log
+# Table of Contents
 
-## Session 1: Project Setup (/init)
+- [Homework 4 Claude Code Session Log](#homework-4-claude-code-session-log)
+- [Homework 5 Claude Code Session Log](#homework-5-claude-code-session-log)
 
-### 1. Claude Configuration Suggestions (Terminal Log)
+
+## Homework 4 Claude Code Session Log
+
+### Session 1: Project Setup (/init)
+
+#### 1. Claude Configuration Suggestions (Terminal Log)
 
 **User Prompt:**
 > Please run /init to set up the project. We already have a CLAUDE.md, but I need you to review it, ensure it covers Node.js + FastAPI architectures, TDD testing rules, and set up the allowed tools and directories in .claude/settings.json.
@@ -29,7 +35,7 @@ CLAUDE.md — Three fixes:
 3. Permissions section: Updated to match new allowed commands list and removed prisma/**
 ```
 
-### 2. Final `.claude/settings.json` File Content
+#### 2. Final `.claude/settings.json` File Content
 
 ```json
 {
@@ -64,7 +70,7 @@ CLAUDE.md — Three fixes:
 }
 ```
 
-## Session 2: Context Management (/compact)
+### Session 2: Context Management (/compact)
 
 **User Prompt:**
 > /compact
@@ -77,7 +83,7 @@ CLAUDE.md — Three fixes:
   ⎿  Skills restored (update-config)
 ```
 
-## Session 3: Explore & Plan
+### Session 3: Explore & Plan
 
 **User Prompt:**
 > We are working on Issue #2: Instructor Module Management API.
@@ -97,7 +103,7 @@ CLAUDE.md — Three fixes:
   Ready to move to the RED phase — should I write the failing tests now?   
 ```
 
-## Session 4: Implement - RED Phase
+### Session 4: Implement - RED Phase
 
 **User Prompt:**
 > Now we are entering the RED Phase.
@@ -124,7 +130,7 @@ FAILED tests/backend/test_create_module.py::TestCreateModule::test_create_module
 **Screenshot Evidence:**
 ![Create API RED Phase](screenshot/01_RED_phase_failing_tests.png)
 
-## Session 5: Implement - GREEN Phase
+### Session 5: Implement - GREEN Phase
 
 **User Prompt:**
 > The RED phase tests are in place. Now we enter the GREEN phase.
@@ -150,7 +156,7 @@ tests/backend/test_create_module.py ..... [100%]
 **Screenshot Evidence:**
 ![Create API GREEN Phase](screenshot/02_01_GREEN_phase_passed.png)
 
-## Session 6: Implement - REFACTOR Phase
+### Session 6: Implement - REFACTOR Phase
 
 **User Prompt:**
 > The GREEN phase is complete. Now we enter the REFACTOR phase.
@@ -169,7 +175,7 @@ a799ad5 refactor(#2): improve create module API structure and update dependencie
 **Screenshot Evidence:**
 ![Mid-Way TDD Commits History (Create API Completed)](screenshot/03_TDD_commits_history.png)
 
-## Session 6.5: Explore & Plan (Edit API)
+### Session 6.5: Explore & Plan (Edit API)
 
 **User Prompt:**
 > Before we start writing tests for the Edit API, please use your Explore tools to review how we implemented the Create API (especially the schemas and routes).
@@ -187,7 +193,7 @@ a799ad5 refactor(#2): improve create module API structure and update dependencie
   Ready to move to the RED phase for Edit API.
 ```
 
-## Session 7: Edit API - RED Phase
+### Session 7: Edit API - RED Phase
 
 **User Prompt:**
 > Great. Now we move to the Edit Module API. Again, enter the RED Phase first.
@@ -214,7 +220,7 @@ FAILED tests/backend/test_edit_module.py::TestEditModule::test_edit_module_wrong
 ![Edit API RED Phase](screenshot/04_Edit_RED_phase_failing_tests.png)
 
 
-## Session 8: Edit API - GREEN Phase
+### Session 8: Edit API - GREEN Phase
 
 **User Prompt:**
 > Now, implement the minimum code required in the backend API to make the 'Edit Module' tests pass (GREEN phase). Run pytest again to verify it passes.
@@ -240,7 +246,7 @@ tests/backend/test_edit_module.py ......                                        
 ![Edit API GREEN Phase](screenshot/05_Edit_GREEN_phase_passed.png)
 
 
-## Session 9: Edit API - REFACTOR Phase
+### Session 9: Edit API - REFACTOR Phase
 
 **User Prompt:**
 > Now, refactor the Edit Module code. Ensure strict PEP 8 compliance, add high-quality docstrings, and extract complex logic to `module_service.py` if needed. 
@@ -262,7 +268,7 @@ Before:  edit_module Raises section missing 422
 After:   422 added, matching create_module's Raises section  
 ```
 
-## Session 10: Delete API - Explore & Plan
+### Session 10: Delete API - Explore & Plan
 
 **User Prompt:**
 > Excellent. Now we move to the final API: Delete Module. 
@@ -290,7 +296,7 @@ After:   422 added, matching create_module's Raises section
   - The 404/403 guard sequence in delete_module mirrors update_module exactly — that's intentional and correct.
 ```
 
-## Session 11: Delete API - RED Phase
+### Session 11: Delete API - RED Phase
 
 **User Prompt:**
 > Great plan. Now enter the RED Phase for the Delete Module API.
@@ -315,7 +321,7 @@ FAILED tests/backend/test_delete_module.py::TestDeleteModule::test_delete_module
 ![Delete API RED Phase](screenshot/06_Delete_RED_phase_failing_tests.png)
 
 
-## Session 12: Delete API - GREEN Phase
+### Session 12: Delete API - GREEN Phase
 
 **User Prompt:**
 > Now, implement the backend code to make the 'Delete Module' tests pass (GREEN phase). Run pytest to verify.
@@ -340,7 +346,7 @@ tests/backend/test_delete_module.py .....                                       
 ![Delete API GREEN Phase](screenshot/07_Delete_GREEN_phase_passed.png)
 
 
-## Session 13: Delete API - REFACTOR Phase
+### Session 13: Delete API - REFACTOR Phase
 
 **User Prompt:**
 > Finally, refactor the Delete Module code. Check for strict PEP 8 compliance and add docstrings. Run tests a final time to ensure the complete suite is GREEN (REFACTOR phase).
@@ -359,10 +365,10 @@ delete_module was inserted mid-file during GREEN. Moving it to the end restores 
 
 2. Returns section added to delete_module
 
-# Before — only function in the file without a Returns section
+## Before — only function in the file without a Returns section
 Raises: ...
 
-# After — consistent with every other function in the module
+## After — consistent with every other function in the module
 Returns:
     None. The row is removed from the database and no value is returned
     to the caller.
@@ -370,7 +376,7 @@ Returns:
 Every other function in the file documents its return value. The delete was the sole exception; the addition makes the docstring style uniform across the whole module.
 ```
 
-## Session 14: Final TDD Commits History Review
+### Session 14: Final TDD Commits History Review
 
 **User Prompt:**
 > Print the final TDD commits history.
@@ -380,3 +386,140 @@ Every other function in the file documents its return value. The delete was the 
 
 **Screenshot Evidence:**
 ![Final TDD Commits History (Create, Edit, Delete APIs Completed)](screenshot/08_Final_TDD_commits_history.png)
+
+## Homework 5
+
+### Session 1: Setup MCP Integration (GitHub)
+
+**User Prompt:**
+> I need to complete the MCP Integration part of my homework. Let's use 'claude mcp' to connect a GitHub MCP server. Please give me the exact 'claude mcp add' command I should type in my terminal to set it up.
+
+**Claude Output:**
+```text
+Here's the exact command to add the GitHub MCP server:
+
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+
+Then authenticate:
+/mcp
+Select "Authenticate" for GitHub when prompted — it uses OAuth, no personal access token needed.
+
+Verify it's set up:
+claude mcp list
+
+If your homework requires project-scoped config (stored in .mcp.json for the repo), add --scope project:
+claude mcp add --transport http github --scope project https://api.githubcopilot.com/mcp/
+```
+
+**Observation:**
+> Claude explicitly skipped the traditional Personal Access Token (PAT) configuration in favor of a newer HTTP transport method. By using OAuth (`/mcp` authentication prompt), the setup is more secure and user-friendly, demonstrating an evolution in how MCP servers can be authorized.
+
+### Session 2: Execute MCP Configuration Command
+
+**Terminal Command:**
+`claude mcp add --transport http github https://api.githubcopilot.com/mcp/`
+
+**Terminal Output:**
+```text
+Added HTTP MCP server github with URL: https://api.githubcopilot.com/mcp/ to local config
+File modified: /Users/melaniey/.claude.json [project: /Users/melaniey/Github/LearnMateAI]
+```
+
+**Observation:**
+> After executing the command, the MCP server configuration was successfully written to the project's local `.claude.json` file. This highlights Claude Code's project-scoping capabilities, allowing modular workflows without polluting the global environment.
+
+**Screenshot Evidence:**
+![MCP Configuration Success](screenshot/09_mcp_config_success.png)
+
+### Session 3: Debugging MCP Connection Failure
+
+**Terminal Error Output (from `/mcp` GUI & `/debug` log):**
+```text
+╭─────────────────────────────────────────────────────────────────╮
+│ Github MCP Server                                               │
+│ Status: ✘ failed                                                │
+│ Error: SDK auth failed: Incompatible auth server: does not      │
+│ support dynamic client registration                             │
+╰─────────────────────────────────────────────────────────────────╯
+
+2026-03-31T01:56:56.072Z [DEBUG] Fast mode unavailable: Fast mode has been disabled by your organization
+```
+
+**Observation:**
+> **Bug Encountered:** Claude had initially suggested connecting using HTTP transport and dynamic OAuth, completely omitting the requirement for a Personal Access Token (PAT). This resulted in an "Incompatible auth server" error (`does not support dynamic client registration`) because standard environments mandate explicit token authentication via HTTP headers!
+
+### Session 4: Troubleshooting via Official Documentation
+
+**Action:**
+Consulted the official GitHub MCP server documentation ([install-claude.md](https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-claude.md)) to identify the discrepancy between Claude's suggested command and the required configuration.
+
+**Finding:**
+The documentation revealed that Claude's instruction (`claude mcp add --transport http...`) was incomplete. The correct approach requires passing the GitHub Personal Access Token (PAT) securely via HTTP authorization headers in JSON format using the `add-json` command:
+1. `claude mcp remove github` (to clear the faulty OAuth attempt)
+2. `claude mcp add-json github '{"type":"http","url":"https://api.githubcopilot.com/mcp","headers":{"Authorization":"Bearer YOUR_GITHUB_PAT"}}'`
+
+### Session 5: Connecting with Correct Configuration
+
+**User Prompt (in Claude UI):**
+`/mcp`
+
+**Claude Output (GUI):**
+```text
+╭───────────────────────────────────────────────────────────────────────────────────╮
+│ Github MCP Server                                                                 │
+│                                                                                   │
+│ Status: ✔ connected                                                               │
+│ Auth: ✔ authenticated                                                             │
+│ URL: https://api.githubcopilot.com/mcp                                            │
+│ Capabilities: tools · prompts                                                     │
+│ Tools: 44 tools                                                                   │
+╰───────────────────────────────────────────────────────────────────────────────────╯
+```
+
+**Observation:**
+> By updating the local configuration using `add-json` with the Personal Access Token (PAT) formatted perfectly as an HTTP header (`"Authorization":"Bearer github_pat_..."`), the server loaded successfully! Manually typing `/mcp` showed a fully authenticated status with 44 tools available. This proves that debugging the syntactical requirements of the API (i.e., properly structuring the Bearer token without a hyphen) and injecting it manually via config was the key to bypassing the previous OAuth failure.
+
+**Screenshot Evidence:**
+![MCP Configuration Connected](screenshot/10_mcp_connected.png)
+
+### Session 6: Fetching Open Issues via MCP
+
+**User Prompt:**
+> Use the GitHub MCP to list the open issues in this repository and summarize the latest 3.
+
+**Claude Output (GUI):**
+```text
+  Queried github (ctrl+o to expand)                                                                                                                                     
+                                                                                                                                                                        
+⏺ You have 9 open issues total. Here are the latest 3:                                                                                                                  
+                                                                                                                                                                        
+  ---                                                                                                                                                                   
+  #9 — Instructor Module Management UI (Frontend)                                                                                                                       
+  Labels: frontend | Created: Mar 22                                                                                                                                    
+  - Build the instructor UI for module management                                                                                                                       
+  - Upload materials to S3 via the UI                                                                                                                                   
+                                                                                                                                                                        
+  ---                                                                                                                                                                   
+  #8 — Feature: Production & Polish                                                                                                                                     
+  Labels: frontend, backend, devops, documentation | Created: Mar 21                                                                                                    
+  - Sentry + Grafana observability setup                                                                                                                                
+  - Security hardening (rate limiting, OWASP, secrets management)                                                                                                       
+  - CI/CD canary/blue-green deployment to prod                                                                                                                          
+  - UI polish (loading states, responsive design)                                                                                                                       
+  - Documentation (README, API docs, blog post) + presentation slides                                                                                                   
+                                                                                                                                                                        
+  ---                                                                                                                                                                   
+  #7 — Feature: System Eval & MLOps                                                                                                                                     
+  Labels: frontend, backend, AI-agent | Created: Mar 21                                                                                                                 
+  - Eval metrics dashboard (dev/testing view)                                                                                                                         
+  - LLM quality trend charts & LLM-as-judge reports                                                                                                                     
+                                                                                                                                                                        
+  ---                                                                                                                                                                   
+  All issues are authored by you (MelanieLLY) with no assignees set. Issues #8 and #7 are part of the later sprint phases (P3 polish + MLOps), while #9 is an active frontend task tied to the core module management feature.
+```
+
+**Observation:**
+> The successful invocation of the `Queried github` MCP tool conclusively proves that the integration is fully functional. Claude seamlessly utilized the configured connection, formed the correct payload, and queried the repository to extract the latest 3 open issues (including rich metadata like UI polish lists and labels) without falling back to Bash tools. This perfectly demonstrates the seamless LLM-tool orchestration enabled by the Model Context Protocol.
+
+**Screenshot Evidence:**
+![Fetch Issues via MCP](screenshot/11_mcp_fetch_issues.png)
