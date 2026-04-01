@@ -99,17 +99,27 @@ import boto3
 import os
 import uuid
 
-def _upload_to_s3(file: UploadFile) -> str:
-    """Mock-able S3 upload logic."""
-    bucket_name = os.environ.get("S3_BUCKET_NAME", "mock-bucket")
+import shutil
+
+def _upload_material(file: UploadFile) -> str:
+    """Storage Abstraction: Saves to S3 if AWS config is present, otherwise falls back to local storage."""
     file_extension = file.filename.split(".")[-1] if "." in file.filename else ""
-    s3_key = f"materials/{uuid.uuid4()}.{file_extension}"
+    unique_name = f"{uuid.uuid4()}.{file_extension}"
     
     if os.environ.get("AWS_ACCESS_KEY_ID"):
+        bucket_name = os.environ.get("S3_BUCKET_NAME", "mock-bucket")
+        s3_key = f"materials/{unique_name}"
         s3 = boto3.client("s3")
         s3.upload_fileobj(file.file, bucket_name, s3_key)
         return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
-    return f"https://mock-s3-url.com/{s3_key}"
+    
+    # Fallback: Save to local disk for development & affordability
+    local_path = os.path.join("uploads", "materials", unique_name)
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+    with open(local_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return f"/uploads/materials/{unique_name}"
 
 @router.post("/modules/{module_id}/materials", status_code=201)
 def upload_material(
@@ -131,7 +141,7 @@ def upload_material(
     if not file:
         raise HTTPException(status_code=422, detail="No file provided")
         
-    url = _upload_to_s3(file)
+    url = _upload_material(file)
     
     return {
         "id": module.id,
