@@ -92,3 +92,49 @@ def delete_module(
     """
     instructor_id = int(current_user["sub"])
     module_service.delete_module(db, module_id, instructor_id)
+
+
+from fastapi import UploadFile, File, HTTPException
+import boto3
+import os
+import uuid
+
+def _upload_to_s3(file: UploadFile) -> str:
+    """Mock-able S3 upload logic."""
+    bucket_name = os.environ.get("S3_BUCKET_NAME", "mock-bucket")
+    file_extension = file.filename.split(".")[-1] if "." in file.filename else ""
+    s3_key = f"materials/{uuid.uuid4()}.{file_extension}"
+    
+    if os.environ.get("AWS_ACCESS_KEY_ID"):
+        s3 = boto3.client("s3")
+        s3.upload_fileobj(file.file, bucket_name, s3_key)
+        return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+    return f"https://mock-s3-url.com/{s3_key}"
+
+@router.post("/modules/{module_id}/materials", status_code=201)
+def upload_material(
+    module_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+):
+    """Upload a material to S3 for the specified module."""
+    instructor_id = int(current_user["sub"])
+    
+    # Check if module exists and belongs to instructor
+    module = module_service.get_module_by_id(db, module_id)
+    if not module:
+        raise HTTPException(status_code=404, detail="Module not found")
+    if module.instructor_id != instructor_id:
+        raise HTTPException(status_code=403, detail="Not authorized to edit this module")
+        
+    if not file:
+        raise HTTPException(status_code=422, detail="No file provided")
+        
+    url = _upload_to_s3(file)
+    
+    return {
+        "id": module.id,
+        "filename": file.filename,
+        "url": url
+    }

@@ -52,7 +52,12 @@ class TestEditModule:
 
         response = client.put(
             f"{BASE_URL}/{module_id}",
-            json={"title": "Updated Title", "description": "Updated desc"},
+            json={
+                "title": "Updated Title",
+                "description": "Updated desc",
+                "learning_objectives": "Updated objectives",
+                "audience_context": "Updated context"
+            },
             headers=_auth(instructor_token),
         )
 
@@ -60,6 +65,8 @@ class TestEditModule:
         data = response.json()
         assert data["title"] == "Updated Title"
         assert data["description"] == "Updated desc"
+        assert data["learning_objectives"] == "Updated objectives"
+        assert data["audience_context"] == "Updated context"
         assert data["id"] == module_id
         assert "instructor_id" in data
 
@@ -72,14 +79,14 @@ class TestEditModule:
 
         response = client.put(
             f"{BASE_URL}/{module_id}",
-            json={"description": "Only description changed"},
+            json={"learning_objectives": "Only objectives changed"},
             headers=_auth(instructor_token),
         )
 
         assert response.status_code == 200, response.text
         data = response.json()
         assert data["title"] == "Partial Update Title"
-        assert data["description"] == "Only description changed"
+        assert data["learning_objectives"] == "Only objectives changed"
 
     # ------------------------------------------------------------------
     # 2. Not Found

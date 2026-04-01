@@ -24,7 +24,7 @@
 | **Instructor Module Management Core API (Backend) (Target for HW4)**<br>**Instructor Module Management UI (Frontend)** | **Feature: Student module experience** |
 | Module Management API (Create/Edit/Delete) | Student module list + browse UI |
 | Instructor UI for Module Management | View/download materials page |
-| Upload materials to S3 (API + UI) | Student note upload (API + UI) |
+| Upload materials to S3 (API + UI) [#15] | Student note upload (API + UI) |
 | Define learning objectives per module | |
 
 > ~~**🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**~~
