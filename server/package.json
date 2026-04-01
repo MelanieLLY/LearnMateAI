@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "NPM shortcut scripts for the Python FastAPI backend",
   "scripts": {
-    "dev": "uvicorn src.main:app --reload",
+    "dev": "uv run python start_server.py",
     "test": "pytest",
     "install:deps": "uv pip install -r requirements.txt"
   }
