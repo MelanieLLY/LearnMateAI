@@ -1,8 +1,11 @@
 # CLAUDE.md
 
+> ⚠️ **APRIL UPDATE (POST-HW4 & HW5)**: 
+> HW4 and HW5 have been successfully submitted! All strict academic constraints, forced TDD (Red-Green-Refactor) commit rules, and simulated Claude CLI requirements described below are now **OBSOLETE** and should be ignored from April onwards. We are now in "Agile Product Mode".
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-<!-- HW4 Required Context Imports -->
+<!-- Context Imports -->
 @import project_proposal.md
 @import "planning files/learnmate-sprint-plan.md"
 

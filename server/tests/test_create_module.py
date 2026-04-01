@@ -35,6 +35,8 @@ class TestCreateModule:
         payload = {
             "title": "Intro to Python",
             "description": "A beginner-friendly Python module.",
+            "learning_objectives": "Learn basic syntax",
+            "audience_context": "High school students",
         }
 
         response = client.post(
@@ -50,6 +52,8 @@ class TestCreateModule:
         assert "id" in data
         assert "instructor_id" in data
         assert "created_at" in data
+        assert data["learning_objectives"] == "Learn basic syntax"
+        assert data["audience_context"] == "High school students"
 
     # ------------------------------------------------------------------
     # 2. Missing Title

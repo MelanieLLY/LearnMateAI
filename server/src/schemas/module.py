@@ -31,6 +31,9 @@ class ModuleCreate(BaseModel):
 
     title: str
     description: str | None = None
+    learning_objectives: str | None = None
+    audience_context: str | None = None
+    course_id: int | None = None
 
     @field_validator("title")
     @classmethod
@@ -62,6 +65,9 @@ class ModuleUpdate(BaseModel):
 
     title: str | None = None
     description: str | None = None
+    learning_objectives: str | None = None
+    audience_context: str | None = None
+    course_id: int | None = None
 
     @field_validator("title")
     @classmethod
@@ -95,6 +101,9 @@ class ModuleResponse(BaseModel):
     id: int
     title: str
     description: str | None
+    learning_objectives: str | None = None
+    audience_context: str | None = None
+    course_id: int | None = None
     instructor_id: int
     created_at: datetime
 

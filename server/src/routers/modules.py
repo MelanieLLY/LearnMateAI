@@ -15,6 +15,18 @@ from src.services import module_service
 router = APIRouter()
 
 
+from typing import List
+
+@router.get("/modules", response_model=List[ModuleResponse], status_code=200)
+def get_modules(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+) -> List[ModuleResponse]:
+    """Get all learning modules owned by the authenticated instructor."""
+    instructor_id = int(current_user["sub"])
+    return module_service.get_instructor_modules(db, instructor_id)
+
+
 @router.post("/modules", response_model=ModuleResponse, status_code=201)
 def create_module(
     payload: ModuleCreate,
@@ -92,3 +104,59 @@ def delete_module(
     """
     instructor_id = int(current_user["sub"])
     module_service.delete_module(db, module_id, instructor_id)
+
+
+from fastapi import UploadFile, File, HTTPException
+import boto3
+import os
+import uuid
+
+import shutil
+
+def _upload_material(file: UploadFile) -> str:
+    """Storage Abstraction: Saves to S3 if AWS config is present, otherwise falls back to local storage."""
+    file_extension = file.filename.split(".")[-1] if "." in file.filename else ""
+    unique_name = f"{uuid.uuid4()}.{file_extension}"
+    
+    if os.environ.get("AWS_ACCESS_KEY_ID"):
+        bucket_name = os.environ.get("S3_BUCKET_NAME", "mock-bucket")
+        s3_key = f"materials/{unique_name}"
+        s3 = boto3.client("s3")
+        s3.upload_fileobj(file.file, bucket_name, s3_key)
+        return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+    
+    # Fallback: Save to local disk for development & affordability
+    local_path = os.path.join("uploads", "materials", unique_name)
+    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+    with open(local_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    return f"/uploads/materials/{unique_name}"
+
+@router.post("/modules/{module_id}/materials", status_code=201)
+def upload_material(
+    module_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+):
+    """Upload a material to S3 for the specified module."""
+    instructor_id = int(current_user["sub"])
+    
+    # Check if module exists and belongs to instructor
+    module = module_service.get_module_by_id(db, module_id)
+    if not module:
+        raise HTTPException(status_code=404, detail="Module not found")
+    if module.instructor_id != instructor_id:
+        raise HTTPException(status_code=403, detail="Not authorized to edit this module")
+        
+    if not file:
+        raise HTTPException(status_code=422, detail="No file provided")
+        
+    url = _upload_material(file)
+    
+    return {
+        "id": module.id,
+        "filename": file.filename,
+        "url": url
+    }

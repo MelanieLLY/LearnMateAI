@@ -1,0 +1,10 @@
+{
+  "name": "learnmate-ai-server",
+  "version": "1.0.0",
+  "description": "NPM shortcut scripts for the Python FastAPI backend",
+  "scripts": {
+    "dev": "uvicorn src.main:app --reload",
+    "test": "pytest",
+    "install:deps": "uv pip install -r requirements.txt"
+  }
+}
