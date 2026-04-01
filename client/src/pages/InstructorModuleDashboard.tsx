@@ -21,7 +21,6 @@ interface Module {
 export default function InstructorModuleDashboard() {
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [token, setToken] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
   // Global Class (Course) selection
@@ -37,14 +36,13 @@ export default function InstructorModuleDashboard() {
   const [description, setDescription] = useState('');
   const [objectives, setObjectives] = useState('');
 
-  const fetchDashboardData = async (currentToken: string) => {
-    if (!currentToken) return;
+  const fetchDashboardData = async () => {
     try {
-      const headers = { 'Authorization': `Bearer ${currentToken}` };
+      const fetchOpts = { credentials: 'include' as RequestCredentials };
       
       const [modulesRes, coursesRes] = await Promise.all([
-        fetch('/api/v1/modules', { headers }),
-        fetch('/api/v1/courses', { headers })
+        fetch('/api/v1/modules', fetchOpts),
+        fetch('/api/v1/courses', fetchOpts)
       ]);
       
       if (!modulesRes.ok || !coursesRes.ok) throw new Error('Failed to fetch data');
@@ -61,17 +59,8 @@ export default function InstructorModuleDashboard() {
   };
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('instructorToken');
-    if (savedToken) {
-      setToken(savedToken);
-      fetchDashboardData(savedToken);
-    }
+    fetchDashboardData();
   }, []);
-
-  const handleTokenSave = () => {
-    localStorage.setItem('instructorToken', token);
-    fetchDashboardData(token);
-  };
 
   const handleCreateCourse = async (e: FormEvent) => {
     e.preventDefault();
@@ -79,9 +68,9 @@ export default function InstructorModuleDashboard() {
       const response = await fetch('/api/v1/courses', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           title: courseTitle,
           description: courseDesc,
@@ -94,7 +83,7 @@ export default function InstructorModuleDashboard() {
       setCourseTitle('');
       setCourseDesc('');
       setCourseAudience('');
-      await fetchDashboardData(token);
+      await fetchDashboardData();
       setSelectedCourseId(newCourse.id);
     } catch (err: any) {
       alert(err.message);
@@ -107,9 +96,9 @@ export default function InstructorModuleDashboard() {
       const response = await fetch('/api/v1/modules', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           title,
           description,
@@ -123,7 +112,7 @@ export default function InstructorModuleDashboard() {
       setTitle('');
       setDescription('');
       setObjectives('');
-      fetchDashboardData(token);
+      fetchDashboardData();
     } catch (err: any) {
       alert(err.message);
     }
@@ -136,8 +125,8 @@ export default function InstructorModuleDashboard() {
     try {
       const response = await fetch(`/api/v1/modules/${moduleId}/materials`, {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
+        body: formData,
+        credentials: 'include'
       });
       if (!response.ok) throw new Error('Upload failed');
       const result = await response.json();
@@ -155,19 +144,7 @@ export default function InstructorModuleDashboard() {
   return (
     <div style={{ fontFamily: 'sans-serif' }}>
       <h1>👨‍🏫 教员工作台 (Instructor Dashboard)</h1>
-
-      <section style={{ border: '2px dashed red', padding: '10px', marginBottom: '20px' }}>
-        <h3>0. 认证配置 (Auth Setup)</h3>
-        <input 
-          type="text" 
-          placeholder="Paste JWT Bearer Token..."
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-          style={{ width: '80%', padding: '5px' }}
-        />
-        <button onClick={handleTokenSave} style={{ marginLeft: '10px', padding: '5px 10px' }}>加载数据</button>
-        {error && <p style={{ color: 'red' }}>错误: {error}</p>}
-      </section>
+      {error && <p style={{ color: 'red', padding: '10px', border: '1px solid red' }}>错误: {error}</p>}
 
       <section style={{ padding: '20px', backgroundColor: '#eef', marginBottom: '20px' }}>
         <h2>1. 选择班级上下文 (Global Class Context)</h2>

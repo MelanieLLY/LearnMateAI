@@ -6,7 +6,7 @@ to guarantee that only authenticated users with the correct role can proceed.
 
 import os
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 
@@ -19,27 +19,50 @@ _bearer = HTTPBearer(auto_error=False)
 
 
 def get_current_user(
+    request: Request,
     credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
 ) -> dict:
     """Decode the Bearer JWT and return its payload as a plain dict.
 
+    Checks the 'access_token' cookie first, then falls back to the Authorization header.
+
     Args:
+        request: The initial FastAPI Request object containing cookies.
         credentials: The parsed Authorization header, or ``None`` if absent.
 
     Returns:
         The decoded JWT claims dict (e.g. ``{"sub": "1", "role": "instructor"}``).
 
     Raises:
-        HTTPException: 401 if the header is missing or the token is invalid.
+        HTTPException: 401 if the header/cookie is missing or the token is invalid.
     """
-    if credentials is None:
-        # Dev Backdoor: Simulate login for UI testing
-        return {"sub": "1", "role": "instructor"}
+    token = None
+    
+    # 1. Try to get token from HttpOnly Cookie
+    cookie_token = request.cookies.get("access_token")
+    if cookie_token and cookie_token.startswith("Bearer "):
+        token = cookie_token[7:]
+    
+    # 2. Try to get token from Authorization Header
+    if not token and credentials:
+        token = credentials.credentials
+        
+    if not token:
+        raise HTTPException(
+            status_code=401,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
     try:
-        return jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
     except JWTError:
-        # Dev Backdoor: Simulate login for UI testing on invalid token too
-        return {"sub": "1", "role": "instructor"}
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
 
 def require_student(user: dict = Depends(get_current_user)) -> dict:

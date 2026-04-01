@@ -12,7 +12,7 @@
 
 **Day 1-2: Person A solo — Sprint 1: System Foundation & Scaffolding**
 - Next.js + FastAPI project setup, folder structure, DB schema
-- Auth system: JWT login/register, role-based middleware (student / instructor / admin)
+- Auth system: JWT login/register, role-based middleware (student / instructor / admin) [#17]
 - GitHub org + repos, CI/CD pipeline (GitHub Actions: lint + test on PR)
 - CLAUDE.md configured (including project context, stack, testing strategy, and permissions setup for HW4)
 - Team contract established
@@ -22,9 +22,9 @@
 | Person A | Person B |
 |---|---|
 | **Instructor Module Management Core API (Backend) (Target for HW4)**<br>**Instructor Module Management UI (Frontend)** | **Feature: Student module experience** |
-| Module Management API (Create/Edit/Delete) | Student module list + browse UI |
-| Instructor UI for Module Management | View/download materials page |
-| Upload materials to S3 (API + UI) [#15] | Student note upload (API + UI) |
+| Module Management API (Create/Edit/Delete) | Student module list + browse UI [#16] |
+| Instructor UI for Module Management [#15] | View/download materials page [#16] |
+| Upload materials to S3 (API + UI) [#15] | Student note upload (API + UI) [#16] |
 | Define learning objectives per module | |
 
 > ~~**🤖 CLAUDE CODE PROMPT FOR HW4 (Module Management API)**~~
