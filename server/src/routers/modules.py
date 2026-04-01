@@ -15,6 +15,18 @@ from src.services import module_service
 router = APIRouter()
 
 
+from typing import List
+
+@router.get("/modules", response_model=List[ModuleResponse], status_code=200)
+def get_modules(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+) -> List[ModuleResponse]:
+    """Get all learning modules owned by the authenticated instructor."""
+    instructor_id = int(current_user["sub"])
+    return module_service.get_instructor_modules(db, instructor_id)
+
+
 @router.post("/modules", response_model=ModuleResponse, status_code=201)
 def create_module(
     payload: ModuleCreate,

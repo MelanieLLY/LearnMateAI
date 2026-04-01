@@ -12,10 +12,10 @@ class Module(Base):
 
     Attributes:
         id: Auto-incremented primary key.
-        title: Human-readable module title; must be unique per instructor.
+        title: Human-readable module title; must be unique per course.
         description: Optional longer description of the module's content.
         learning_objectives: Optional learning objectives for the module.
-        audience_context: Optional audience context / sensitivity context.
+        course_id: Optional foreign key reference to the parent Course (can be orphan).
         instructor_id: Foreign key reference to the owning instructor's user ID.
         created_at: UTC timestamp recorded when the row is first inserted.
         updated_at: UTC timestamp refreshed on every subsequent update.
@@ -28,6 +28,7 @@ class Module(Base):
     description = Column(String, nullable=True)
     learning_objectives = Column(String, nullable=True)
     audience_context = Column(String, nullable=True)
+    course_id = Column(Integer, nullable=True)
     instructor_id = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     updated_at = Column(

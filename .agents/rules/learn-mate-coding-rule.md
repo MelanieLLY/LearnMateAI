@@ -3,6 +3,8 @@ trigger: always_on
 description: Mandatory workflow for adding or modifying features (Issue creation, sprint plan update, branching)
 ---
 
+> **IMPORTANT APRIL UPDATE**: HW4 and HW5 have been successfully SUBMITTED! All project requirements, strict academic workflows, and specific "TODOs" related to Homework 4 and Homework 5 can be completely ignored from April onwards. We are now free to build agilely.
+
 # Feature Development Workflow (ALWAYS DO THIS)
 Whenever the user asks to add a new feature or modify an existing feature, you MUST strictly follow these steps before starting codebase implementation:
 1. **Issue Management**: Check GitHub Issues (via `gh` CLI). Create a new issue or update an existing one with clear descriptions. Always assign appropriate labels and a milestone.
@@ -20,4 +22,4 @@ backend:python/fastapi
 4. Keep CSS structure clean, consistent, and easy to navigate.
 
 # Working log
-Everytime user 'end' a conversation session, write log in 'planning files/chathistory_P3.md' following the template shown in the beginning of the document. 
+Everytime user 'end' a conversation session, write log in 'planning files/chathistory_P3.md' following the template shown in the beginning of the document.

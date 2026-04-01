@@ -24,6 +24,19 @@ def get_module_by_id(db: Session, module_id: int) -> Module | None:
     return db.query(Module).filter(Module.id == module_id).first()
 
 
+def get_instructor_modules(db: Session, instructor_id: int) -> list[Module]:
+    """Return all modules owned by the given instructor.
+
+    Args:
+        db: The active database session.
+        instructor_id: ID of the instructor.
+
+    Returns:
+        List of ``Module`` ORM instances.
+    """
+    return db.query(Module).filter(Module.instructor_id == instructor_id).all()
+
+
 def get_module_by_title(db: Session, instructor_id: int, title: str) -> Module | None:
     """Return the module matching the given instructor and title, or ``None``.
 

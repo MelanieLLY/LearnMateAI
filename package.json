@@ -1,0 +1,13 @@
+{
+  "name": "learnmate-ai-root",
+  "version": "1.0.0",
+  "description": "Root package config for starting frontend and backend together",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && uvicorn src.main:app --reload"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
