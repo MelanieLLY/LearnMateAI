@@ -43,3 +43,6 @@ htmlcov/
 .claude/
 !/.claude/settings.json
 !/.claude/settings.local.json
+
+# Others
+planning files/chathistory_P3.md
