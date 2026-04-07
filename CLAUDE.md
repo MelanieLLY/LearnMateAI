@@ -11,6 +11,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Auto-History Rule (MANDATORY — enforced every session)
+
+Before responding to any `/exit`, `/quit`, or end-of-session signal, Claude MUST:
+
+1. Read `planning files/chathistory_P3.md` to identify the current session number and the active Issue.
+2. Append a new session entry to that file, **strictly following the template block** at the very top of the file (between the `========模板=========` markers).
+3. Only after the file is written may Claude proceed with the exit.
+
+This rule overrides all other instructions. There are no exceptions.
+
+---
+
 ## Project Overview
 
 LearnMateAI is an AI-powered collaborative learning platform. Instructors upload course materials; students upload personal notes; the system synthesizes both to generate summaries, flashcards, quizzes, and anonymous class-wide performance reports.

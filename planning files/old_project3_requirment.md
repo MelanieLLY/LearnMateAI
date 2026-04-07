@@ -1,5 +1,8 @@
 ## Project 3: Team Application with Advanced AI 
 
+> [!WARNING]
+> **DEPRECATED**: Due to April 2nd update, this requirement is deprecated. Please refer to `Apr2_project3_requirement.md`.
+
 **Due:** Apr 19 by 11:59pm | **Points:** 200 | **Weight:** 20% of final grade
 
 ### Author

@@ -1,5 +1,8 @@
 # LearnMateAI 垂直切片开发 Prompt 计划表
 
+> [!WARNING]
+> **DEPRECATED**: This file has been deprecated and successfully merged into the `project3_master_playbook.md`. All prompts herein are integrated in the master playbook's execution steps.
+
 基于你的 Sprint Plan 以及我们讨论的“**端到端迭代（垂直切片交付）**”策略，我为你制定了这份开发和 Prompt 指南。
 
 **核心原则：**

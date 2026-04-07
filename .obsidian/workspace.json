@@ -1,0 +1,196 @@
+{
+  "main": {
+    "id": "f09d0e47b7a0a184",
+    "type": "split",
+    "children": [
+      {
+        "id": "ef9bf926e9036437",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4b72f2a4d2e950ab",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "planning files/chathistory_P3.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chathistory_P3"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "bc4cc6dbaf68f05f",
+    "type": "split",
+    "children": [
+      {
+        "id": "0bca60386fa7b997",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "099371f531156b41",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "a24d2d9ea3cd73cd",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "694f094b99befb06",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "a242baba43367582",
+    "type": "split",
+    "children": [
+      {
+        "id": "4b5dc73ccb46c14d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "077847eed89f4522",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "planning files/chathistory_P3.md",
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "chathistory_P3 的反向链接列表"
+            }
+          },
+          {
+            "id": "ec8178d5b5a692c8",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "planning files/chathistory_P3.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "chathistory_P3 的出链列表"
+            }
+          },
+          {
+            "id": "d415c64691e3ed60",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "eba04ba65cf56aa4",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "65e27ac59293d366",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "planning files/chathistory_P3.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "chathistory_P3 的大纲"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "65e27ac59293d366",
+  "lastOpenFiles": [
+    "planning files/project3_master_playbook.md",
+    "fix_details_html.py",
+    "planning files/replace_br.py",
+    "fix_details.py",
+    "docs/screenshot/12_successfully_add_marketplace_proof.png",
+    "docs/screenshot/Screenshot 2026-04-06 at 14.15.02.png",
+    "REFLECTION by Liuyi.md"
+  ]
+}

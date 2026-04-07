@@ -1,4 +1,37 @@
 {
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "WriteFile",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[Claude Code] File saved. Remember to run linter! (HW grading hook)'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Please remember to run /chat-history-log before you exit!'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ $COMMAND == *'git commit'* ]]; then echo '[Claude Code] C.L.E.A.R Framework reminder. (HW grading hook)'; fi; exit 0"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "Bash(npm:*)",
