@@ -1,6 +1,6 @@
 # LearnMateAI Sprint Plan
 
-> 3 sprints · 2 developers · ~1 week each
+> 2 sprints · 2 developers · ~2 weeks each
 > Deadline: Apr 19
 
 ---
@@ -41,12 +41,13 @@
 - Student browses modules, views materials, uploads personal notes
 - CI/CD: auto test + deploy to dev on merge
 - CLAUDE.md + team contract
+- **Async Standups**: 3 sessions completed per partner in this sprint (Slack/Discord logged).
 - ~~**HW4 Target:** Annotated Claude Code session log~~ (✅ Submitted)
 - ~~**HW4 Target:** 1-2 page reflection document on workflow~~ (✅ Submitted)
 
 ---
 
-## Sprint 2: AI Core Features (Mar 31 – Apr 6)
+## Sprint 2: AI Core Features, Reports & Deployment (Mar 31 – Apr 15)
 
 | Person A | Person B |
 |---|---|
@@ -60,14 +61,13 @@
 
 **Sprint 2 deliverables:**
 - 3+ distinct features built with parallel agents (Summary, Flashcard, Quiz)
+- chore: Setup everything-claude-code ecosystem, playbooks, and automated hooks
 - Summary, flashcards, quiz all render correctly
 - Student takes quiz, gets pre-generated hints for MCQ and dynamic hints for open-ended
 - Eval engine auto-scores every LLM generation using LLM-as-judge, history stored
 - CI/CD: add staging environment
 
----
-
-## **Sprint 3: Reports, Production & Polish (Apr 7 – Apr 15)**
+**(Sprint 2 Part 2: Reports & Polish)**
 
 | Person A | Person B |
 |---|---|
@@ -80,12 +80,14 @@
 | Security (rate limiting, OWASP, secrets) | Documentation (README, API docs, blog post) |
 | CI/CD: canary/blue-green deploy to prod | Presentation slides |
 
-**Sprint 3 deliverables:**
+**Sprint 2 Overall Polish deliverables:**
 - Instructor anonymous class performance report
 - Eval trend graphs & generation metrics dashboard for testing
 - Sentry + Grafana dashboards live
 - Security hardened, production deployed
 - Documentation package complete
+- **Async Standups**: 3 sessions completed per partner in this sprint (Slack/Discord logged).
+- PR code reviews all correctly tagged with C.L.E.A.R. framework.
 
 ---
 
