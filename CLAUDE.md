@@ -6,8 +6,9 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 <!-- Context Imports -->
-@import project_proposal.md
-@import "planning files/learnmate-sprint-plan.md"
+@import planning_files/project3_proposal.md
+@import planning_files/learnmate-sprint-plan.md
+@import .claude/rules/common/testing.md
 
 ---
 
@@ -134,6 +135,17 @@ Whenever you start adding or modifying a feature, you MUST process the following
 - FastAPI routers live in `src/backend/routers/`; DB models in `src/backend/models/`; AI agents in `src/backend/agents/`
 - SQLAlchemy for ORM; Alembic for migrations; Pydantic for request/response schemas
 - Mock external API calls (Claude API) in all pytest tests
+
+---
+
+## Security — OWASP Top 10
+
+LearnMateAI adheres to security best practices to mitigate OWASP Top 10 vulnerabilities. Key protections include:
+- **Injection (e.g., SQL Injection)**: All database queries use SQLAlchemy ORM with parameterized queries to prevent SQL injection.
+- **Cross-Site Scripting (XSS)**: The React frontend automatically escapes output to prevent XSS. Avoid using `dangerouslySetInnerHTML`.
+- **Broken Authentication**: Use secure JWTs for authentication and properly salt and hash passwords with bcrypt.
+- **Sensitive Data Exposure**: Never hardcode API keys (like Claude API Key) or database connection strings. Always use `.env` files.
+- **Broken Access Control**: Enforce proper authorization checks (via JWT validation) on all protected routes and modules.
 
 ---
 

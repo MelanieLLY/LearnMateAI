@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
-DATABASE_URL: str = os.environ.get("DATABASE_URL", "sqlite:///:memory:")
+DATABASE_URL: str = os.environ.get("DATABASE_URL", "sqlite:///./learnmate.db")
 
 # StaticPool forces all sessions to reuse the same underlying connection.
 # This is necessary for SQLite in-memory databases: without it, each new

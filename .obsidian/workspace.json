@@ -13,15 +13,44 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "planning files/chathistory_P3.md",
+                "file": "planning_files/chathistory_P3.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "chathistory_P3"
             }
+          },
+          {
+            "id": "5098f420b5d862e5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "planning_files/work-log.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "work-log"
+            }
+          },
+          {
+            "id": "e3340ff0d9250f35",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "planning_files/learnmate-sprint-plan.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "learnmate-sprint-plan"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -94,7 +123,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "planning files/chathistory_P3.md",
+                "file": "planning_files/learnmate-sprint-plan.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +133,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "chathistory_P3 的反向链接列表"
+              "title": "learnmate-sprint-plan 的反向链接列表"
             }
           },
           {
@@ -113,12 +142,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "planning files/chathistory_P3.md",
+                "file": "planning_files/learnmate-sprint-plan.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "chathistory_P3 的出链列表"
+              "title": "learnmate-sprint-plan 的出链列表"
             }
           },
           {
@@ -156,13 +185,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "planning files/chathistory_P3.md",
+                "file": "planning_files/learnmate-sprint-plan.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "chathistory_P3 的大纲"
+              "title": "learnmate-sprint-plan 的大纲"
             }
           }
         ],
@@ -183,9 +212,19 @@
       "bases:新建数据库": false
     }
   },
-  "active": "65e27ac59293d366",
+  "active": "099371f531156b41",
   "lastOpenFiles": [
-    "planning files/project3_master_playbook.md",
+    "planning_files/project3_master_playbook.md",
+    "planning_files/deprecated Apr2_project3_requirment.md",
+    "planning_files/learnmate-sprint-plan.md",
+    "planning_files/deprecated old_project3_requirment.md",
+    "planning_files/Apr8_project3_requirment.md",
+    "planning_files/work-log.md",
+    "planning_files/chathistory_P3.md",
+    "Georgia Tech的同一节课.md",
+    "server/learnmate.db",
+    "dev.mjs",
+    "tmp",
     "fix_details_html.py",
     "planning files/replace_br.py",
     "fix_details.py",

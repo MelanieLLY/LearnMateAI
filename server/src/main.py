@@ -5,6 +5,7 @@ registers all API routers under the ``/api/v1`` prefix.
 """
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.database import Base, engine
 from src.models import flashcard  # noqa: F401 — registers ORM model
@@ -22,6 +23,24 @@ from fastapi.staticfiles import StaticFiles
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="LearnMateAI API", version="0.1.0")
+
+# 配置 CORS，支持前端端口波动 (例如 5200-5299 和 5100-5199)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1):(51[0-9]{2}|52[0-9]{2})$",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Configure CORS to allow dynamic frontend ports (e.g. 5200-5299 and 5100-5199)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1):(51[0-9]{2}|52[0-9]{2})$",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Ensure uploads directory exists
 os.makedirs("uploads/materials", exist_ok=True)

@@ -56,7 +56,7 @@
 
 ### 【Phase 0：一次性修补】
 
-**🎯 Step 0-1: Commit 文件夹重命名**
+**🎯 Step 0-1: Commit 文件夹重命名** 🔄
 - **操作**: 把 `planning files` → `planning_files` 的改名正式 commit，否则 GitHub 上引用全部断裂。
 
 <details>
@@ -65,7 +65,7 @@
 <blockquote>Antigravity，请帮我把 <code>planning files</code> 改名为 <code>planning_files</code> 的变更 commit 到 Git。commit message 用 <code>chore: rename planning files to planning_files for path compatibility</code>。</blockquote>
 </details>
 
-**🎯 Step 0-2: 修复 CLAUDE.md 路径 + 增加 @import**
+**🎯 Step 0-2: 修复 CLAUDE.md 路径 + 增加 @import** （未开始）
 - **操作**: 修复坏掉的 `@import` 引用，增加 testing strategy 引用。
 
 <details>
@@ -84,7 +84,7 @@
 
 ### 【Phase 1：拿满 "Claude Code Mastery" 证据】
 
-**🎯 Step 1: 高频团队站会 (Async Standups)**
+**🎯 Step 1: 高频团队站会 (Async Standups)** （持续进行）
 - **操作**: 每天在群里发消息汇报。
 
 <details>
@@ -95,8 +95,9 @@
 📸 截好这段对话的图 (证据 #1)。<br>
 </details>
 
-**🎯 Step 1.5: 引入 everything-claude-code 插件环境与工作流 (遵循 Scrum Flow)**
+**🎯 Step 1.5: 引入 everything-claude-code 插件环境与工作流 (遵循 Scrum Flow)** 🔄
 - **操作**: 严格按照项目研发规范（开 Issue -> 切分支 -> 部署工具 -> 记录日志 -> 提 PR）来部署自动化组件。
+- **状态**: PR #26 已 merge（插件文件已导入），但 chat history hook 和 PR 流程可能未完成。
 
 <details>
 <summary>👉 点击展开行动指令 (与执行流程)</summary>
@@ -130,7 +131,7 @@
     </ul>
 </details>
 
-**🎯 Step 2: Hooks 修复 + MCP 迁移 + CLAUDE.md 更新 (Issue #22)**
+**🎯 Step 2: Hooks 修复 + MCP 迁移 + CLAUDE.md 更新 (Issue #22)** （未开始）
 - **操作**: 修改 Stop Hook 为真正的拦截、将 MCP 配置迁移到项目级、触发 hook 截图。
 
 <details>
@@ -148,7 +149,7 @@
 这会在项目根目录生成 <code>.mcp.json</code> 文件。确保它被 git add 并 commit。Token 留 placeholder，实际值通过环境变量注入。<br>
 </details>
 
-**🎯 Step 3: 调用 Doc Review Agent (Issue #22)**
+**🎯 Step 3: 调用 Doc Review Agent (Issue #22)** （未开始）
 - **操作**: 召唤代理检查文档，截图证据。
 
 <details>
@@ -158,7 +159,7 @@
 📸 截图它以专家口吻回复的画面 (证据 #3)。<br>
 </details>
 
-**🎯 Step 4: MCP 连接抓取外部数据 (Issue #22)**
+**🎯 Step 4: MCP 连接抓取外部数据 (Issue #22)** （未开始，HW5 有旧截图）
 - **操作**: 用 MCP 工具查看 GitHub 状态。
 
 <details>
@@ -172,7 +173,7 @@
 
 ### 【Phase 2：收尾基础模块与视觉体系 (Sprint 1 遗留项落成)】
 
-**🎯 Step 5: 学生端模块浏览与笔记骨架 (Issue #16)**
+**🎯 Step 5: 学生端模块浏览与笔记骨架 (Issue #16)** （未开始）
 - **操作**: 对接前后端的数据。
 
 <details>
@@ -181,7 +182,7 @@
 <blockquote>嘿 Antigravity，开始执行 Playbook Step 5。请对接学生端前台的 <code>/notes</code> 模块，写好 <code>StudentModuleView.tsx</code> 组件，并保证无 <code>any</code> TS 类型错误，顺利完成功能即可。</blockquote>
 </details>
 
-**🎯 Step 6: 全局 UI 动态润色与过渡 (Issue #16)**
+**🎯 Step 6: 全局 UI 动态润色与过渡 (Issue #16)** （未开始）
 - **操作**: 搞定面试/作品集质量要求。
 
 <details>
@@ -194,7 +195,7 @@
 
 ### 【Phase 3：实际 AI 开发期 (TDD + Worktree)】
 
-**🎯 Step 7: 展现 Parallel Development (Git Worktrees)**
+**🎯 Step 7: 展现 Parallel Development (Git Worktrees)** （未开始）
 - **操作**: 拆分工程物理文件夹。
 
 <details>
@@ -204,7 +205,7 @@
 📸 截取 <code>git worktree list</code> 输出 (证据 #5)。<br>
 </details>
 
-**🎯 Step 7.5: 安装前端测试框架 (前置依赖)**
+**🎯 Step 7.5: 安装前端测试框架 (前置依赖)** （未开始）
 - **操作**: 安装 vitest + testing-library + playwright，为后续所有测试步骤做准备。
 
 <details>
@@ -218,7 +219,7 @@
 5. 确认 <code>npm test</code> 可以正常运行（即使还没有测试文件也不应报错）</blockquote>
 </details>
 
-**🎯 Step 8: TDD 提交流程 - Quiz API (Issue #23)**
+**🎯 Step 8: TDD 提交流程 - Quiz API (Issue #23)** （未开始）
 - **操作**: 写代码，但要卡两次截图。
 > 💡 TDD 红绿灯我们已经有 3 个 feature 达标了（Module CRUD + Student Notes + Flashcard）。Quiz 这次 TDD 是额外保险，但流程上走一遍不费力。
 
@@ -233,7 +234,7 @@
 📸 截图 pytest 全绿画面 (证据 #7)<br>
 </details>
 
-**🎯 Step 9: 交互式 Quiz UI 开发 (Issue #24)**
+**🎯 Step 9: 交互式 Quiz UI 开发 (Issue #24)** （未开始）
 - **操作**: 配合后端接口搞个漂亮的学生答题卡。
 
 <details>
@@ -242,7 +243,7 @@
 <blockquote>Antigravity，请实现交互式 Quiz UI (<code>QuizTakingView.tsx</code>)，一次出现一道题，提交后立即显示带动画的模型反馈及打分徽章。注意动效美观。</blockquote>
 </details>
 
-**🎯 Step 10: 闪卡引擎与学习总结 Agent (Issue #4)**
+**🎯 Step 10: 闪卡引擎与学习总结 Agent (Issue #4)** （未开始）
 - **操作**: 调用 LLM Prompt 进行高级业务应用。
 
 <details>
@@ -251,7 +252,7 @@
 <blockquote>Antigravity，处理 Issue #4 内容。由于我们此前已经写过一部分 Agent 逻辑，请完成所有的闪卡、总结路由，并在向 LLM 构建 context 时，务必将系统此前保存的 <code>受众背景敏感度(Audience Sensitivity)</code> 传递给大模型作为护栏，并在前端建立精美的卡片翻转 UI。</blockquote>
 </details>
 
-**🎯 Step 11: 提交 PR 并做第一次 C.L.E.A.R. 审查 ⭐**
+**🎯 Step 11: 提交 PR 并做第一次 C.L.E.A.R. 审查 ⭐** （未开始）
 - **操作**: Issue #23 (Quiz API) 的 PR 是我们选定的 **C.L.E.A.R. PR #1**。
 > 📌 **C.L.E.A.R. 定义（老师版本）：**
 > - **C — Context**: Does this code fit the project's architecture and conventions?
@@ -279,7 +280,7 @@ R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
 
 ### 【Phase 4：测试保障与报告看板】
 
-**🎯 Step 12: Playwright 浏览器模拟测试 (Issue #21)**
+**🎯 Step 12: Playwright 浏览器模拟测试 (Issue #21)** （未开始）
 - **操作**: 自动化 E2E 测试脚本。
 
 <details>
@@ -288,7 +289,7 @@ R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
 <blockquote>Antigravity，配置 E2E (Playwright) 环境，手敲一段模拟真实学生行为"自动打开首页、点击登录、浏览模块列表"的测试脚本验证流，并能在我的本地跑通且全绿。</blockquote>
 </details>
 
-**🎯 Step 13: Instructor 报告仪表盘 (Issue #6)**
+**🎯 Step 13: Instructor 报告仪表盘 (Issue #6)** （未开始）
 - **操作**: 班级报告数据可视化。
 
 <details>
@@ -301,7 +302,7 @@ R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
 
 ### 【Phase 5：CI/CD 安全防线与部署】
 
-**🎯 Step 14: 四大安全门 + OWASP (Issue #20)**
+**🎯 Step 14: 四大安全门 + OWASP (Issue #20)** （未开始）
 - **操作**: 配置安全检测机制。老师要求至少 4 个安全门。
 
 <details>
@@ -317,7 +318,7 @@ R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
 </blockquote>
 </details>
 
-**🎯 Step 14.5: 配置 AI PR Review（为后续 C.L.E.A.R. PR 做准备）**
+**🎯 Step 14.5: 配置 AI PR Review（为后续 C.L.E.A.R. PR 做准备）** （未开始）
 - **操作**: 在 GitHub Actions 中添加 AI PR review，确保 Issue #20 的 PR 能触发自动 review。
 
 <details>
@@ -332,7 +333,7 @@ R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
 </blockquote>
 </details>
 
-**🎯 Step 15: GitHub Actions 完整流水线 (Issue #20) ⭐**
+**🎯 Step 15: GitHub Actions 完整流水线 (Issue #20) ⭐** （未开始）
 - **操作**: 创建覆盖老师要求的全部 8 个 stage 的 CI/CD workflow。
 
 <details>
@@ -355,7 +356,7 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 📸 截图 (证据 #9)。<br>
 </details>
 
-**🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐**
+**🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐** （未开始）
 - **操作**: Issue #20 (CI/CD + Security) 的 PR 是我们选定的 **C.L.E.A.R. PR #2**。
 
 <details>
@@ -373,7 +374,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 📸 截图 GitHub PR 页面上的这段 comment (证据 #10)。<br>
 </details>
 
-**🎯 Step 16: 部署 (Issue #8)**
+**🎯 Step 16: 部署 (Issue #8)** （未开始）
 - **操作**: Render 部署 PostgreSQL 数据库，Vercel 部署前端应用。
 
 <details>
@@ -391,7 +392,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 
 ### 【Phase 6：交付打包材料】
 
-**🎯 Step 17: Readme 与架构图**
+**🎯 Step 17: Readme 与架构图** （未开始）
 - **操作**: 补全所有的门面文档。
 
 <details>
@@ -404,7 +405,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 4. 最新版本的 API Docs 链接或概要</blockquote>
 </details>
 
-**🎯 Step 17.5: Sprint Retrospective (× 2)**
+**🎯 Step 17.5: Sprint Retrospective (× 2)** （未开始）
 - **操作**: 为 Sprint 1 和 Sprint 2 各补一份 Retrospective，写到 sprint plan 文件里。
 
 <details>
@@ -418,7 +419,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 参考我们的实际经历来写（Sprint 1 搭建了基础架构和 Auth，Sprint 2 做了 AI 功能和 CI/CD）。</blockquote>
 </details>
 
-**🎯 Step 18a: 发技术博客**
+**🎯 Step 18a: 发技术博客** （未开始）
 - **操作**: 在 Medium 或 Dev.to 发布一篇技术博客。
 
 <details>
@@ -427,7 +428,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 <blockquote><em>Please act as a tech blogger and write a 500-word Dev.to post titled 'How Claude Code Accelerated our Agile Sprint for LearnMateAI.' Highlight our C.L.E.A.R. reviews, security pipeline, TDD workflow, and MCP usage.</em></blockquote>
 </details>
 
-**🎯 Step 18b: 个人 Reflection (500字)**
+**🎯 Step 18b: 个人 Reflection (500字)** （未开始）
 - **操作**: 写一篇 500 字的个人反思，关于 Claude Code 在项目中的使用体验。
 > 注意: HW4 的 `REFLECTION by Liuyi.md` 是关于 TDD workflow 的。这次要写一篇**新的**，侧重 Project 3 整体的 Claude Code 使用经验（skills、hooks、MCP、agents 等）。
 
@@ -443,7 +444,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 请参考 <code>docs/HW5_Retrospective.md</code> 的写作风格。</blockquote>
 </details>
 
-**🎯 Step 19: 录制 视频 Demo (5-10 分钟)**
+**🎯 Step 19: 录制 视频 Demo (5-10 分钟)** （未开始）
 - **操作**: 录制一段 5-10 分钟的 screencast，展示 App 功能 + Claude Code 工作流。
 
 <details>
@@ -458,7 +459,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 用 QuickTime 或 OBS 录制。<br>
 </details>
 
-**🎯 Step 20: Google Form 提交 + Peer Evaluation**
+**🎯 Step 20: Google Form 提交 + Peer Evaluation** （未开始）
 - **操作**: 最终提交。
 
 <details>
