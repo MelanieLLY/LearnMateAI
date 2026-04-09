@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [[ $COMMAND == *'git commit'* ]]; then echo '[Claude Code] C.L.E.A.R Framework reminder. (HW grading hook)'; fi; exit 0"
+            "command": "INPUT=$(cat); if echo \"$INPUT\" | grep -q 'git commit'; then echo '🛑 [STOP HOOK] Tests must pass before commit! Run: cd server && pytest' >&2; exit 2; else exit 0; fi"
           }
         ]
       }
