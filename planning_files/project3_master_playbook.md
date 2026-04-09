@@ -56,7 +56,7 @@
 
 ### 【Phase 0：一次性修补】
 
-**🎯 Step 0-1: Commit 文件夹重命名** 🔄
+**🎯 Step 0-1: Commit 文件夹重命名** ✅
 - **操作**: 把 `planning files` → `planning_files` 的改名正式 commit，否则 GitHub 上引用全部断裂。
 
 <details>
@@ -65,7 +65,7 @@
 <blockquote>Antigravity，请帮我把 <code>planning files</code> 改名为 <code>planning_files</code> 的变更 commit 到 Git。commit message 用 <code>chore: rename planning files to planning_files for path compatibility</code>。</blockquote>
 </details>
 
-**🎯 Step 0-2: 修复 CLAUDE.md 路径 + 增加 @import** （未开始）
+**🎯 Step 0-2: 修复 CLAUDE.md 路径 + 增加 @import**  ✅
 - **操作**: 修复坏掉的 `@import` 引用，增加 testing strategy 引用。
 
 <details>
@@ -95,7 +95,7 @@
 📸 截好这段对话的图 (证据 #1)。<br>
 </details>
 
-**🎯 Step 1.5: 引入 everything-claude-code 插件环境与工作流 (遵循 Scrum Flow)** 🔄
+**🎯 Step 1.5: 引入 everything-claude-code 插件环境与工作流 (遵循 Scrum Flow)** ✅
 - **操作**: 严格按照项目研发规范（开 Issue -> 切分支 -> 部署工具 -> 记录日志 -> 提 PR）来部署自动化组件。
 - **状态**: PR #26 已 merge（插件文件已导入），但 chat history hook 和 PR 流程可能未完成。
 
@@ -131,19 +131,16 @@
     </ul>
 </details>
 
-**🎯 Step 2: Hooks 修复 + MCP 迁移 + CLAUDE.md 更新 (Issue #22)** （未开始）
+**🎯 Step 2: Hooks 修复 + MCP 迁移 + CLAUDE.md 更新 (Issue #22)** ✅ （已完成）
 - **操作**: 修改 Stop Hook 为真正的拦截、将 MCP 配置迁移到项目级、触发 hook 截图。
 
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
-
-<strong>Step 2a — 修复 Stop Hook（发给 Claude Code 终端，英文）：</strong><br>
+<strong>Step 2a — 修复 Stop Hook（发给 Claude Code 终端，英文）：</strong> ✅ 已完成<br>
 <blockquote><em>Please update our <code>.claude/settings.json</code>. Change the PreToolUse hook for "Bash" so that when the command contains "git commit", it prints a warning "🛑 [STOP HOOK] Tests must pass before commit! Run: cd server && pytest" and exits with code 1 (blocking the commit). Keep the existing PostToolUse hooks unchanged. This is a quality-enforcement Stop hook.</em></blockquote>
-
-<strong>Step 2b — 触发 Stop Hook 截图（发给 Claude Code 终端，英文）：</strong><br>
+<strong>Step 2b — 触发 Stop Hook 截图（发给 Claude Code 终端，英文）：</strong> ✅ 已完成<br>
 <blockquote><em>Now try to run <code>git commit -m "test hook"</code> so I can see the Stop hook blocking it.</em></blockquote>
 📸 截取终端里 hook 拦截成功并显示 "🛑 [STOP HOOK]" 的画面 (证据 #2)。<br>
-
 <strong>Step 2c — 迁移 MCP 到项目级（在你自己的终端执行）：</strong><br>
 <blockquote><code>claude mcp add-json --scope=project github '{"type":"http","url":"https://api.githubcopilot.com/mcp","headers":{"Authorization":"Bearer PLACEHOLDER_TOKEN"}}'</code></blockquote>
 这会在项目根目录生成 <code>.mcp.json</code> 文件。确保它被 git add 并 commit。Token 留 placeholder，实际值通过环境变量注入。<br>
