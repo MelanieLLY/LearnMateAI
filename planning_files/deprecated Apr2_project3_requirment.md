@@ -1,6 +1,6 @@
-# Project 3: Production Application with Claude Code Mastery
-
-Updated on Apr 2,2026.
+> [!WARNING]
+> **DEPRECATED**: Due to April 8th update, this requirement is deprecated. Please refer to `Apr8_project3_requirement.md`.
+Updated on Apr 08,2026.
 
 Weight: 19% of final grade | Points: 200
 
