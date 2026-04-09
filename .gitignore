@@ -40,9 +40,8 @@ htmlcov/
 *.swo
 
 # Claude Code
-.claude/
-!/.claude/settings.json
-!/.claude/settings.local.json
+.claude/mcp/
+.claude/.DS_Store
 
 # Others
-planning files/chathistory_P3.md
+planning_files/chathistory_P3.md
