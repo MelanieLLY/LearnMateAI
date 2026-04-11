@@ -11,6 +11,7 @@ from src.database import Base, engine
 from src.models import flashcard  # noqa: F401 — registers ORM model
 from src.models import student_note  # noqa: F401 — registers ORM model
 from src.models import user  # noqa: F401 — registers ORM model
+from src.models import material  # noqa: F401
 from src.routers.auth import router as auth_router
 from src.routers.courses import router as courses_router
 from src.routers.flashcards import router as flashcards_router

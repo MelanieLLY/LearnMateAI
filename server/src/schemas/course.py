@@ -14,3 +14,8 @@ class CourseResponse(BaseModel):
     instructor_id: int
     created_at: datetime
     updated_at: datetime
+
+class CourseUpdate(BaseModel):
+    title: str | None = Field(None, min_length=3, max_length=150)
+    description: str | None = Field(None, max_length=500)
+    audience_context: str | None = Field(None, max_length=1000)
