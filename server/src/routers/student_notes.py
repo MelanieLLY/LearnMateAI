@@ -39,3 +39,20 @@ def upload_note(
     """
     student_id = int(user["sub"])
     return upload_student_note(db=db, module_id=module_id, student_id=student_id, payload=payload)
+
+from typing import List
+from src.services.student_note_service import get_student_notes
+
+@router.get(
+    "/modules/{module_id}/notes",
+    response_model=List[StudentNoteResponse],
+    status_code=status.HTTP_200_OK,
+)
+def fetch_notes(
+    module_id: int,
+    user: dict = Depends(require_student),
+    db: Session = Depends(get_db),
+) -> List[StudentNoteResponse]:
+    """Fetch all notes uploaded by the authenticated student for a module."""
+    student_id = int(user["sub"])
+    return get_student_notes(db=db, module_id=module_id, student_id=student_id)

@@ -8,10 +8,17 @@ interface Module {
   course_id: number | null;
 }
 
+interface Note {
+  id: number;
+  content: string;
+  uploaded_at: string;
+}
+
 export default function StudentModuleView() {
   const [modules, setModules] = useState<Module[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<number, string>>({});
+  const [pastNotes, setPastNotes] = useState<Record<number, Note[]>>({});
   const [submitting, setSubmitting] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
@@ -28,8 +35,25 @@ export default function StudentModuleView() {
         headers 
       });
       if (!response.ok) throw new Error('Failed to fetch modules');
-      const data = await response.json();
+      const data: Module[] = await response.json();
       setModules(data);
+
+      // Fetch history notes for all fetched modules
+      const notesRecord: Record<number, Note[]> = {};
+      await Promise.all(data.map(async (mod) => {
+        try {
+          const notesRes = await fetch(`/api/v1/modules/${mod.id}/notes`, { credentials: 'include' });
+          if (notesRes.ok) {
+            notesRecord[mod.id] = await notesRes.json();
+          } else {
+            notesRecord[mod.id] = [];
+          }
+        } catch (e) {
+          notesRecord[mod.id] = [];
+        }
+      }));
+      setPastNotes(notesRecord);
+
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -65,7 +89,15 @@ export default function StudentModuleView() {
         throw new Error('Failed to upload note');
       }
 
+      const newNote: Note = await response.json();
       alert('Note uploaded successfully!');
+      
+      // Update pastNotes state directly
+      setPastNotes(prev => ({
+        ...prev,
+        [moduleId]: [newNote, ...(prev[moduleId] || [])]
+      }));
+
       // Clear the input after successful upload
       setNotes(prev => ({ ...prev, [moduleId]: '' }));
     } catch (err: unknown) {
@@ -122,6 +154,24 @@ export default function StudentModuleView() {
                     {submitting[mod.id] ? '提交中...' : '提交笔记'}
                   </button>
                 </div>
+
+                {/* --- History Notes Section --- */}
+                {pastNotes[mod.id] && pastNotes[mod.id].length > 0 && (
+                  <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fff', border: '1px solid #eee', borderRadius: '4px' }}>
+                    <h4 style={{ margin: '0 0 10px 0' }}>📚 我的历史笔记 ({pastNotes[mod.id].length})</h4>
+                    <ul style={{ paddingLeft: '20px', margin: 0, color: '#444' }}>
+                      {pastNotes[mod.id].map(note => (
+                        <li key={note.id} style={{ marginBottom: '8px' }}>
+                          <span style={{ fontSize: '0.85em', color: '#888', display: 'block' }}>
+                            {new Date(note.uploaded_at).toLocaleString()}
+                          </span>
+                          <span style={{ whiteSpace: 'pre-wrap' }}>{note.content}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
               </li>
             ))}
           </ul>
