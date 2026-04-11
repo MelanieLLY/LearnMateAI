@@ -288,3 +288,52 @@ Now try to run git commit -m "test hook" so I can see the Stop hook blocking it.
 
 **亮点:**
 - 标志着 Playbook 第 1.5 步和第 2 步的最核心质量检测机制（Hook enforcement）完美成型并被验证。这也是我们在与 Claude Code 机制做底层博弈后迎来的最终胜利！
+
+### Session 12: README 文档质量审计
+
+**with:** Claude Code
+
+#### 1. 标题：扮演 doc-reviewer Agent 审核 README.md 格式与完整性
+
+**User Prompt:**
+读取 `.claude/agents/doc-reviewer.md`，按其定义的角色执行任务：读取 `README.md` 并检查其格式问题与缺失章节。
+
+**AI Output:**
+- 读取了 `.claude/agents/doc-reviewer.md`，了解到该 Agent 负责审核 Markdown 文档、确保 README 准确呈现项目产品面貌。
+- 读取 `README.md`，发现文件内容极度匮乏，仅包含 2 张来自 `/init` 演示的截图，无任何实质性文档。
+- 输出了结构化的审计报告，分三级严重性列出问题：
+  - **CRITICAL**：缺少项目标题、描述、技术栈、安装步骤、使用说明、命令列表、贡献指南、License 等全部核心章节。
+  - **HIGH**：格式错误——文件以 H2 开头而无 H1 父节点；`/init demonstration` 区块为未被替换的临时占位符产物。
+  - **MEDIUM**：README 完全未体现 LearnMateAI 的产品定位（AI 驱动协作学习平台）。
+- 提供了推荐的最小章节结构骨架，并指出 `CLAUDE.md` 中的内容（命令、架构、技术栈）可直接改写复用为 README 内容。
+
+**AI Disclosure (Claude Mastery):**
+扮演了项目自定义 Agent `doc-reviewer`（位于 `.claude/agents/doc-reviewer.md`），未使用 Skill、MCP 或 Git Worktree。
+
+**亮点:**
+- 通过调用本地自定义 Agent 角色完成了 README 专项审计，精准暴露了"项目文档门面"长期处于纯占位状态的严重缺失，并输出了可直接落地的整改清单。
+- 📸 **证据记录:** 本次 Agent 成功调用的结果截图已保存并重命名为 `docs/screenshot/14_evidence_3_doc_reviewer_agent.png` (对应 Playbook Step 3)。
+
+### Session 13: 使用 GitHub MCP 工具查询仓库 Open Issues
+
+**with:** Claude Code
+
+#### 1. 标题：通过 GitHub MCP 列出仓库最新 Top 3 Open Issues
+
+**User Prompt:**
+使用 GitHub MCP 工具列出该仓库前 3 条 Open Issues。
+
+**AI Output:**
+- 使用 `ToolSearch` 加载了 `mcp__github__list_issues` 工具的 Schema。
+- 调用 `mcp__github__list_issues`（owner: MelanieLLY, repo: LearnMateAI, state: OPEN, perPage: 3, orderBy: CREATED_AT DESC）。
+- 返回了当前仓库最新的 3 条 Open Issues（共 14 条未关闭）：
+  - #24 `feat(frontend): Quiz taking UI and feedback loop` — `frontend`
+  - #23 `feat(backend): Quiz generation & storage API (Agentic)` — `backend`
+  - #22 `docs: Claude Code Mastery artifacts (Hooks, Agents, CLAUDE.md)` — `documentation`
+
+**AI Disclosure (Claude Mastery):**
+使用了 GitHub MCP 工具（`mcp__github__list_issues`）实现跨工具链的仓库数据查询；未使用 Skill、Agent 或 Git Worktree。
+
+**亮点:**
+- 完整展示了 MCP（Model Context Protocol）工具链的标准调用流程：先通过 `ToolSearch` 动态加载 Schema，再执行 MCP 工具完成 GitHub API 查询，无需离开 Claude Code 界面即可直接获取仓库实时数据。
+- 📸 **证据记录:** 本次 MCP 成功抓取 Open Issues 的终端截图已保存并重命名为 `docs/screenshot/15_evidence_4_mcp_open_issues.png` (对应 Playbook Step 4)。
