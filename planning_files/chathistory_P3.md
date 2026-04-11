@@ -337,3 +337,60 @@ Now try to run git commit -m "test hook" so I can see the Stop hook blocking it.
 **亮点:**
 - 完整展示了 MCP（Model Context Protocol）工具链的标准调用流程：先通过 `ToolSearch` 动态加载 Schema，再执行 MCP 工具完成 GitHub API 查询，无需离开 Claude Code 界面即可直接获取仓库实时数据。
 - 📸 **证据记录:** 本次 MCP 成功抓取 Open Issues 的终端截图已保存并重命名为 `docs/screenshot/15_evidence_4_mcp_open_issues.png` (对应 Playbook Step 4)。
+
+### Session 14: 完善前端课程架构与强化多媒体文件管理闭环
+
+**with:** Antigravity
+
+#### 1. 标题：生成教学模块样例并审查功能闭环
+**User Prompt:**
+生成若干包含“标题、描述、目标”的测试模块数据。在UI上测试后指出：测试模块无法被删除、上传后的课程资料不显示、建立好的模块无法二次修改以及无法关联合适的班级。
+
+**AI Output:**
+- 生成了高度仿真的“现代 Web 全栈开发”相关演示数据。
+- 全量排查了后端 FastAPI 的工作流节点，核实了 `DELETE` 和 `PUT` API 的存在，并准确定位到了 SQLite 全新空栈的问题原因，即资料上传（Upload）模块原设计中缺失关联的持久层 Schema。
+  
+#### 2. 标题：资料持久化（DB）搭建与精细化二次批注
+**User Prompt:**
+清理底层全部游荡的孤立脏文件。要求增加上传时的文件拦截提示，上传前允许附加资料批注，并在事后开放对应的批注修改接口。
+
+**AI Output:**
+- 【脏数据清理】在经过权限放行确认的前提下，用命令行清空了 `server/uploads/materials/*` 缓存并在 SQLite 里执行了强行清理。
+- 【存储结构突破】通过 ORM 机制为平台底层构建了独立的 `Material` 表，彻底将杂乱的多媒体信息入库留底追溯。
+- 【交互改造】极大翻新了上传控件（分离了选择动作与网络请求动作），通过构建双级嵌套的 React 状态树，实现了对单一物料在列表中行内（Inline-Edit）改写的极客应用体验。
+
+#### 3. 标题：遵循 Workflow 补全课程级 (Course) CRUD 并发布 Walkthrough
+**User Prompt:**
+目前班级（Course）只能新增，无法修改或删除。请严格按照项目计划指定的开发规范流程（Workflow）补上该缺失。
+
+**AI Output:**
+- 中断了单纯工具输出程序的思路，回归了标准敏捷规范流程，首先发布并请求用户 review 通过了 `implementation_plan.md`，然后建立了 `task.md` 跟踪开发节点。
+- 构建 `CourseUpdate` 模式补充了修改删除 API，通过无缝组件热更并入了前台工作台，最终生成了一份极具说服力的 `walkthrough.md`。
+
+**AI Disclosure (Claude Mastery):**
+大量使用了极速并发文件变更机制，未使用特殊开源外挂（未用 MCP / Custom Agents）。
+
+**亮点:**
+- AI 能够迅速根据用户的 Workflow 提示无缝从“Coder”切换到“Project Manager”与“Architect”的身份，并在操作不安全的全局文件清理时展现了绝对的权限遵守规范。
+
+## 4 + Issue 16
+
+### Session 15: 学生端模块浏览与笔记流闭环 (Playbook Step 5)
+
+**with:** Antigravity
+
+#### 1. 标题：填补历史接口空白与构建全栈调试机制
+**User Prompt:**
+开始执行 Playbook Step 5，对接学生端前台的 `/notes` 写好 `StudentModuleView`。然后发现学生端无法查看列表并在报错？请帮加个调试绕过开关。另外我写的笔记为什么提交后不展示？
+
+**AI Output:**
+- 搭建了学生端 React 组件 `StudentModuleView.tsx`，实现了严格安全的前台列表加载及表单笔记提交流程。
+- 透明解释了“403 Auth Error”是当前后端强验证与尚未开启选课逻辑（Enrollment）导致的阶段性正常现象。并在 Playbook 对应步骤打上了明确的备忘录标记和将来的清理项（To-Do）。
+- 利用 LocalStorage 与自定义 Request Header （`X-Debug-Student`）联手，在不造成代码破坏与安全穿透的前提下，设计了一个纯供本地测试的“上帝模式展示开关”。
+- 一眼洞穿之前 HW 遗留下的功能死角（有 `POST` 而无 `GET`）。光速补全了查询引擎、后端拉取路由、及渲染历史笔记流的前端 UI，将“收集中断的”业务直接变成了完美连贯的。
+
+**AI Disclosure (Claude Mastery):**
+深入审校 Playbook 全局步骤依赖并补齐了前期的技术债落差，未使用特定 Agent。
+
+**亮点:**
+- 用户拥有极其灵敏的产品直觉，一步步查出了“无法显示过往记录”这种典型的前人遗留技术盲区（Technical Debt）。同时，用户巧妙借助建立“Feature Flag 测试门”（开发级调试入口）来暂时突破尚未施工的逻辑层以方便其单步验证，这是一个极具敏捷精神的架构解法。
