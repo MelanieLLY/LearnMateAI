@@ -146,7 +146,7 @@
 这会在项目根目录生成 <code>.mcp.json</code> 文件。确保它被 git add 并 commit。Token 留 placeholder，实际值通过环境变量注入。<br>
 </details>
 
-**🎯 Step 3: 调用 Doc Review Agent (Issue #22)** （未开始）
+**🎯 Step 3: 调用 Doc Review Agent (Issue #22)** ✅
 - **操作**: 召唤代理检查文档，截图证据。
 
 <details>
@@ -156,13 +156,13 @@
 📸 截图它以专家口吻回复的画面 (证据 #3)。<br>
 </details>
 
-**🎯 Step 4: MCP 连接抓取外部数据 (Issue #22)** （未开始，HW5 有旧截图）
+**🎯 Step 4: MCP 连接抓取外部数据 (Issue #22)** ✅
 - **操作**: 用 MCP 工具查看 GitHub 状态。
 
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
 发送给 [Claude Code 终端] (英文):<br>
-<blockquote><em>Use github MCP tool to list top 3 open Pull Requests for this repo.</em></blockquote>
+<blockquote><em>Use github MCP tool to list top 3 open issues for this repo.</em></blockquote>
 📸 截图带有 Tool Use 标志的终端交互画面 (证据 #4)。<br>
 </details>
 
@@ -170,7 +170,8 @@
 
 ### 【Phase 2：收尾基础模块与视觉体系 (Sprint 1 遗留项落成)】
 
-**🎯 Step 5: 学生端模块浏览与笔记骨架 (Issue #16)** （未开始）
+**🎯 Step 5: 学生端模块浏览与笔记骨架 (Issue #16)** ✅ （已完成）
+> 💡 **NOTE (开发纪要)**: 在进行本阶段 (Phase 2 - Step 5) 开发时，我们发现当前全栈系统中并未建立 `Student` 加入 `Course` 的 `Enrollment` 从属关系表，且获取模块数据的后端接口严格锁定了讲师权限。故此处我们仅完成了前端接入 UI 骨架。此“将学生连入新建班级”的动态权限与模型连接逻辑，留待之后的环节（如 Phase 4）再行彻底搭建。
 - **操作**: 对接前后端的数据。
 
 <details>
@@ -278,6 +279,8 @@ R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
 ### 【Phase 4：测试保障与报告看板】
 
 **🎯 Step 12: Playwright 浏览器模拟测试 (Issue #21)** （未开始）
+> 💡 **TODO (补漏提醒 + 撤除调试代码)**: 之前在 Phase 2 (Step 5) 时已记录，目前学生还不能主动看到班级和拉取模块。做到这里时**记得务必先把后端学生选课/关系绑定的接口（并在路由开放 GET 权限给学生）补全**！否则该脚本里让学生“浏览模块列表”的行为将因为拿不到数据（或 403）而失败。
+> 🧹 **清理任务**：一旦后端真实权限开通，必须删除 `App.tsx` 左上角的“🐞 调试入口”按钮，以及 `module.py` 和 `StudentModuleView.tsx` 中相关的 `x-debug-student` 绕过代码。
 - **操作**: 自动化 E2E 测试脚本。
 
 <details>

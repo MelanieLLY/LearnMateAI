@@ -41,3 +41,16 @@ def upload_student_note(
     db.commit()
     db.refresh(note)
     return note
+
+def get_student_notes(
+    db: Session,
+    module_id: int,
+    student_id: int,
+) -> list[StudentNote]:
+    """Retrieve all notes uploaded by a student for a specific module."""
+    return (
+        db.query(StudentNote)
+        .filter(StudentNote.module_id == module_id, StudentNote.student_id == student_id)
+        .order_by(StudentNote.uploaded_at.desc())
+        .all()
+    )

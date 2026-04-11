@@ -10,16 +10,32 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 function Navigation() {
   const { user, isAuthenticated, logout } = useAuth();
   
+  const handleToggleDebug = () => {
+    const isDebug = localStorage.getItem('DEBUG_STUDENT') === 'true';
+    localStorage.setItem('DEBUG_STUDENT', (!isDebug).toString());
+    window.location.reload();
+  };
+
   return (
-    <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-      <div>
-        <Link to="/" style={{ marginRight: '1rem' }}>🏠 首页 (Home)</Link>
-        {isAuthenticated && user?.role === 'instructor' && (
-          <Link to="/instructor" style={{ marginRight: '1rem' }}>👨‍🏫 教师端</Link>
-        )}
-        {isAuthenticated && user?.role === 'student' && (
-          <Link to="/student">🎓 学生端</Link>
-        )}
+    <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <Link to="/">🏠 首页 (Home)</Link>
+        {/* TODO(Phase 4): Remove this debug toggle when student enrollment logic is completed */}
+        <button 
+          onClick={handleToggleDebug}
+          style={{ 
+            padding: '4px 8px', 
+            background: localStorage.getItem('DEBUG_STUDENT') === 'true' ? '#4CAF50' : '#f44336', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '0.8rem'
+          }}
+          title="开启后，学生端可绕过权限查看所有模块进行测试"
+        >
+          🐞 调试：强制查看所有模块 ({localStorage.getItem('DEBUG_STUDENT') === 'true' ? 'ON' : 'OFF'})
+        </button>
       </div>
       <div>
         {isAuthenticated ? (

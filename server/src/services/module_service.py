@@ -36,6 +36,11 @@ def get_instructor_modules(db: Session, instructor_id: int) -> list[Module]:
     """
     return db.query(Module).filter(Module.instructor_id == instructor_id).all()
 
+def get_all_modules(db: Session) -> list[Module]:
+    """Return all modules in the system (used for debugging/student view mock).
+    """
+    return db.query(Module).all()
+
 
 def get_module_by_title(db: Session, instructor_id: int, title: str) -> Module | None:
     """Return the module matching the given instructor and title, or ``None``.

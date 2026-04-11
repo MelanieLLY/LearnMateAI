@@ -108,3 +108,7 @@ class ModuleResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+class MaterialUpdate(BaseModel):
+    """Schema for updating a material's metadata."""
+    annotation: str | None = None

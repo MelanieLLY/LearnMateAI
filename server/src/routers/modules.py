@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from src.database import get_db
 from src.dependencies import require_instructor
-from src.schemas.module import ModuleCreate, ModuleResponse, ModuleUpdate
+from src.schemas.module import ModuleCreate, ModuleResponse, ModuleUpdate, MaterialUpdate
 from src.services import module_service
 
 router = APIRouter()
@@ -17,12 +17,25 @@ router = APIRouter()
 
 from typing import List
 
+from fastapi import Request
+from src.dependencies import get_current_user
+from fastapi import HTTPException
+
 @router.get("/modules", response_model=List[ModuleResponse], status_code=200)
 def get_modules(
+    request: Request,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(require_instructor),
+    current_user: dict = Depends(get_current_user),
 ) -> List[ModuleResponse]:
-    """Get all learning modules owned by the authenticated instructor."""
+    """Get modules. Allow debug mock for students, otherwise restricted."""
+    if current_user["role"] == "student":
+        if request.headers.get("x-debug-student") == "true":
+            return module_service.get_all_modules(db)
+        raise HTTPException(status_code=403, detail="Students cannot directly list modules (Wait for Phase 4)")
+    
+    if current_user["role"] != "instructor":
+        raise HTTPException(status_code=403, detail="Not authorized")
+        
     instructor_id = int(current_user["sub"])
     return module_service.get_instructor_modules(db, instructor_id)
 
@@ -106,12 +119,13 @@ def delete_module(
     module_service.delete_module(db, module_id, instructor_id)
 
 
-from fastapi import UploadFile, File, HTTPException
+from fastapi import UploadFile, File, Form, HTTPException
 import boto3
 import os
 import uuid
 
 import shutil
+from src.models.material import Material
 
 def _upload_material(file: UploadFile) -> str:
     """Storage Abstraction: Saves to S3 if AWS config is present, otherwise falls back to local storage."""
@@ -137,6 +151,7 @@ def _upload_material(file: UploadFile) -> str:
 def upload_material(
     module_id: int,
     file: UploadFile = File(...),
+    annotation: str | None = Form(None),
     db: Session = Depends(get_db),
     current_user: dict = Depends(require_instructor),
 ):
@@ -155,8 +170,58 @@ def upload_material(
         
     url = _upload_material(file)
     
+    # Save to database
+    db_material = Material(module_id=module.id, filename=file.filename, url=url, annotation=annotation)
+    db.add(db_material)
+    db.commit()
+    db.refresh(db_material)
+    
     return {
-        "id": module.id,
-        "filename": file.filename,
-        "url": url
+        "id": db_material.id,
+        "module_id": module.id,
+        "filename": db_material.filename,
+        "url": db_material.url,
+        "annotation": db_material.annotation
+    }
+
+@router.get("/modules/{module_id}/materials", status_code=200)
+def get_materials(
+    module_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+):
+    """Get all materials for a given module."""
+    # Note: A real app should check instructor ownership here too
+    materials = db.query(Material).filter(Material.module_id == module_id).all()
+    return [
+        {"id": m.id, "module_id": m.module_id, "filename": m.filename, "url": m.url, "annotation": m.annotation}
+        for m in materials
+    ]
+
+@router.patch("/materials/{material_id}", status_code=200)
+def update_material(
+    material_id: int,
+    payload: MaterialUpdate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+):
+    """Partially update a material's metadata."""
+    material = db.query(Material).filter(Material.id == material_id).first()
+    if not material:
+        raise HTTPException(status_code=404, detail="Material not found")
+        
+    # Note: A real app should check instructor ownership through module
+    
+    if payload.annotation is not None:
+        material.annotation = payload.annotation
+        
+    db.commit()
+    db.refresh(material)
+    
+    return {
+        "id": material.id,
+        "module_id": material.module_id,
+        "filename": material.filename,
+        "url": material.url,
+        "annotation": material.annotation
     }
