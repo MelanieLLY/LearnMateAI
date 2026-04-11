@@ -20,7 +20,13 @@ export default function StudentModuleView() {
 
   const fetchModules = async () => {
     try {
-      const response = await fetch('/api/v1/modules', { credentials: 'include' });
+      const isDebug = localStorage.getItem('DEBUG_STUDENT') === 'true';
+      const headers: HeadersInit = isDebug ? { 'X-Debug-Student': 'true' } : {};
+      
+      const response = await fetch('/api/v1/modules', { 
+        credentials: 'include',
+        headers 
+      });
       if (!response.ok) throw new Error('Failed to fetch modules');
       const data = await response.json();
       setModules(data);
