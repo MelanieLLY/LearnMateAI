@@ -17,36 +17,38 @@ function Navigation() {
   };
 
   return (
-    <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Link to="/">🏠 首页 (Home)</Link>
+    <nav className="glass-panel sticky top-0 z-50 flex items-center justify-between px-6 py-4 mb-4">
+      <div className="flex items-center gap-6">
+        <Link to="/" className="text-lg font-bold bg-gradient-to-r from-brand-600 to-green-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+          🏠 LearnMateAI
+        </Link>
         {/* TODO(Phase 4): Remove this debug toggle when student enrollment logic is completed */}
         <button 
           onClick={handleToggleDebug}
-          style={{ 
-            padding: '4px 8px', 
-            background: localStorage.getItem('DEBUG_STUDENT') === 'true' ? '#4CAF50' : '#f44336', 
-            color: 'white', 
-            border: 'none', 
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '0.8rem'
-          }}
+          className={`px-3 py-1.5 text-xs font-medium text-white rounded-md transition-colors shadow-sm ${
+            localStorage.getItem('DEBUG_STUDENT') === 'true' 
+              ? 'bg-green-500 hover:bg-green-600 ring-2 ring-green-500 ring-offset-1' 
+              : 'bg-red-500 hover:bg-red-600'
+          }`}
           title="开启后，学生端可绕过权限查看所有模块进行测试"
         >
-          🐞 调试：强制查看所有模块 ({localStorage.getItem('DEBUG_STUDENT') === 'true' ? 'ON' : 'OFF'})
+          🐞 调试: {localStorage.getItem('DEBUG_STUDENT') === 'true' ? 'ON' : 'OFF'}
         </button>
       </div>
-      <div>
+      <div className="flex items-center gap-4">
         {isAuthenticated ? (
           <>
-            <span style={{ marginRight: '10px' }}>👤 {user?.email} ({user?.role})</span>
-            <button onClick={logout} style={{ padding: '4px 8px', cursor: 'pointer' }}>登出 Logout</button>
+            <span className="text-sm font-medium text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+              👤 {user?.email} ({user?.role})
+            </span>
+            <button onClick={logout} className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
+              登出
+            </button>
           </>
         ) : (
           <>
-            <Link to="/login" style={{ marginRight: '10px' }}>Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login" className="text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors">登录 (Login)</Link>
+            <Link to="/register" className="text-sm font-medium px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-500 transition-colors shadow-sm">注册 (Register)</Link>
           </>
         )}
       </div>
@@ -58,9 +60,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div>
+        <div className="min-h-screen flex flex-col bg-slate-50">
           <Navigation />          
-          <main style={{ padding: '0 2rem' }}>
+          <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />

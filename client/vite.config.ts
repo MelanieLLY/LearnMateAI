@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -8,7 +9,7 @@ export default defineConfig(({ mode }) => {
   const targetHost = `http://127.0.0.1:${env.VITE_BACKEND_PORT || 8000}`;
 
   return {
-    plugins: [react()],
+    plugins: [tailwindcss(), react()],
     server: {
       proxy: {
         '/api': {

@@ -2,25 +2,37 @@ import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
-    <div style={{ marginTop: '20px' }}>
-      <h1>欢迎使用 LearnMateAI</h1>
-      <p>请选择您的身份登入：</p>
+    <div className="flex flex-col items-center justify-center pt-20 pb-32">
+      <div className="text-center max-w-3xl mb-16">
+        <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 mb-6 bg-gradient-to-r from-brand-600 to-green-500 bg-clip-text text-transparent">
+          欢迎使用 LearnMateAI
+        </h1>
+        <p className="text-xl text-slate-500">
+          请选择您的身份登入，开始全新的学习与教学体验。
+        </p>
+      </div>
 
-      <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem' }}>
+      <div className="flex flex-col sm:flex-row gap-6 w-full max-w-2xl px-4">
         <Link
           to="/instructor"
-          style={{ padding: '1rem 2rem', border: '1px solid #333', borderRadius: '8px', textDecoration: 'none', color: '#333' }}
+          className="flex-1 glass-panel flex flex-col items-center justify-center p-8 rounded-2xl hover:-translate-y-1 hover:shadow-xl hover:border-brand-500/30 transition-all duration-300 group"
         >
-          <strong>老师Dashboard</strong> <br />
-          (Instructor Dashboard)
+          <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+            👨‍🏫
+          </div>
+          <strong className="text-xl text-slate-800 mb-1">老师 Dashboard</strong>
+          <span className="text-sm text-slate-500">(Instructor Dashboard)</span>
         </Link>
 
         <Link
           to="/student"
-          style={{ padding: '1rem 2rem', border: '1px solid #333', borderRadius: '8px', textDecoration: 'none', color: '#333' }}
+          className="flex-1 glass-panel flex flex-col items-center justify-center p-8 rounded-2xl hover:-translate-y-1 hover:shadow-xl hover:border-brand-500/30 transition-all duration-300 group"
         >
-          <strong>学生Dashboard</strong> <br />
-          (Student View)
+          <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+            👨‍🎓
+          </div>
+          <strong className="text-xl text-slate-800 mb-1">学生 Dashboard</strong>
+          <span className="text-sm text-slate-500">(Student View)</span>
         </Link>
       </div>
     </div>
