@@ -17,9 +17,10 @@ TEST_SECRET_KEY = "test-only-secret-key-do-not-use-in-production"
 ALGORITHM = "HS256"
 
 os.environ["SECRET_KEY"] = TEST_SECRET_KEY
+os.environ.setdefault("DATABASE_URL", "sqlite://")  # in-memory DB for tests
 
 
-from src.main import app  # noqa: E402  (must come after env var is set)
+from src.main import app  # noqa: E402  (must come after env vars are set)
 
 
 def _make_token(user_id: int, role: str) -> str:

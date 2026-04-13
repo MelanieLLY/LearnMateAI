@@ -28,8 +28,18 @@ BASE_URL = "/api/v1/modules"
 
 # Canned flashcard data returned by the mocked Claude agent
 MOCK_FLASHCARDS = [
-    {"question": "What is machine learning?", "answer": "A subset of AI that learns from data."},
-    {"question": "What is a neural network?", "answer": "A model inspired by the human brain."},
+    {
+        "question": "What is machine learning?",
+        "answer": "A subset of AI that learns from data.",
+        "difficulty": 2,
+        "bloom_level": "Remember",
+    },
+    {
+        "question": "What is a neural network?",
+        "answer": "A model inspired by the human brain.",
+        "difficulty": 3,
+        "bloom_level": "Understand",
+    },
 ]
 
 
@@ -63,7 +73,7 @@ class TestGenerateFlashcards:
         """A student generates flashcards for an existing module → 201 Created."""
         module_id = _create_module(client, instructor_token, title="Generate Success Module")
         with patch(
-            "src.services.flashcard_service.generate_flashcards_from_content",
+            "src.services.flashcard_service.generate_flashcards",
             return_value=MOCK_FLASHCARDS,
         ):
             response = client.post(
@@ -78,6 +88,8 @@ class TestGenerateFlashcards:
         assert "id" in first
         assert "question" in first
         assert "answer" in first
+        assert "difficulty" in first
+        assert "bloom_level" in first
         assert "module_id" in first
         assert "student_id" in first
         assert "created_at" in first
@@ -97,7 +109,7 @@ class TestGenerateFlashcards:
         """Instructor token → 403 Forbidden (only students may generate flashcards)."""
         module_id = _create_module(client, instructor_token, title="Generate Forbidden Module")
         with patch(
-            "src.services.flashcard_service.generate_flashcards_from_content",
+            "src.services.flashcard_service.generate_flashcards",
             return_value=MOCK_FLASHCARDS,
         ):
             response = client.post(
@@ -111,7 +123,7 @@ class TestGenerateFlashcards:
     ) -> None:
         """Non-existent module_id → 404 Not Found."""
         with patch(
-            "src.services.flashcard_service.generate_flashcards_from_content",
+            "src.services.flashcard_service.generate_flashcards",
             return_value=MOCK_FLASHCARDS,
         ):
             response = client.post(
@@ -131,7 +143,7 @@ class TestGetFlashcards:
         module_id = _create_module(client, instructor_token, title="Get Success Module")
         # First generate some flashcards
         with patch(
-            "src.services.flashcard_service.generate_flashcards_from_content",
+            "src.services.flashcard_service.generate_flashcards",
             return_value=MOCK_FLASHCARDS,
         ):
             client.post(_flashcards_url(module_id), headers=_auth(student_token))
