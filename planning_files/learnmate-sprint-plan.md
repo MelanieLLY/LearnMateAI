@@ -51,17 +51,19 @@
 
 | Person A | Person B |
 |---|---|
-| **Feature: Agentic Content Generation (3+ Features)** | **Feature: Quiz & feedback loop** |
-| Context builder: merge materials + notes | Quiz-taking UI (MCQ + open-ended) |
-| Feature 1: Study Summary Generation Agent | Quiz submission API + answer storage |
-| Feature 2: Flashcard Generation Agent | Feature 3: Quiz Gen Agent (includes hints for MCQ options) |
-| Summary & Flashcard display pages | AI dynamic hints for open-ended quiz answers |
-| LLM-as-judge eval system for all outputs | Quiz results page with score + explanations |
+| **Feature: Agentic Content Generation (Backend)** | **Parallel Development (Frontend)** |
+| Context builder: merge materials + notes (Completed) | **Feature A (Issue #24)**: Quiz-taking UI (MCQ + open-ended) |
+| Feature 1: Study Summary Generation Agent (Completed) | **Feature B (Issue #33)**: Flashcards & Module Summary UI |
+| Feature 2: Flashcard Gen Agent (Completed) | |
+| Feature 3: Quiz Gen Agent & API (Completed) | |
+| Quiz submission API + answer storage (Completed) | |
+| Eval system for outputs | |
 | Store eval history in DB for reporting | Eval quality badge display on generated content |
 
 **Sprint 2 deliverables:**
 - 3+ distinct features built with parallel agents (Summary, Flashcard, Quiz)
 - chore: Setup everything-claude-code ecosystem, playbooks, and automated hooks
+- chore (Issue #34): Set up frontend testing framework (Vitest & Playwright)
 - Summary, flashcards, quiz all render correctly
 - Student takes quiz, gets pre-generated hints for MCQ and dynamic hints for open-ended
 - Eval engine auto-scores every LLM generation using LLM-as-judge, history stored

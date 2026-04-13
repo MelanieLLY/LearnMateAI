@@ -33,9 +33,11 @@
 2. **Issue #9, #16**: 收尾前置 UI 任务。
 
 ### 【Phase 3: TDD 炫技与 Worktree 并行开发核心 AI 功能 (Day 3-7)】
-3. **Issue #23**: `feat(backend): Quiz generation & storage API` —— TDD 流程。
-4. **Issue #24**: `feat(frontend): Quiz taking UI and feedback loop`。
-5. **Issue #4**: `Agentic Content Generation` —— 闪卡、总结等。
+~~3. **Issue #23**: `feat(backend): Quiz generation & storage API` —— TDD 流程。~~ (已由 Jing 完成，截图拿现成的)
+~~4. **Issue #24**: `feat(frontend): Quiz taking UI and feedback loop`。~~
+~~5. **Issue #4**: `Agentic Content Generation` —— 闪卡、总结等。~~
+3. **Issue #24**: `feat(frontend): Quiz taking UI` (并行特性 A)
+4. **Issue #33**: `feat(frontend): Flashcard & Summary UI` (并行特性 B)
 
 ### 【Phase 4: QA 保障 (Day 7-8)】
 6. **Issue #21**: `test: Set up Playwright for E2E tests`。
@@ -180,7 +182,7 @@
 <blockquote>嘿 Antigravity，开始执行 Playbook Step 5。请对接学生端前台的 <code>/notes</code> 模块，写好 <code>StudentModuleView.tsx</code> 组件，并保证无 <code>any</code> TS 类型错误，顺利完成功能即可。</blockquote>
 </details>
 
-**🎯 Step 6: 全局 UI 动态润色与过渡 (Issue #16)** （未开始）
+**🎯 Step 6: 全局 UI 动态润色与过渡 (Issue #16)** ✅ （已完成）
 - **操作**: 搞定面试/作品集质量要求。
 
 <details>
@@ -193,13 +195,21 @@
 
 ### 【Phase 3：实际 AI 开发期 (TDD + Worktree)】
 
-**🎯 Step 7: 展现 Parallel Development (Git Worktrees)** （未开始）
-- **操作**: 拆分工程物理文件夹。
+**🎯 Step 7: 展现 Parallel Development (Git Worktrees)** ✅ （已完成）
+~~- **操作**: 拆分工程物理文件夹。~~
+~~<details>~~
+~~<summary>👉 点击展开行动指令 (Prompt)</summary><br>~~
+~~发送给 [Antigravity] (中文):<br>~~
+~~<blockquote>Antigravity，为了完成 Worktree 要求，请通过命令行跑 <code>git worktree add</code> 帮我分出 <code>../LearnMateAI-quiz-backend</code> (Issue 23) 和前端 (Issue 24) 两个并行目录。跑完后用命令打印出列表。</blockquote>~~
+~~📸 截取 <code>git worktree list</code> 输出 (证据 #5)。<br>~~
+~~</details>~~
+
+- **操作 (New)**: 因为后端被做完了，我们需要开两个纯前端的 Issue 分支来证明“并行开发 (Parallel Development)”，这就完全满足“2 features developed in parallel”这一得分点！
 
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
 发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，为了完成 Worktree 要求，请通过命令行跑 <code>git worktree add</code> 帮我分出 <code>../LearnMateAI-quiz-backend</code> (Issue 23) 和前端 (Issue 24) 两个并行目录。跑完后用命令打印出列表。</blockquote>
+<blockquote>Antigravity，我的队友把后端全做完啦！为了满足得分点 "At least 2 features developed in parallel (visible in git branch history)"，请帮我通过 <code>git worktree add</code> 分出 <code>../LearnMateAI-quiz-ui</code> 和 <code>../LearnMateAI-flashcard-ui</code> 两个前端并行开发目录。跑完后打印出列表。</blockquote>
 📸 截取 <code>git worktree list</code> 输出 (证据 #5)。<br>
 </details>
 
@@ -217,61 +227,60 @@
 5. 确认 <code>npm test</code> 可以正常运行（即使还没有测试文件也不应报错）</blockquote>
 </details>
 
-**🎯 Step 8: TDD 提交流程 - Quiz API (Issue #23)** （未开始）
-- **操作**: 写代码，但要卡两次截图。
-> 💡 TDD 红绿灯我们已经有 3 个 feature 达标了（Module CRUD + Student Notes + Flashcard）。Quiz 这次 TDD 是额外保险，但流程上走一遍不费力。
+**🎯 Step 8: TDD 提交流程 - Quiz API (Issue #23)** （✅ 已由 Jing 完成）
+~~- **操作**: 写代码，但要卡两次截图。~~
+~~> 💡 TDD 红绿灯我们已经有 3 个 feature 达标了（Module CRUD + Student Notes + Flashcard）。Quiz 这次 TDD 是额外保险，但流程上走一遍不费力。~~
 
-<details>
-<summary>👉 点击展开行动指令 (Prompt)</summary><br>
-<em>(分为红绿两步)</em><br>
-【红灯步】发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，执行 Step 8 前半段。故意只写一个名为 <code>test_quiz.py</code> 会失败的 Pytest 用例，然后执行红字 commit。</blockquote>
-📸 截图终端的红字 (证据 #6)<br>
-【绿灯步】发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，执行 Step 8 后半段。写出带 <code>hints</code> 字段的真 Quiz 以及测评结果保存接口，将测试通过。提交绿灯 commit。</blockquote>
-📸 截图 pytest 全绿画面 (证据 #7)<br>
-</details>
+~~<details>~~
+~~<summary>👉 点击展开行动指令 (Prompt)</summary><br>~~
+~~<em>(分为红绿两步)</em><br>~~
+~~【红灯步】发送给 [Antigravity] (中文):<br>~~
+~~<blockquote>Antigravity，执行 Step 8 前半段。故意只写一个名为 <code>test_quiz.py</code> 会失败的 Pytest 用例，然后执行红字 commit。</blockquote>~~
+~~📸 截图终端的红字 (证据 #6)<br>~~
+~~【绿灯步】发送给 [Antigravity] (中文):<br>~~
+~~<blockquote>Antigravity，执行 Step 8 后半段。写出带 <code>hints</code> 字段的真 Quiz 以及测评结果保存接口，将测试通过。提交绿灯 commit。</blockquote>~~
+~~📸 截图 pytest 全绿画面 (证据 #7)<br>~~
+~~</details>~~
 
-**🎯 Step 9: 交互式 Quiz UI 开发 (Issue #24)** （未开始）
-- **操作**: 配合后端接口搞个漂亮的学生答题卡。
+- **操作 (New)**: 直接去 `docs/project3-agents.md` 里拿队友已经截好的图！躺赢：
+📸 取用队友的 TDD RED 报错截图 (证据 #6)
+📸 取用队友的 TDD GREEN 和 96 Tests Paasing 全绿截图 (证据 #7)
 
-<details>
-<summary>👉 点击展开行动指令 (Prompt)</summary><br>
-发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，请实现交互式 Quiz UI (<code>QuizTakingView.tsx</code>)，一次出现一道题，提交后立即显示带动画的模型反馈及打分徽章。注意动效美观。</blockquote>
-</details>
+**🎯 Step 9 & 10: 展现 Parallel Development (双开终端进行 UI 开发)**
+> *这是核心大招！请同时打开两个终端进行以下操作来向教授展示绝对的并行拉拔！*
 
-**🎯 Step 10: 闪卡引擎与学习总结 Agent (Issue #4)** （未开始）
-- **操作**: 调用 LLM Prompt 进行高级业务应用。
-
-<details>
-<summary>👉 点击展开行动指令 (Prompt)</summary><br>
-发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，处理 Issue #4 内容。由于我们此前已经写过一部分 Agent 逻辑，请完成所有的闪卡、总结路由，并在向 LLM 构建 context 时，务必将系统此前保存的 <code>受众背景敏感度(Audience Sensitivity)</code> 传递给大模型作为护栏，并在前端建立精美的卡片翻转 UI。</blockquote>
-</details>
+| 🟩 终端 A (Feature: Quiz UI) | 🟦 终端 B (Feature: Flashcards & Summary UI) |
+|---|---|
+| **对应 Issue**: #24<br>**工作区**: `../LearnMateAI-quiz-ui` | **对应 Issue**: #33<br>**工作区**: `../LearnMateAI-flashcard-ui` |
+| **目标**: 配合后端建立单题翻页并带有趣味反馈的学生答题卡。 | **目标**: 对接基于大模型的学习资料总结，并搭建精美的记忆卡翻转 3D 界面。 |
+| **启动**: `cd ../LearnMateAI-quiz-ui && claude` | **启动**: `cd ../LearnMateAI-flashcard-ui && claude` |
+| **发给终端的 Prompt**:<br><blockquote>**[Context Initializer]**<br>We are executing an academic rubric: "2 features developed in parallel, visible in git history". You are currently operating inside a physical Git Worktree folder (`LearnMateAI-quiz-ui`) linked to the main repository.<br><br>**[Your Tasks]**<br>1. Run `git rebase main` first to sync the testing frameworks I just installed on the main branch.<br>2. Implement the interactive Quiz UI (`QuizTakingView.tsx`) over the ready `/quizzes` backend API. Show one question at a time, and display an animated LLM feedback & score badge upon submission!</blockquote> | **发给终端的 Prompt**:<br><blockquote>**[Context Initializer]**<br>We are executing an academic rubric: "2 features developed in parallel, visible in git history". You are currently operating inside a physical Git Worktree folder (`LearnMateAI-flashcard-ui`) linked to the main repository.<br><br>**[Your Tasks]**<br>1. Run `git rebase main` first to sync the testing frameworks I just installed on the main branch.<br>2. Build a premium 3D flippable card UI to display flashcards, and a section for module summaries (`StudentModuleView.tsx`) over the ready backend APIs. Ensure dynamic, smooth animations!</blockquote> |
+| **📸 最终需截取的证据** | 截取这个终端正在生成 Quiz UI 代码的画面。 | 截取生成 Flashcard 过程；以及并排展现这俩终端正在跑代码的画面 (证据 #7b) |
 
 **🎯 Step 11: 提交 PR 并做第一次 C.L.E.A.R. 审查 ⭐** （未开始）
-- **操作**: Issue #23 (Quiz API) 的 PR 是我们选定的 **C.L.E.A.R. PR #1**。
-> 📌 **C.L.E.A.R. 定义（老师版本）：**
-> - **C — Context**: Does this code fit the project's architecture and conventions?
-> - **L — Logic**: Is the business logic correct? Are edge cases handled?
-> - **E — Evidence**: Are there tests? Do they actually verify the behavior?
-> - **A — Architecture**: Does it follow established patterns? Any new dependencies?
-> - **R — Risk**: Security issues? Performance concerns? Data exposure?
+~~- **操作**: Issue #23 (Quiz API) 的 PR 是我们选定的 **C.L.E.A.R. PR #1**。~~
+~~<details>~~
+~~<summary>👉 点击展开行动指令 (Prompt)</summary><br>~~
+~~提交 PR 后，在 GitHub PR 页面留下以下 comment：<br>~~
+~~<blockquote>~~
+~~<strong>C.L.E.A.R. Review</strong><br><br>~~
+~~C: Follows existing FastAPI module pattern (router → service → model) ✅<br>~~
+~~L: Edge cases handled — empty quiz, unauthorized access, module not found ✅<br>~~
+~~E: 6 pytest tests passing, TDD red→green visible in git history ✅<br>~~
+~~A: Consistent with established Model→Schema→Service→Router pattern ✅<br>~~
+~~R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>~~
+~~<strong>AI Disclosure:</strong> ~85% AI-generated using Antigravity + Claude CLI. Human reviewed all test logic and security checks.~~
+~~</blockquote>~~
+~~📸 截图 GitHub PR 页面上的这段 comment (证据 #8)。<br>~~
+~~</details>~~
 
+- **操作 (New)**: 我们需要满足 "one agent writes, another reviews" 这一得分点！由于代码是 AI 写的 (Writer)，你需要召唤专属的智能审查分身 (Reviewer) 来自动生成 Review 内容。去队友被 Merge 的 **PR #32** 底下留言。
 <details>
-<summary>👉 点击展开行动指令 (Prompt)</summary><br>
-提交 PR 后，在 GitHub PR 页面留下以下 comment：<br>
-<blockquote>
-<strong>C.L.E.A.R. Review</strong><br><br>
-C: Follows existing FastAPI module pattern (router → service → model) ✅<br>
-L: Edge cases handled — empty quiz, unauthorized access, module not found ✅<br>
-E: 6 pytest tests passing, TDD red→green visible in git history ✅<br>
-A: Consistent with established Model→Schema→Service→Router pattern ✅<br>
-R: No hardcoded secrets, input validated via Pydantic schemas ✅<br><br>
-<strong>AI Disclosure:</strong> ~85% AI-generated using Antigravity + Claude CLI. Human reviewed all test logic and security checks.
-</blockquote>
-📸 截图 GitHub PR 页面上的这段 comment (证据 #8)。<br>
+<summary>👉 点击展开行动指令 (必须使用终端执行)</summary><br>
+打开一个新的终端，输入 <code>claude</code> 唤起对话后，发送以下指令让其扮演 Reviewer 查阅代码差距：
+<blockquote><em>Please act as the expert agent defined in <code>.claude/agents/code-reviewer.md</code>. I need you to review PR #32 which merges the branch 'jinggghui-patch-1'. Please provide your review comment strictly structured using the C.L.E.A.R framework (Context, Logic, Evidence, Architecture, Risk). Ensure to append this exact disclosure at the bottom of your output: "AI Disclosure: PR Code ~90% generated by Antigravity (Writer). Review autonomously generated by Code-Reviewer Agent (Reviewer)."</em></blockquote>
+将终端吐出的大长串英文评价，完整粘贴复制到 Github PR #32 的评论区。
+📸 截图这段包含 AI Disclosure 标语的 Github 评论 (证据 #8)。<br>
 </details>
 
 ---
@@ -357,21 +366,14 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 </details>
 
 **🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐** （未开始）
-- **操作**: Issue #20 (CI/CD + Security) 的 PR 是我们选定的 **C.L.E.A.R. PR #2**。
+- **操作**: Issue #20 (CI/CD + Security) 的 PR 是我们选定的 **C.L.E.A.R. PR #2**。这里我们同样使用 Reviewer Agent 来完成第二个 PR 点评，稳拿 Writer/Reviewer 满分！
 
 <details>
-<summary>👉 点击展开行动指令</summary><br>
-提交 PR 后，在 GitHub PR 页面留下以下 comment：<br>
-<blockquote>
-<strong>C.L.E.A.R. Review</strong><br><br>
-C: CI/CD pipeline follows standard GitHub Actions patterns for our Vite+FastAPI stack ✅<br>
-L: All 8 stages configured, security gates catch real vulnerabilities ✅<br>
-E: Pipeline tested — all stages green on push ✅<br>
-A: Gitleaks + Bandit + npm audit + dependency-review = 4 security gates ✅<br>
-R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documented ✅<br><br>
-<strong>AI Disclosure:</strong> ~80% AI-generated using Antigravity. Human reviewed all workflow YAML configs and security gate configuration.
-</blockquote>
-📸 截图 GitHub PR 页面上的这段 comment (证据 #10)。<br>
+<summary>👉 点击展开行动指令 (必须使用终端执行)</summary><br>
+在提交 Issue #20 的 PR 之后，前往终端输入 <code>claude</code> 并发送：
+<blockquote><em>Act as the expert agent from <code>.claude/agents/code-reviewer.md</code>. Review my open PR for Issue #20 (CI/CD Pipeline). Output your response strictly using the C.L.E.A.R framework. Conclude with: "AI Disclosure: Workflow generated by Antigravity (Writer). Review generated by Code-Reviewer Agent (Reviewer)."</em></blockquote>
+照旧，将生成的英文点评全文粘贴至 GitHub PR 评论区。
+📸 截图这段 Github 评论，确保截出 AI Disclosure 声明 (证据 #10)。<br>
 </details>
 
 **🎯 Step 16: 部署 (Issue #8)** （未开始）
@@ -483,7 +485,8 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 | **R** | Risk | Security issues? Performance concerns? Data exposure? |
 
 **选定的 2 个 C.L.E.A.R. PR：**
-1. Issue #23 (Quiz Backend API) → Step 11
+~~1. Issue #23 (Quiz Backend API) → Step 11~~
+1. PR #32 (Teammate's Agent Backend) → Step 11 这是我 Review 别人的！
 2. Issue #20 (CI/CD + Security) → Step 15.5
 
 ---
@@ -499,6 +502,7 @@ R: Secrets managed via GitHub Secrets, no tokens in code, OWASP Top 10 documente
 | #5 | `git worktree list` 输出截图 | Step 7 |
 | #6 | Pytest 红灯失败截图 | Step 8 |
 | #7 | Pytest 全绿通过截图 | Step 8 |
+| #7b | 两个终端同时（或交替）跑在不同分支写UI | Step 9 & 10 |
 | #8 | C.L.E.A.R. PR #1 的 GitHub comment 截图 | Step 11 |
 | #9 | GitHub Actions All Green 截图 | Step 15 |
 | #10 | C.L.E.A.R. PR #2 的 GitHub comment 截图 | Step 15.5 |
