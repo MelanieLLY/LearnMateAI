@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { beforeEach, describe, it, expect, vi } from 'vitest';
-import StudentModuleView from '../StudentModuleView';
+import StudentModuleView from './StudentModuleView';
 
 // Mock global fetch
 global.fetch = vi.fn();
