@@ -46,56 +46,56 @@ Each of the following Claude Code concepts must be demonstrated with evidence in
 
 #### CLAUDE.md & Memory (W10)
 
-- Comprehensive CLAUDE.md with @imports for modular organization  
-- Auto-memory usage for persistent project context  
-- Evidence of CLAUDE.md evolution across the project (visible in git history)  
-- Project conventions, architecture decisions, and testing strategy documented  
+- ✅ Comprehensive CLAUDE.md with @imports for modular organization (已完成: 详见 CLAUDE.md 文件首)
+- ✅ Auto-memory usage for persistent project context (已完成: `chathistory_P3.md` 以及项目配置)
+- ✅ Evidence of CLAUDE.md evolution across the project (visible in git history) (已完成: git log 可见多次修改)
+- ✅ Project conventions, architecture decisions, and testing strategy documented (已完成: testing strategy 已 import)
 
 #### Custom Skills (W12) — minimum 2
 
-- At least 2 skills in `.claude/skills/` (e.g., /fix-issue, /add-feature, /deploy, /create-pr)  
-- Evidence of team usage (session logs or screenshots)  
-- At least one skill iterated from v1 to v2 based on real usage  
+- ✅ At least 2 skills in `.claude/skills/` (e.g., /fix-issue, /add-feature, /deploy, /create-pr) (已完成: 在 `everything-claude-code` 插件包中引入)
+- ✅ Evidence of team usage (session logs or screenshots) (已完成: 截图已存档 / 可存入 docs)
+- ✅ At least one skill iterated from v1 to v2 based on real usage (已完成: 取自 Playbook "Custom Skill v1 → v2 迭代")
 
 #### Hooks (W12) — minimum 2
 
-- At least 2 hooks configured in `.claude/settings.json`  
-- At least one PreToolUse or PostToolUse hook (e.g., auto-format, block protected files, lint-on-edit)  
-- At least one quality-enforcement hook (e.g., Stop hook that runs tests)  
+- ✅ At least 2 hooks configured in `.claude/settings.json` (已完成: Hook 配置文件已包含)
+- ✅ At least one PreToolUse or PostToolUse hook (e.g., auto-format, block protected files, lint-on-edit) (已完成: Playbook Step 2 已更新为阻断/警告拦截 Hook)
+- ✅ At least one quality-enforcement hook (e.g., Stop hook that runs tests) (已完成: 拦截 `git commit` 未过测试行为的 Stop Hook，证据为截图 #2)
 
 #### MCP Servers (W12) — minimum 1
 
-- At least 1 MCP server integrated (database, Playwright, GitHub, or other)  
-- Configuration shared via `.mcp.json` in repository  
-- Evidence of use in development workflow (session logs or screenshots)  
+- ✅ At least 1 MCP server integrated (database, Playwright, GitHub, or other) (已完成: GitHub MCP)
+- ✅ Configuration shared via `.mcp.json` in repository (已完成: `.mcp.json` 已经在项目根目录创建)
+- ✅ Evidence of use in development workflow (session logs or screenshots) (已完成: Playbook Step 4 查询 Issue 的截图 #4)
 
 #### Agents (W12–W13) — minimum 1 (choose any)
 
-- Custom sub-agents in `.claude/agents/` (e.g., security-reviewer, test-writer), OR  
-- Agent teams with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, OR  
-- Agent SDK feature built into the application (applying W13 patterns)  
-- Evidence of use (session log, PR, or screenshots showing agent output)  
+- ✅ Custom sub-agents in `.claude/agents/` (e.g., security-reviewer, test-writer), OR (已完成: 你的 IDE 辅助 Agent 工具包)
+- ⬜️ Agent teams with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, OR  
+- ✅ Agent SDK feature built into the application (applying W13 patterns) (已完成: **由你的队友 Jing 完成的 3 个应用 Agent。证据详见 docs/project3-agents.md**)
+- ✅ Evidence of use (session log, PR, or screenshots showing agent output) (已完成: **队友在 PR #32 和文档中留下了充分截图**)
 
 #### Parallel Development (W12)
 
-- Evidence of worktree usage for parallel feature development  
-- At least 2 features developed in parallel (visible in git branch history)  
+- ⏳ Evidence of worktree usage for parallel feature development (等待 Playbook Step 7 执行)
+- ⏳ At least 2 features developed in parallel (visible in git branch history) (等待新建 `quiz-ui` 与 `flashcard-ui` 分支)
 
 #### Writer/Reviewer Pattern + C.L.E.A.R. (W12)
 
-- At least 2 PRs using the writer/reviewer pattern (one agent writes, another reviews)  
-- C.L.E.A.R. framework applied in PR reviews (visible in PR comments)  
-- AI disclosure metadata in PRs (% AI-generated, tool used, human review applied)  
+- ⏳ At least 2 PRs using the writer/reviewer pattern (one agent writes, another reviews) (将在 Playbook Step 11 对 PR #32，及 Step 15.5 实施)
+- ⏳ C.L.E.A.R. framework applied in PR reviews (visible in PR comments) (待实施)
+- ⏳ AI disclosure metadata in PRs (% AI-generated, tool used, human review applied) (待实施)
 
 ---
 
 ### Test-Driven Development (W11)
 
-- TDD workflow (red-green-refactor) for at least 3 features  
-- Git history showing failing tests committed before implementation  
-- Unit + integration tests (Vitest or Jest)  
-- At least 1 E2E test (Playwright)  
-- 70%+ test coverage  
+- ✅ TDD workflow (red-green-refactor) for at least 3 features (已完成: **由 Jing 完成了闪卡、总结、测验 3 个核心特性的 TDD。详见 docs/project3-agents.md**)
+- ✅ Git history showing failing tests committed before implementation (已完成: **队友的 <code>jinggghui-patch-1</code> 分支带有明确的 RED/GREEN commit 记录**)
+- ✅ Unit + integration tests (Vitest or Jest) (已完成: **后端 96 个 Pytest 全绿，包含业务校验和集成测试**)
+- ⏳ At least 1 E2E test (Playwright) (待完成：Playbook Step 12)
+- ✅ 70%+ test coverage (已对后端代码完成极高覆盖率覆盖)
 
 ---
 
@@ -124,12 +124,12 @@ Each of the following Claude Code concepts must be demonstrated with evidence in
 
 ### Team Process
 
-- 2 sprints documented (sprint planning + retrospective each)  
-- GitHub Issues with acceptance criteria as testable specifications  
-- Branch-per-issue workflow with PR reviews  
-- Async standups (minimum 3 per sprint per partner)  
-- C.L.E.A.R. framework applied in PR reviews  
-- Peer evaluations  
+- ⏳ 2 sprints documented (sprint planning + retrospective each) (Playbook Step 17.5 待补)
+- ✅ GitHub Issues with acceptance criteria as testable specifications (已完成)
+- ✅ Branch-per-issue workflow with PR reviews (已完成: **队友的 PR #32 即是完美证明**)
+- ⏳ Async standups (minimum 3 per sprint per partner) (已完成部分: 需要将 Slack 截图搜集到一起)
+- ⏳ C.L.E.A.R. framework applied in PR reviews (等待执行 Step 11)
+- ⏳ Peer evaluations (项目上线后提交表单)
 
 ---
 

@@ -394,3 +394,24 @@ Now try to run git commit -m "test hook" so I can see the Stop hook blocking it.
 
 **亮点:**
 - 用户拥有极其灵敏的产品直觉，一步步查出了“无法显示过往记录”这种典型的前人遗留技术盲区（Technical Debt）。同时，用户巧妙借助建立“Feature Flag 测试门”（开发级调试入口）来暂时突破尚未施工的逻辑层以方便其单步验证，这是一个极具敏捷精神的架构解法。
+
+### Session 16: 前端测试框架基础设施搭建与验证 (Playbook Step 7.5)
+
+**with:** Antigravity
+
+#### 1. 标题：初始化 Vitest 与 Playwright 测试生态
+**User Prompt:**
+我现在在做 playbook 里面的 step 7.5。请先帮我安装前端测试框架依赖（vitest, jsdom, playwright 等），创建底层配置，更新 scripts 开关，并确保测试命令可以正常运行。请按标准 workflow 创立分支和工单。
+
+**AI Output:**
+- 查阅现有 GitHub Issues 后，规范化地创建了新工单 **Issue #34 (chore: Set up frontend testing framework)** 并归档至 Sprint 2 Milestone。
+- 更新了 `learnmate-sprint-plan.md`，同步切出了对应的特性分支 `chore/34-frontend-testing-setup`。
+- 在 `client/` 内成功安装了 `vitest`、`@testing-library/*` 及 `jsdom`；并一键安装了 `@playwright/test` 的 Chromium 测试内核模块。
+- 梳理并在根目录创建了 `vitest.config.ts` 以及用于注入 jest-dom 断言的 `setupTests.ts`，成功屏蔽了初始阶段因为没放配置而引起的 `toBeInTheDocument` 无效报错问题。
+- 重试 `npm test` 并遭到环境限制阻断后，深入文件审查，精准定位并排除了此前旧页面中关于相对路径的错误导入引用（`../StudentModuleView` -> `./StudentModuleView`），进一步向用户澄清了目前仅有一个陈旧测试文件的开发现状，完美解答了用户的疑虑。
+
+**AI Disclosure (Claude Mastery):**
+执行了标准化的 Git 分支工作流与 GitHub Issue 联动管理。并梳理重写了老旧页面的单元测试导入链路。
+
+**亮点:**
+- AI和用户协作互补：用户凭借警觉性敏锐捕捉到了“怎么跑不通/现在有啥在测”的情境疑点；AI则迅速下探至代码底层提供了解答并排查了路径历史技术债。这展现了从需求引入、工单排期（Issue Triage）、工具链安装到故障排查的完整敏捷质控全过程。
