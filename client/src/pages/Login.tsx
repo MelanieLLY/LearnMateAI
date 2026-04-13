@@ -42,43 +42,55 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '40px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h2 style={{ textAlign: 'center' }}>Login</h2>
-      {error && <div style={{ color: 'red', marginBottom: '15px' }}>{error}</div>}
+    <div className="max-w-md mx-auto mt-20 p-8 glass-panel rounded-2xl relative overflow-hidden">
+      {/* Decorative gradient orb */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
       
-      <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <h2 className="text-3xl font-bold text-slate-800 text-center mb-8 relative z-10">
+        登录
+      </h2>
+      
+      {error && (
+        <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 text-sm flex items-center shadow-sm border border-red-100">
+          <span className="mr-2">⚠️</span> {error}
+        </div>
+      )}
+      
+      <form onSubmit={handleLogin} className="flex flex-col gap-5 relative z-10">
         <div>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Email</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Email</label>
           <input 
             type="email" 
             value={email} 
             onChange={e => setEmail(e.target.value)} 
             required 
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all placeholder:text-slate-400"
+            placeholder="you@example.com"
           />
         </div>
         <div>
-          <label style={{ display: 'block', marginBottom: '5px' }}>Password</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Password</label>
           <input 
             type="password" 
             value={password} 
             onChange={e => setPassword(e.target.value)} 
             required 
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all placeholder:text-slate-400"
+            placeholder="••••••••"
           />
         </div>
         
         <button 
           type="submit" 
           disabled={isLoading}
-          style={{ padding: '10px', backgroundColor: '#0066cc', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+          className="mt-2 w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transform active:scale-[0.98]"
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? '登录中...' : '登录 (Login)'}
         </button>
       </form>
 
-      <p style={{ textAlign: 'center', marginTop: '20px' }}>
-        Don't have an account? <Link to="/register">Register</Link>
+      <p className="text-center mt-8 text-sm text-slate-500 relative z-10">
+        还没有账号? <Link to="/register" className="text-brand-600 font-medium hover:text-brand-700 transition-colors">去注册</Link>
       </p>
     </div>
   );
