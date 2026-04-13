@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.database import Base, engine
 from src.models import flashcard  # noqa: F401 — registers ORM model
 from src.models import student_note  # noqa: F401 — registers ORM model
+from src.models import quiz  # noqa: F401 — registers ORM model
 from src.models import summary  # noqa: F401 — registers ORM model
 from src.models import user  # noqa: F401 — registers ORM model
 from src.models import material  # noqa: F401
@@ -18,6 +19,7 @@ from src.routers.courses import router as courses_router
 from src.routers.flashcards import router as flashcards_router
 from src.routers.modules import router as modules_router
 from src.routers.student_notes import router as student_notes_router
+from src.routers.quizzes import router as quizzes_router
 from src.routers.summaries import router as summaries_router
 
 import os
@@ -55,4 +57,5 @@ app.include_router(courses_router, prefix="/api/v1")
 app.include_router(modules_router, prefix="/api/v1")
 app.include_router(student_notes_router, prefix="/api/v1")
 app.include_router(flashcards_router, prefix="/api/v1")
+app.include_router(quizzes_router, prefix="/api/v1")
 app.include_router(summaries_router, prefix="/api/v1")
