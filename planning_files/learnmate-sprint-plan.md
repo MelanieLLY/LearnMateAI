@@ -52,8 +52,8 @@
 | Person A | Person B |
 |---|---|
 | **Feature: Agentic Content Generation (Backend)** | **Parallel Development (Frontend)** |
-| Context builder: merge materials + notes (Completed) | **Feature A (Issue #24)**: Quiz-taking UI (MCQ + open-ended) |
-| Feature 1: Study Summary Generation Agent (Completed) | **Feature B (Issue #33)**: Flashcards & Module Summary UI |
+| Context builder: merge materials + notes (Completed) | **Feature A (Issue #24)**: Quiz-taking UI (Completed) |
+| Feature 1: Study Summary Generation Agent (Completed) | **Feature B (Issue #33)**: Flashcards & Summary UI (Completed) |
 | Feature 2: Flashcard Gen Agent (Completed) | |
 | Feature 3: Quiz Gen Agent & API (Completed) | |
 | Quiz submission API + answer storage (Completed) | |
