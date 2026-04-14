@@ -19,7 +19,7 @@ Rules:
 - At least 1 question must be short_answer.
 - Every multiple_choice question must have exactly 4 options.
 - short_answer questions must have options set to null.
-- Return ONLY a valid JSON object with no extra text. The object must have \
+- Use the provided structured output tool schema. The object must have \
 exactly three top-level keys:
     "title"           (string)  — a concise title for the quiz
     "difficulty_level" (string) — one of: Easy, Medium, Hard

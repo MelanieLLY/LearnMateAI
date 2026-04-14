@@ -19,7 +19,7 @@ Rules:
 - Blend both the course material and the student notes so that roughly half the \
 cards draw from each source.
 - If one source is empty, generate all cards from the other source.
-- Return ONLY a valid JSON array with no extra text. Each element must be an \
+- Use the provided structured output tool schema. Each element must be an \
 object with exactly four fields:
     "question"   (string)  — the flashcard question
     "answer"     (string)  — the flashcard answer

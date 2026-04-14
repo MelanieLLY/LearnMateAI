@@ -119,6 +119,12 @@ def generate_summary(
         raise ValueError(f"Claude API returned no structured output. Response: {message.content}")
 
     summary: dict = tool_use.input
+    if isinstance(summary, str):
+        import json
+        try:
+            summary = json.loads(summary)
+        except Exception:
+            pass
 
     _validate_summary(summary)
     logger.info("Generated summary with %d words.", summary.get("word_count", 0))
