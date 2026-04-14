@@ -57,6 +57,7 @@
 | Feature 2: Flashcard Gen Agent (Completed) | |
 | Feature 3: Quiz Gen Agent & API (Completed) | |
 | Quiz submission API + answer storage (Completed) | |
+| Bugfix (Issue #38): Migrate AI agents to use tool structured outputs (Completed) | |
 | Eval system for outputs | |
 | Store eval history in DB for reporting | Eval quality badge display on generated content |
 
