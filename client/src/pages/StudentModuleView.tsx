@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FlashcardSection from '../components/FlashcardSection';
 import ModuleSummarySection from '../components/ModuleSummarySection';
 
@@ -31,6 +32,7 @@ const MODULE_TABS: TabConfig[] = [
 ];
 
 export default function StudentModuleView() {
+  const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<number, string>>({});
@@ -123,7 +125,7 @@ export default function StudentModuleView() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <header className="mb-8 pl-2">
-        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨‍🎓 学生端：模块浏览与学习</h1>
+        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨🎓 学生端：模块浏览与学习</h1>
         <p className="text-slate-500">
           在这里，你可以浏览课程模块，下载学习材料，并记录学习笔记。
         </p>
@@ -176,6 +178,16 @@ export default function StudentModuleView() {
                         <span className="text-blue-700/80">{mod.learning_objectives}</span>
                       </div>
                     )}
+
+                    {/* --- Quiz CTA --- */}
+                    <div className="mb-6 flex justify-end">
+                      <button
+                        onClick={() => navigate(`/student/quiz/${mod.id}`)}
+                        className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg transform active:scale-[0.98] flex items-center gap-2"
+                      >
+                        <span>🧠</span> Take Quiz
+                      </button>
+                    </div>
 
                     {/* ——— Tab bar ——— */}
                     <div className="flex gap-1 border-b border-slate-100 -mx-6 sm:-mx-8 px-6 sm:px-8">
