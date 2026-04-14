@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import InstructorModuleDashboard from './pages/InstructorModuleDashboard';
 import StudentModuleView from './pages/StudentModuleView';
+import QuizTakingView from './pages/QuizTakingView';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -77,6 +78,12 @@ function App() {
               <Route path="/student" element={
                 <ProtectedRoute allowedRoles={['student']}>
                   <StudentModuleView />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/student/quiz/:moduleId" element={
+                <ProtectedRoute allowedRoles={['student']}>
+                  <QuizTakingView />
                 </ProtectedRoute>
               } />
             </Routes>

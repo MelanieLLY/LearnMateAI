@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Module {
   id: number;
@@ -15,6 +16,7 @@ interface Note {
 }
 
 export default function StudentModuleView() {
+  const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<number, string>>({});
@@ -161,6 +163,16 @@ export default function StudentModuleView() {
                   </div>
                 )}
                 
+                {/* --- Quiz CTA --- */}
+                <div className="mt-4 flex justify-end">
+                  <button
+                    onClick={() => navigate(`/student/quiz/${mod.id}`)}
+                    className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg transform active:scale-[0.98] flex items-center gap-2"
+                  >
+                    <span>🧠</span> Take Quiz
+                  </button>
+                </div>
+
                 <div className="mt-6 bg-brand-50/50 rounded-xl p-5 border border-brand-100 shadow-sm">
                   <h4 className="font-semibold text-brand-800 mb-3 flex items-center gap-2">
                     <span>📝</span> 提交学习笔记

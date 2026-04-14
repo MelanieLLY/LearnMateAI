@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, it, expect, vi } from 'vitest';
 import StudentModuleView from './StudentModuleView';
 
@@ -11,6 +12,7 @@ describe('StudentModuleView', () => {
   });
 
   it('renders loading state initially or fetches modules', async () => {
+    // Mock 1: modules list
     (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       json: async () => [
@@ -23,20 +25,26 @@ describe('StudentModuleView', () => {
         }
       ],
     });
+    // Mock 2: notes for module 1 (component fetches these after loading modules)
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      json: async () => [],
+    });
 
-    render(<StudentModuleView />);
+    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
 
     // Check title renders
     expect(screen.getByText('👨‍🎓 学生端：模块浏览与学习')).toBeInTheDocument();
 
     // Check if the mock module was rendered
     await waitFor(() => {
-      expect(screen.getByText('📄 Introduction to AI')).toBeInTheDocument();
+      expect(screen.getByText('Introduction to AI')).toBeInTheDocument();
       expect(screen.getByText('Basic concepts of Artificial Intelligence')).toBeInTheDocument();
     });
   });
 
   it('allows user to type and submit a note', async () => {
+    // Mock 1: modules list
     (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       json: async () => [
@@ -49,12 +57,17 @@ describe('StudentModuleView', () => {
         }
       ],
     });
+    // Mock 2: notes for module 1
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      json: async () => [],
+    });
 
-    render(<StudentModuleView />);
+    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
 
     // Wait for modules to load
     await waitFor(() => {
-      expect(screen.getByText('📄 Advanced Machine Learning')).toBeInTheDocument();
+      expect(screen.getByText('Advanced Machine Learning')).toBeInTheDocument();
     });
 
     // Mock the POST request for note submission
@@ -98,7 +111,7 @@ describe('StudentModuleView', () => {
   it('displays error message if fetching modules fails', async () => {
     (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Network Error'));
 
-    render(<StudentModuleView />);
+    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
 
     await waitFor(() => {
       expect(screen.getByText(/错误: Network Error/)).toBeInTheDocument();
