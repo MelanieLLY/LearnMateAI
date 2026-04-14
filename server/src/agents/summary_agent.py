@@ -92,14 +92,33 @@ def generate_summary(
                 ),
             }
         ],
+        tools=[
+            {
+                "name": "generate_summary_output",
+                "description": "Output the final generated summary.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "title": {"type": "string"},
+                        "content": {"type": "string"},
+                        "word_count": {"type": "integer"},
+                        "summary_level": {
+                            "type": "string", 
+                            "enum": ["Brief", "Standard", "Detailed"]
+                        }
+                    },
+                    "required": ["title", "content", "word_count", "summary_level"]
+                }
+            }
+        ],
+        tool_choice={"type": "tool", "name": "generate_summary_output"}
     )
 
-    raw = message.content[0].text
-    try:
-        summary: dict = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        logger.error("Claude returned non-JSON response: %s", raw)
-        raise ValueError(f"Claude API returned invalid JSON: {raw!r}") from exc
+    tool_use = next((block for block in message.content if block.type == "tool_use"), None)
+    if not tool_use:
+        raise ValueError(f"Claude API returned no structured output. Response: {message.content}")
+
+    summary: dict = tool_use.input
 
     _validate_summary(summary)
     logger.info("Generated summary with %d words.", summary.get("word_count", 0))

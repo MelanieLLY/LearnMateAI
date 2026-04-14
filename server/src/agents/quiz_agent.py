@@ -96,14 +96,46 @@ def generate_quiz(
                 ),
             }
         ],
+        tools=[
+            {
+                "name": "generate_quiz_output",
+                "description": "Output the generated quiz.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "title": {"type": "string"},
+                        "difficulty_level": {"type": "string", "enum": ["Easy", "Medium", "Hard"]},
+                        "questions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {"type": "integer"},
+                                    "text": {"type": "string"},
+                                    "question_type": {"type": "string", "enum": ["multiple_choice", "short_answer"]},
+                                    "options": {
+                                        "type": ["array", "null"],
+                                        "items": {"type": "string"}
+                                    },
+                                    "correct_answer": {"type": "string"},
+                                    "explanation": {"type": "string"}
+                                },
+                                "required": ["id", "text", "question_type", "correct_answer", "explanation"]
+                            }
+                        }
+                    },
+                    "required": ["title", "difficulty_level", "questions"]
+                }
+            }
+        ],
+        tool_choice={"type": "tool", "name": "generate_quiz_output"}
     )
 
-    raw = message.content[0].text
-    try:
-        quiz: dict = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        logger.error("Claude returned non-JSON response: %s", raw)
-        raise ValueError(f"Claude API returned invalid JSON: {raw!r}") from exc
+    tool_use = next((block for block in message.content if block.type == "tool_use"), None)
+    if not tool_use:
+        raise ValueError(f"Claude API returned no structured output. Response: {message.content}")
+
+    quiz: dict = tool_use.input
 
     _validate_quiz(quiz)
     logger.info(

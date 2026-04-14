@@ -162,8 +162,12 @@ def _make_mock_client(quiz: dict) -> tuple[MagicMock, MagicMock]:
         A tuple of (mock_anthropic_cls, mock_client) ready for use with patch().
     """
     mock_message = MagicMock()
-    mock_message.content = [MagicMock()]
-    mock_message.content[0].text = json.dumps(quiz)
+    
+    mock_tool_use = MagicMock()
+    mock_tool_use.type = "tool_use"
+    mock_tool_use.input = quiz
+    
+    mock_message.content = [mock_tool_use]
 
     mock_client = MagicMock()
     mock_client.messages.create.return_value = mock_message
@@ -542,20 +546,22 @@ class TestValidation:
 
 
 class TestJsonParseFailure:
-    """Agent raises ValueError when Claude returns non-JSON text."""
+    """Agent raises ValueError when Claude returns text without tool_use."""
 
     def test_non_json_response_raises_value_error(self) -> None:
-        """A plain-text Claude response causes a ValueError with 'invalid JSON'."""
+        """A plain-text Claude response causes a ValueError with 'structured output'."""
         mock_message = MagicMock()
-        mock_message.content = [MagicMock()]
-        mock_message.content[0].text = "I cannot generate a quiz for that content."
+        mock_text = MagicMock()
+        mock_text.type = "text"
+        mock_text.text = "I cannot generate a quiz for that content."
+        mock_message.content = [mock_text]
 
         mock_client = MagicMock()
         mock_client.messages.create.return_value = mock_message
         mock_cls = MagicMock(return_value=mock_client)
 
         with patch("src.agents.quiz_agent.anthropic.Anthropic", mock_cls):
-            with pytest.raises(ValueError, match="invalid JSON"):
+            with pytest.raises(ValueError, match="structured output"):
                 generate_quiz(
                     module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES
                 )
