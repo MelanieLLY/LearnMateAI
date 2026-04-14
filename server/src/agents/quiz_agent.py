@@ -206,6 +206,14 @@ def _validate_quiz(quiz: dict) -> None:
         )
 
     questions = quiz["questions"]
+    if isinstance(questions, str):
+        import json
+        try:
+            questions = json.loads(questions)
+            quiz["questions"] = questions
+        except Exception:
+            pass
+
     if not isinstance(questions, list):
         raise ValueError(
             f"Quiz 'questions' must be a list, got: {type(questions).__name__}"

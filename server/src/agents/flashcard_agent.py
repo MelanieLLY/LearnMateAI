@@ -109,6 +109,12 @@ def generate_flashcards(
         raise ValueError(f"Claude API returned no structured output. Response: {message.content}")
 
     flashcards: list[dict] = tool_use.input.get("flashcards", [])
+    if isinstance(flashcards, str):
+        import json
+        try:
+            flashcards = json.loads(flashcards)
+        except Exception:
+            pass
 
     _validate_flashcards(flashcards)
     logger.info("Generated %d flashcards.", len(flashcards))
@@ -142,18 +148,18 @@ def _maybe_truncate(module_content: str, student_notes: str) -> tuple[str, str]:
 
 
 def _validate_flashcards(flashcards: list[dict]) -> None:
-    """Validate that each flashcard returned by Claude has the required fields.
+    """Validate that the list of flashcard dicts meets requirements.
 
     Args:
-        flashcards: Raw list parsed from Claude's JSON response.
+        flashcards: The list of flashcard dicts returned by Claude.
 
     Raises:
-        ValueError: If the response is not a list, or any card is missing a
-            required field or contains an out-of-range value.
+        ValueError: If the response is not a list, contains an invalid number of
+            cards, or any card fails field validation.
     """
     if not isinstance(flashcards, list):
         raise ValueError(
-            f"Expected a JSON array from Claude, got: {type(flashcards).__name__}"
+            f"Expected a list of flashcards, got: {type(flashcards).__name__}"
         )
 
     for i, card in enumerate(flashcards):

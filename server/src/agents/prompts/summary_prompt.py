@@ -20,7 +20,7 @@ Rules:
 - Blend both sources so the summary reflects concepts from the course material \
 AND the student notes.
 - If one source is empty, summarise the other source only.
-- Return ONLY a valid JSON object with no extra text. The object must have \
+- Use the provided structured output tool schema. The object must have \
 exactly four fields:
     "title"         (string)  — a concise title for the summary
     "content"       (string)  — the summary text at the requested level
