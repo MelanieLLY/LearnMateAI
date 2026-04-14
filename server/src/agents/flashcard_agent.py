@@ -73,14 +73,42 @@ def generate_flashcards(
                 "content": build_user_message(module_content, student_notes),
             }
         ],
+        tools=[
+            {
+                "name": "generate_flashcards_output",
+                "description": "Output the final generated flashcards.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "flashcards": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "question": {"type": "string"},
+                                    "answer": {"type": "string"},
+                                    "difficulty": {"type": "integer"},
+                                    "bloom_level": {
+                                        "type": "string", 
+                                        "enum": ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"]
+                                    }
+                                },
+                                "required": ["question", "answer", "difficulty", "bloom_level"]
+                            }
+                        }
+                    },
+                    "required": ["flashcards"]
+                }
+            }
+        ],
+        tool_choice={"type": "tool", "name": "generate_flashcards_output"}
     )
 
-    raw = message.content[0].text
-    try:
-        flashcards: list[dict] = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        logger.error("Claude returned non-JSON response: %s", raw)
-        raise ValueError(f"Claude API returned invalid JSON: {raw!r}") from exc
+    tool_use = next((block for block in message.content if block.type == "tool_use"), None)
+    if not tool_use:
+        raise ValueError(f"Claude API returned no structured output. Response: {message.content}")
+
+    flashcards: list[dict] = tool_use.input.get("flashcards", [])
 
     _validate_flashcards(flashcards)
     logger.info("Generated %d flashcards.", len(flashcards))
