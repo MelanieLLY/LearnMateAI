@@ -34,18 +34,6 @@
               "icon": "lucide-file",
               "title": "project3_master_playbook"
             }
-          },
-          {
-            "id": "6e99f8a0b605c767",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "docs/screenshot/16_evidence_5_worktree_list.png"
-              },
-              "icon": "lucide-image",
-              "title": "16_evidence_5_worktree_list"
-            }
           }
         ],
         "currentTab": 1
@@ -213,20 +201,26 @@
   },
   "active": "ffbf72dd999d10c4",
   "lastOpenFiles": [
-    "client/src/setupTests.ts",
-    "client/vitest.config.ts",
+    "client/node_modules/playwright/node_modules/fsevents/package.json",
+    "client/node_modules/playwright/node_modules/fsevents/fsevents.node",
+    "client/node_modules/playwright/node_modules/fsevents/fsevents.js",
+    "client/node_modules/playwright/node_modules/fsevents/fsevents.d.ts",
+    "client/node_modules/playwright/node_modules/fsevents/README.md",
+    "client/node_modules/playwright/node_modules/fsevents/LICENSE",
+    "client/node_modules/playwright/node_modules/fsevents",
+    "server/src/schemas/__pycache__/enrollment.cpython-312.pyc",
+    "server/src/models/__pycache__/enrollment.cpython-312.pyc",
+    "server/src/schemas/enrollment.py",
+    "alter_db.py",
+    "server/src/models/enrollment.py",
+    "草稿.md",
+    "planning_files/project3_master_playbook.md",
+    "docs/pr37_comment.md",
+    "docs/screenshot/17_evidence_7b_parallel_terminals.png",
+    "docs/screenshot/Screenshot 2026-04-13 at 19.40.35.png",
     "docs/screenshot/16_evidence_5_worktree_list.png",
     "client/node_modules/aria-query/README.md",
     "client/node_modules/aria-query/CHANGELOG.md",
-    "client/node_modules/aria-query/package.json",
-    "client/node_modules/aria-query/lib/etc/roles/abstract/windowRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/abstract/widgetRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/literal/treeRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/literal/treeitemRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/literal/treegridRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/literal/tooltipRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/literal/toolbarRole.js",
-    "client/node_modules/aria-query/lib/etc/roles/literal/timerRole.js",
     "client/node_modules/vitest/README.md",
     "client/node_modules/vitest/LICENSE.md",
     "client/node_modules/lz-string/README.md",
@@ -246,18 +240,12 @@
     "client/node_modules/@standard-schema/spec/README.md",
     "client/node_modules/@exodus/bytes/README.md",
     "client/node_modules/@bramus/specificity/README.md",
-    "client/node_modules/@adobe/css-tools/docs/AST.md",
-    "client/node_modules/@adobe/css-tools/docs/EXAMPLES.md",
-    "client/node_modules/@adobe/css-tools/docs/CHANGELOG.md",
-    "client/node_modules/@adobe/css-tools/docs/API.md",
     "client/node_modules/playwright-core/lib/vite/traceViewer/playwright-logo.svg",
     "client/node_modules/playwright-core/lib/vite/recorder/playwright-logo.svg",
     "client/node_modules/playwright-core/lib/tools/dashboard/appIcon.png",
     "client/node_modules/playwright-core/lib/server/chromium/appIcon.png",
     "docs/screenshot/Screenshot 2026-04-13 at 11.55.29.png",
     "docs/screenshot/15_evidence_4_mcp_open_issues.png",
-    "docs/screenshot/Screenshot 2026-04-09 at 12.32.03.png",
-    "docs/screenshot/14_evidence_3_doc_reviewer_agent.png",
-    "docs/screenshot/Screenshot 2026-04-09 at 12.09.11.png"
+    "docs/screenshot/Screenshot 2026-04-09 at 12.32.03.png"
   ]
 }

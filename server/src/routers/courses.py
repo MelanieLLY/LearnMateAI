@@ -3,20 +3,68 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from src.database import get_db
-from src.dependencies import require_instructor
+from src.dependencies import require_instructor, get_current_user
 from src.schemas.course import CourseCreate, CourseResponse, CourseUpdate
 from src.services import course_service
+from src.models.enrollment import Enrollment
+from src.models.course import Course
+from src.models.user import User
+from src.schemas.enrollment import EnrollmentResponse
 
 router = APIRouter()
 
 @router.get("/courses", response_model=List[CourseResponse], status_code=200)
 def get_courses(
     db: Session = Depends(get_db),
-    current_user: dict = Depends(require_instructor),
+    current_user: dict = Depends(get_current_user),
 ):
-    """Get all courses owned by the authenticated instructor."""
-    instructor_id = int(current_user["sub"])
-    return course_service.get_instructor_courses(db, instructor_id)
+    """Get all courses. Instructors see their courses, students see all courses to enroll."""
+    if current_user["role"] == "instructor":
+        return course_service.get_instructor_courses(db, int(current_user["sub"]))
+    else:
+        return db.query(Course).all()
+
+@router.get("/courses/enrolled", response_model=List[CourseResponse], status_code=200)
+def get_enrolled_courses(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    """Get courses the student is enrolled in."""
+    if current_user["role"] != "student":
+        raise HTTPException(status_code=403, detail="Only students can have enrollments")
+    
+    student_id = int(current_user["sub"])
+    courses = db.query(Course).join(Enrollment).filter(Enrollment.student_id == student_id).all()
+    return courses
+
+@router.post("/courses/{course_id}/enroll", response_model=EnrollmentResponse, status_code=201)
+def enroll_in_course(
+    course_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    """Student enrolls in a course."""
+    if current_user["role"] != "student":
+        raise HTTPException(status_code=403, detail="Only students can enroll in courses")
+        
+    student_id = int(current_user["sub"])
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+        
+    existing_enrollment = db.query(Enrollment).filter(
+        Enrollment.student_id == student_id,
+        Enrollment.course_id == course_id
+    ).first()
+    
+    if existing_enrollment:
+        raise HTTPException(status_code=400, detail="Already enrolled in this course")
+        
+    enrollment = Enrollment(student_id=student_id, course_id=course_id)
+    db.add(enrollment)
+    db.commit()
+    db.refresh(enrollment)
+    return enrollment
 
 @router.post("/courses", response_model=CourseResponse, status_code=201)
 def create_course(
@@ -50,3 +98,20 @@ def delete_course(
     instructor_id = int(current_user["sub"])
     course_service.delete_course(db, course_id, instructor_id)
     return None
+
+from src.schemas.user import UserResponse
+
+@router.get("/courses/{course_id}/students", response_model=List[UserResponse], status_code=200)
+def get_course_students(
+    course_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_instructor),
+):
+    """Instructors can view students enrolled in this course."""
+    instructor_id = int(current_user["sub"])
+    course = db.query(Course).filter(Course.id == course_id, Course.instructor_id == instructor_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found or not owned by you")
+        
+    students = db.query(User).join(Enrollment).filter(Enrollment.course_id == course_id).all()
+    return students

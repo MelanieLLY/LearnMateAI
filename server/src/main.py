@@ -13,6 +13,7 @@ from src.models import student_note  # noqa: F401 — registers ORM model
 from src.models import quiz  # noqa: F401 — registers ORM model
 from src.models import summary  # noqa: F401 — registers ORM model
 from src.models import user  # noqa: F401 — registers ORM model
+from src.models import enrollment  # noqa: F401
 from src.models import material  # noqa: F401
 from src.routers.auth import router as auth_router
 from src.routers.courses import router as courses_router
