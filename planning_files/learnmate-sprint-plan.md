@@ -58,7 +58,7 @@
 | Feature 3: Quiz Gen Agent & API (Completed) | |
 | Quiz submission API + answer storage (Completed) | |
 | Bugfix (Issue #38): Migrate AI agents to use tool structured outputs (Completed) | **Feature (Issue #42)**: Student enrollment system & auth hardening (Completed) |
-| Bugfix (Issue #40): Fix stringified tool output parsing and refine AI prompts (Completed) | |
+| Bugfix (Issue #40): Fix stringified tool output parsing and refine AI prompts (Completed) | **Feature (Issue #43)**: Simulate mock data to prepare for testing (In Progress) |
 | Eval system for outputs | |
 | Store eval history in DB for reporting | Eval quality badge display on generated content |
 

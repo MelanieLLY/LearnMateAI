@@ -328,7 +328,10 @@
 
 ### 【Phase 4：测试保障与报告看板】
 
-**🎯 Step 12: Playwright 浏览器模拟测试 (Issue #21)** （未开始）
+**🎯 Step 12.0: 模拟测试数据 (Simulate mock data) (Issue #43)** （未开始）
+- **操作**: 执行后端脚本 `server/seed_mock_data.py` 为系统生成一批具有真实感、美国身份特征的测试账号，并自动为其分配生成的中文课程与课堂笔记内容。这为后续 Playwright 和 Instructor Report 的直观演示提供了环境保障。测试账号密码会汇总到 `test_accounts.txt` 中以备后用。
+
+**🎯 Step 12.1: Playwright 浏览器模拟测试 (Issue #21)** （未开始）
 > 💡 **TODO (补漏提醒 + 撤除调试代码)**: 之前在 Phase 2 (Step 5) 时已记录，目前学生还不能主动看到班级和拉取模块。做到这里时**记得务必先把后端学生选课/关系绑定的接口（并在路由开放 GET 权限给学生）补全**！否则该脚本里让学生“浏览模块列表”的行为将因为拿不到数据（或 403）而失败。
 > 🧹 **清理任务**：一旦后端真实权限开通，必须删除 `App.tsx` 左上角的“🐞 调试入口”按钮，以及 `module.py` 和 `StudentModuleView.tsx` 中相关的 `x-debug-student` 绕过代码。
 - **操作**: 自动化 E2E 测试脚本。
