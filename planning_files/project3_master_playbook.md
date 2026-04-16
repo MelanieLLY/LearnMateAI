@@ -328,10 +328,10 @@
 
 ### 【Phase 4：测试保障与报告看板】
 
-**🎯 Step 12.0: 模拟测试数据 (Simulate mock data) (Issue #43)** （未开始）
+**🎯 Step 12.0: 模拟测试数据 (Simulate mock data) (Issue #43)** ✅ （已完成）
 - **操作**: 执行后端脚本 `server/seed_mock_data.py` 为系统生成一批具有真实感、美国身份特征的测试账号，并自动为其分配生成的中文课程与课堂笔记内容。这为后续 Playwright 和 Instructor Report 的直观演示提供了环境保障。测试账号密码会汇总到 `test_accounts.txt` 中以备后用。
 
-**🎯 Step 12.1: Playwright 浏览器模拟测试 (Issue #21)** （未开始）
+**🎯 Step 12.1: Playwright 浏览器模拟测试 (Issue #21)** ✅ （已完成）
 > 💡 **TODO (补漏提醒 + 撤除调试代码)**: 之前在 Phase 2 (Step 5) 时已记录，目前学生还不能主动看到班级和拉取模块。做到这里时**记得务必先把后端学生选课/关系绑定的接口（并在路由开放 GET 权限给学生）补全**！否则该脚本里让学生“浏览模块列表”的行为将因为拿不到数据（或 403）而失败。
 > 🧹 **清理任务**：一旦后端真实权限开通，必须删除 `App.tsx` 左上角的“🐞 调试入口”按钮，以及 `module.py` 和 `StudentModuleView.tsx` 中相关的 `x-debug-student` 绕过代码。
 - **操作**: 自动化 E2E 测试脚本。
@@ -341,6 +341,7 @@
 发送给 [Antigravity] (中文):<br>
 <blockquote>Antigravity，配置 E2E (Playwright) 环境，手敲一段模拟真实学生行为"自动打开首页、点击登录、浏览模块列表"的测试脚本验证流，并能在我的本地跑通且全绿。</blockquote>
 </details>
+📸 截取终端或浏览器内 Playwright 的 E2E Passed 测试全绿画面并存作 `18_evidence_11_playwright_e2e_report.png` (证据 #11)。<br>
 
 **🎯 Step 13: Instructor 报告仪表盘 (Issue #6)** （未开始）
 - **操作**: 班级报告数据可视化。
@@ -550,3 +551,4 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 | #8 | C.L.E.A.R. PR #1 的 GitHub comment 截图 | Step 11 |
 | #9 | GitHub Actions All Green 截图 | Step 15 |
 | #10 | C.L.E.A.R. PR #2 的 GitHub comment 截图 | Step 15.5 |
+| #11 | Playwright E2E 测试全绿截图 (`18_evidence_11_playwright_e2e_report.png`) | Step 12.1 |
