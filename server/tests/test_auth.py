@@ -2,7 +2,7 @@ def test_register_and_login(client):
     # Register as student
     register_response = client.post(
         "/api/v1/auth/register",
-        json={"email": "student@example.com", "password": "password123", "role": "student"}
+        json={"email": "student@example.com", "password": "password123", "role": "student", "full_name": "Test Student"}
     )
     assert register_response.status_code == 201
     
