@@ -10,12 +10,6 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 function Navigation() {
   const { user, isAuthenticated, logout } = useAuth();
-  
-  const handleToggleDebug = () => {
-    const isDebug = localStorage.getItem('DEBUG_STUDENT') === 'true';
-    localStorage.setItem('DEBUG_STUDENT', (!isDebug).toString());
-    window.location.reload();
-  };
 
   return (
     <nav className="glass-panel sticky top-0 z-50 flex items-center justify-between px-6 py-4 mb-4">
@@ -23,18 +17,6 @@ function Navigation() {
         <Link to="/" className="text-lg font-bold bg-gradient-to-r from-brand-600 to-green-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
           🏠 LearnMateAI
         </Link>
-        {/* TODO(Phase 4): Remove this debug toggle when student enrollment logic is completed */}
-        <button 
-          onClick={handleToggleDebug}
-          className={`px-3 py-1.5 text-xs font-medium text-white rounded-md transition-colors shadow-sm ${
-            localStorage.getItem('DEBUG_STUDENT') === 'true' 
-              ? 'bg-green-500 hover:bg-green-600 ring-2 ring-green-500 ring-offset-1' 
-              : 'bg-red-500 hover:bg-red-600'
-          }`}
-          title="开启后，学生端可绕过权限查看所有模块进行测试"
-        >
-          🐞 调试: {localStorage.getItem('DEBUG_STUDENT') === 'true' ? 'ON' : 'OFF'}
-        </button>
       </div>
       <div className="flex items-center gap-4">
         {isAuthenticated ? (

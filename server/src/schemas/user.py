@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
 class UserBase(BaseModel):
     email: EmailStr
+    full_name: str = Field(min_length=1, description="Full name of the user")
     role: str = Field(pattern="^(student|instructor)$", description="Role of the user")
 
 class UserCreate(UserBase):

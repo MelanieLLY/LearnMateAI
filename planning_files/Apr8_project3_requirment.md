@@ -198,7 +198,7 @@ Each of the following Claude Code concepts must be demonstrated with evidence in
   - MCP server integrated via .mcp.json  
   - Agents with evidence  
   - Parallel worktree development  
-  - 2+ PRs with writer/reviewer + C.L.E.A.R. + AI disclosure  
+
 
 - 42 pts: Good  
   - Functional CLAUDE.md with iteration  

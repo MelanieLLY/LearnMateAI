@@ -11,6 +11,12 @@ interface Module {
   course_id: number | null;
 }
 
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+}
+
 interface Note {
   id: number;
   content: string;
@@ -34,6 +40,9 @@ const MODULE_TABS: TabConfig[] = [
 export default function StudentModuleView() {
   const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<number>>(new Set());
+  const [isEnrolling, setIsEnrolling] = useState<Record<number, boolean>>({});
   const [error, setError] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<number, string>>({});
   const [pastNotes, setPastNotes] = useState<Record<number, Note[]>>({});
@@ -42,21 +51,27 @@ export default function StudentModuleView() {
   const [activeTab, setActiveTab] = useState<Record<number, ModuleTab>>({});
 
   useEffect(() => {
-    fetchModules();
+    fetchData();
   }, []);
 
-  const fetchModules = async (): Promise<void> => {
+  const fetchData = async (): Promise<void> => {
     try {
-      const isDebug = localStorage.getItem('DEBUG_STUDENT') === 'true';
-      const headers: HeadersInit = isDebug ? { 'X-Debug-Student': 'true' } : {};
-
       const response = await fetch('/api/v1/modules', {
         credentials: 'include',
-        headers,
       });
       if (!response.ok) throw new Error('Failed to fetch modules');
       const data: Module[] = await response.json();
       setModules(data);
+
+      const courseRes = await fetch('/api/v1/courses', { credentials: 'include' });
+      if (courseRes.ok) {
+        setCourses(await courseRes.json());
+      }
+      const enrolledRes = await fetch('/api/v1/courses/enrolled', { credentials: 'include' });
+      if (enrolledRes.ok) {
+        const eData = await enrolledRes.json();
+        setEnrolledCourseIds(new Set(eData.map((c: Course) => c.id)));
+      }
 
       const notesRecord: Record<number, Note[]> = {};
       await Promise.all(
@@ -122,6 +137,23 @@ export default function StudentModuleView() {
     }
   };
 
+  const handleEnroll = async (courseId: number) => {
+    setIsEnrolling((prev) => ({ ...prev, [courseId]: true }));
+    try {
+      const response = await fetch(`/api/v1/courses/${courseId}/enroll`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (!response.ok) throw new Error('Enrollment failed');
+      alert('选课成功！');
+      fetchData();
+    } catch (err: any) {
+      alert(err.message || 'Error occurred during enrollment');
+    } finally {
+      setIsEnrolling((prev) => ({ ...prev, [courseId]: false }));
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <header className="mb-8 pl-2">
@@ -137,7 +169,41 @@ export default function StudentModuleView() {
         </div>
       )}
 
+      {/* --- Course Selection Section --- */}
+      <section className="mb-10">
+        <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">📚 选课大厅 (Available Courses)</h2>
+        {isLoading ? (
+          <div className="h-20 bg-slate-200 rounded-xl animate-pulse"></div>
+        ) : courses.length === 0 ? (
+          <p className="text-slate-500 px-2">目前没有可供选择的课程</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {courses.map(course => {
+              const enrolled = enrolledCourseIds.has(course.id);
+              return (
+                <div key={course.id} className="glass-panel p-5 rounded-2xl flex flex-col justify-between border border-emerald-100 hover:shadow-lg transition-all">
+                  <div>
+                    <h3 className="font-bold text-lg text-emerald-800">{course.title}</h3>
+                    <p className="text-sm text-slate-600 mt-1 mb-4 line-clamp-2">{course.description || "暂无简介"}</p>
+                  </div>
+                  <button
+                    onClick={() => handleEnroll(course.id)}
+                    disabled={enrolled || isEnrolling[course.id]}
+                    className={`py-2 rounded-xl text-sm font-semibold transition-all ${enrolled ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm hover:shadow-md active:scale-95'}`}
+                  >
+                    {enrolled ? '已选课' : isEnrolling[course.id] ? '选课中...' : '加入课程'}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <div className="border-t border-slate-200 my-8"></div>
+
       <section>
+        <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">📖 我的学习模块 (My Modules)</h2>
         {isLoading ? (
           <div className="space-y-6">
             {[1, 2].map((i) => (

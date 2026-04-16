@@ -8,6 +8,12 @@ interface Course {
   audience_context: string | null;
 }
 
+interface StudentUser {
+  id: number;
+  email: string;
+  full_name: string;
+}
+
 interface Module {
   id: number;
   title: string;
@@ -62,6 +68,9 @@ export default function InstructorModuleDashboard() {
   const [editingMaterialId, setEditingMaterialId] = useState<number | null>(null);
   const [materialEditAnnotation, setMaterialEditAnnotation] = useState('');
 
+  // Course Students State
+  const [courseStudents, setCourseStudents] = useState<StudentUser[]>([]);
+
   const fetchDashboardData = async () => {
     try {
       const fetchOpts = { credentials: 'include' as RequestCredentials };
@@ -101,6 +110,17 @@ export default function InstructorModuleDashboard() {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
+  useEffect(() => {
+    if (typeof selectedCourseId === 'number') {
+      fetch(`/api/v1/courses/${selectedCourseId}/students`, { credentials: 'include' })
+        .then(res => res.ok ? res.json() : [])
+        .then(data => setCourseStudents(data))
+        .catch(() => setCourseStudents([]));
+    } else {
+      setCourseStudents([]);
+    }
+  }, [selectedCourseId]);
 
   const handleCreateCourse = async (e: FormEvent) => {
     e.preventDefault();
@@ -414,6 +434,18 @@ export default function InstructorModuleDashboard() {
                       <div className="space-y-2 mb-6">
                         <p className="text-slate-600"><strong className="text-slate-800">简介:</strong> {activeCourse.description || '无'}</p>
                         <p className="text-slate-600"><strong className="text-slate-800">受众/背景:</strong> {activeCourse.audience_context || '无'}</p>
+                        <div className="text-slate-600">
+                          <strong className="text-slate-800 block mb-1 mt-2">已加入本班级的学生:</strong>
+                          {courseStudents.length === 0 ? <span className="text-sm italic">暂无学生选修此课</span> : (
+                            <div className="flex flex-wrap gap-2 mt-1">
+                              {courseStudents.map(s => (
+                                <span key={s.id} className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md text-sm font-medium">
+                                  👤 {s.full_name} <span className="text-emerald-500 font-normal">({s.email})</span>
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className="flex gap-3">
                         <button onClick={startEditingCourse} className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-100 text-slate-700 transition-colors text-sm font-medium">

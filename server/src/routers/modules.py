@@ -27,17 +27,19 @@ def get_modules(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> List[ModuleResponse]:
-    """Get modules. Allow debug mock for students, otherwise restricted."""
+    """Get modules. Students see modules for enrolled courses."""
     if current_user["role"] == "student":
-        if request.headers.get("x-debug-student") == "true":
-            return module_service.get_all_modules(db)
-        raise HTTPException(status_code=403, detail="Students cannot directly list modules (Wait for Phase 4)")
+        student_id = int(current_user["sub"])
+        from src.models.enrollment import Enrollment
+        from src.models.module import Module
+        modules = db.query(Module).join(Enrollment, Module.course_id == Enrollment.course_id).filter(Enrollment.student_id == student_id).all()
+        return modules
     
-    if current_user["role"] != "instructor":
-        raise HTTPException(status_code=403, detail="Not authorized")
+    if current_user["role"] == "instructor":
+        instructor_id = int(current_user["sub"])
+        return module_service.get_instructor_modules(db, instructor_id)
         
-    instructor_id = int(current_user["sub"])
-    return module_service.get_instructor_modules(db, instructor_id)
+    raise HTTPException(status_code=403, detail="Not authorized")
 
 
 @router.post("/modules", response_model=ModuleResponse, status_code=201)

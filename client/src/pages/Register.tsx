@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
   const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<'student' | 'instructor'>('student');
   const [error, setError] = useState('');
@@ -27,7 +28,7 @@ export default function Register() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, role }),
+        body: JSON.stringify({ email, full_name: fullName, password, role }),
         // Registration does not require credentials for session but good practice
         credentials: 'omit' 
       });
@@ -62,6 +63,17 @@ export default function Register() {
       )}
       
       <form onSubmit={handleRegister} className="flex flex-col gap-5 relative z-10">
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">姓名 / Full Name</label>
+          <input 
+            type="text" 
+            value={fullName} 
+            onChange={e => setFullName(e.target.value)} 
+            required 
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all placeholder:text-slate-400"
+            placeholder="John Doe"
+          />
+        </div>
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Email</label>
           <input 

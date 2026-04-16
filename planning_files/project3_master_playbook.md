@@ -242,7 +242,7 @@
 ~~📸 截图 pytest 全绿画面 (证据 #7)<br>~~
 ~~</details>~~
 
-- **操作 (New)**: 直接去 `docs/project3-agents.md` 里拿队友已经截好的图！躺赢：
+- **操作 (New)**: 直接去 `docs/project3-agents.md` 里拿队友已经截好的图！：
 📸 取用队友的 TDD RED 报错截图 (证据 #6)
 📸 取用队友的 TDD GREEN 和 96 Tests Paasing 全绿截图 (证据 #7)
 
