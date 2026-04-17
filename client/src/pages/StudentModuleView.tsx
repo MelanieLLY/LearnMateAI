@@ -147,7 +147,8 @@ export default function StudentModuleView() {
       if (!response.ok) throw new Error('Enrollment failed');
       alert('选课成功！');
       fetchData();
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message || 'Error occurred during enrollment');
     } finally {
       setIsEnrolling((prev) => ({ ...prev, [courseId]: false }));

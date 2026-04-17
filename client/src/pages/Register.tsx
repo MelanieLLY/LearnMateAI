@@ -40,7 +40,8 @@ export default function Register() {
 
       // Automatically redirect to login page upon success
       navigate('/login');
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       setError(err.message);
     } finally {
       setIsLoading(false);

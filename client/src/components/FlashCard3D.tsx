@@ -35,6 +35,7 @@ export default function FlashCard3D({ card, cardIndex, totalCards }: FlashCard3D
   const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsFlipped(false);
   }, [card.id]);
 
