@@ -1,0 +1,69 @@
+name: Feature Request
+description: Propose a new feature or enhancement for LearnMateAI
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+        Please fill out all required sections. Features will not be merged without passing all security acceptance criteria.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One-sentence description of the feature.
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this feature needed? What problem does it solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: List the conditions that must be true for this feature to be considered complete.
+      placeholder: |
+        - [ ] Feature behaviour X works correctly
+        - [ ] Unit tests added with ≥80% coverage
+        - [ ] API endpoint documented
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: security-acceptance-criteria
+    attributes:
+      label: "Security Acceptance Criteria (mandatory — all boxes must be checked before merge)"
+      description: Every feature must satisfy these security requirements. Check each item only after verifying it is true.
+      options:
+        - label: "Secrets must not be hardcoded — all keys, tokens, and credentials are read from environment variables"
+          required: true
+        - label: "All user-supplied inputs are validated and sanitised before use (server side)"
+          required: true
+        - label: "Database queries use SQLAlchemy ORM / parameterized queries — no raw string interpolation (SQL injection prevention)"
+          required: true
+        - label: "New API routes enforce JWT authentication and authorisation where required"
+          required: true
+        - label: "No sensitive information (stack traces, internal paths, credentials) is exposed in API error responses"
+          required: true
+        - label: "File uploads (if any) are type-checked, size-limited, and stored outside the web root"
+          required: true
+        - label: "No `dangerouslySetInnerHTML` or equivalent used on the frontend (XSS prevention)"
+          required: true
+        - label: "Gitleaks, Bandit, npm audit, and CodeQL checks all pass in CI before merge"
+          required: true
+
+  - type: textarea
+    id: implementation-notes
+    attributes:
+      label: Implementation Notes
+      description: Technical approach, relevant files, or architecture notes (optional).
+    validations:
+      required: false

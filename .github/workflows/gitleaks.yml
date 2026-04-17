@@ -1,0 +1,31 @@
+name: Gitleaks Secret Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly on Mondays at 06:00 UTC
+
+jobs:
+  gitleaks:
+    name: Detect Secret Leaks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history required for accurate historical scanning
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Exit code 1 on leak detection (default) — blocks PR merge
+        # To suppress blocking while still reporting, set GITLEAKS_ENABLE_UPLOAD_ARTIFACT: true
+        # and remove this job from required status checks

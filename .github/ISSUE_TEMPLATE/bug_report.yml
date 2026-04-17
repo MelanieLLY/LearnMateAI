@@ -1,0 +1,56 @@
+name: Bug Report
+description: Report a bug or unexpected behaviour in LearnMateAI
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+        Please describe the issue clearly. If the bug involves authentication, user data, or file handling, review the security checklist below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        - OS: macOS 14 / Ubuntu 22.04
+        - Browser: Chrome 124
+        - Python: 3.12
+        - Node: 20
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: security-checklist
+    attributes:
+      label: Security Checklist for Fix (mandatory)
+      description: Before submitting a fix PR, confirm each item below.
+      options:
+        - label: "The fix does not introduce hardcoded secrets, API keys, or credentials"
+          required: true
+        - label: "The fix does not weaken input validation or remove authorisation checks"
+          required: true
+        - label: "Gitleaks, Bandit, npm audit, and CodeQL checks pass after the fix"
+          required: true
+        - label: "Regression test added to prevent the bug from recurring"
+          required: true

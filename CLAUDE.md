@@ -149,6 +149,35 @@ LearnMateAI adheres to security best practices to mitigate OWASP Top 10 vulnerab
 
 ---
 
+## Security Gates (CI/CD — all must pass before merge)
+
+Four automated security checks run on every push and pull request to `main`:
+
+| Gate | Workflow file | What it catches | Blocks merge? |
+|------|--------------|-----------------|---------------|
+| **Gitleaks** | `.github/workflows/gitleaks.yml` | Hardcoded secrets, API keys, tokens committed to git history | Yes — exits non-zero on leak |
+| **npm audit** | `.github/workflows/frontend-ci.yml` | High-severity CVEs in frontend npm dependencies | Yes — `--audit-level=high` |
+| **Bandit (SAST)** | `.github/workflows/bandit.yml` | Common Python security issues (MEDIUM+ severity/confidence) in `./server` | Yes — `exit_zero: false` |
+| **CodeQL** | `.github/workflows/codeql.yml` | Deep static analysis for Python and GitHub Actions code | Yes — uploads SARIF to Security tab |
+
+**Additional supply-chain protection:**
+- `dependency-review.yml` — scans changed dependency manifests on PRs for known-vulnerable package versions.
+
+### Security Acceptance Criteria (mandatory on every PR)
+
+Before a PR may be merged, all of the following must be true:
+
+- [ ] Secrets must not be hardcoded — all keys, tokens, and credentials are in `.env` / environment variables
+- [ ] All user inputs validated server-side (Pydantic schemas on FastAPI routes)
+- [ ] Database queries use SQLAlchemy ORM — no raw string interpolation
+- [ ] New API routes enforce JWT auth/authz where required
+- [ ] Error responses do not expose internal paths, stack traces, or credentials
+- [ ] File uploads (if any) are type-checked, size-limited, stored outside web root
+- [ ] No `dangerouslySetInnerHTML` on the frontend
+- [ ] All four CI security gates pass (Gitleaks, npm audit, Bandit, CodeQL)
+
+---
+
 ## Permissions (`.claude/settings.json`)
 
 Write access is scoped to `server/src/**`, `server/tests/**`, `CLAUDE.md`.
