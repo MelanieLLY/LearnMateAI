@@ -1,0 +1,136 @@
+name: AI PR Review (Anthropic API)
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [ "opened", "synchronize", "ready_for_review" ]
+
+permissions:
+  contents: read
+
+jobs:
+  ai-review:
+    name: AI-Powered Code Review via Claude API
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR diff
+        id: diff
+        run: |
+          # Get the diff between base and head
+          git diff origin/${{ github.base_ref }}...HEAD > pr.diff
+          DIFF_SIZE=$(wc -l < pr.diff)
+          echo "diff_size=$DIFF_SIZE" >> $GITHUB_OUTPUT
+
+          # Extract file names changed
+          git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
+
+      - name: Set up Node.js
+        if: steps.diff.outputs.diff_size > 0
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run AI Code Review
+        if: steps.diff.outputs.diff_size > 0
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cat > review.js << 'EOF'
+          const fs = require('fs');
+          const https = require('https');
+
+          const diff = fs.readFileSync('pr.diff', 'utf8');
+          const changedFiles = fs.readFileSync('changed_files.txt', 'utf8');
+
+          const systemPrompt = `You are an expert code reviewer for LearnMateAI (full-stack AI tutoring app).
+
+          Review the PR diff with focus on:
+          1. **Security** (OWASP Top 10): hardcoded secrets, SQL injection, XSS, CSRF, auth/authz, sensitive data exposure
+          2. **Code Quality**: readability, maintainability, performance, adherence to patterns in .claude/rules/
+          3. **Test Coverage**: gaps in unit/integration tests
+          4. **Project Standards**: consistency with CLAUDE.md, backend patterns, frontend patterns
+          5. **CI/CD Compliance**: will this pass Gitleaks, Bandit, npm audit, CodeQL?
+
+          Format your response as a brief code review with:
+          - Critical issues (if any)
+          - Key suggestions
+          - Summary`;
+
+          const userPrompt = `Review this PR:
+
+          Changed files: ${changedFiles}
+
+          Diff:
+          \`\`\`diff
+          ${diff}
+          \`\`\``;
+
+          const payload = JSON.stringify({
+            model: "claude-opus-4-7",
+            max_tokens: 2048,
+            system: systemPrompt,
+            messages: [
+              { role: "user", content: userPrompt }
+            ]
+          });
+
+          const options = {
+            hostname: 'api.anthropic.com',
+            port: 443,
+            path: '/v1/messages',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': payload.length,
+              'x-api-key': process.env.ANTHROPIC_API_KEY,
+              'anthropic-version': '2023-06-01'
+            }
+          };
+
+          const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+              try {
+                const response = JSON.parse(data);
+
+                // Check for API errors
+                if (response.error) {
+                  console.error('API Error:', JSON.stringify(response.error));
+                  process.exit(1);
+                }
+
+                if (!response.content || !response.content[0]) {
+                  console.error('Unexpected response format:', JSON.stringify(response).substring(0, 500));
+                  process.exit(1);
+                }
+
+                const reviewText = response.content[0].text;
+                console.log('\n========== 🤖 AI CODE REVIEW ==========');
+                console.log(reviewText);
+                console.log('\n========== END REVIEW ==========\n');
+
+              } catch (err) {
+                console.error('Failed to parse API response:', err.message);
+                process.exit(1);
+              }
+            });
+          });
+
+          req.on('error', (err) => {
+            console.error('API request error:', err);
+            process.exit(1);
+          });
+
+          req.write(payload);
+          req.end();
+          EOF
+
+          node review.js
