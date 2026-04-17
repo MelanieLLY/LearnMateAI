@@ -356,7 +356,7 @@
 
 ### 【Phase 5：CI/CD 安全防线与部署】
 
-**🎯 Step 14: 四大安全门 + OWASP (Issue #20)** （未开始）
+**🎯 Step 14: 四大安全门 + OWASP (Issue #20)** ✅Jing
 - **操作**: 配置安全检测机制。老师要求至少 4 个安全门。
 
 <details>
