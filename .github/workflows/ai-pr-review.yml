@@ -23,12 +23,9 @@ jobs:
       - name: Get PR diff
         id: diff
         run: |
-          # Get the diff between base and head
           git diff origin/${{ github.base_ref }}...HEAD > pr.diff
           DIFF_SIZE=$(wc -l < pr.diff)
           echo "diff_size=$DIFF_SIZE" >> $GITHUB_OUTPUT
-
-          # Extract file names changed
           git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
 
       - name: Set up Node.js
@@ -42,31 +39,22 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          cat > review.js << 'EOF'
+          cat > review.js << 'SCRIPT'
           const fs = require('fs');
           const https = require('https');
 
           const diff = fs.readFileSync('pr.diff', 'utf8');
           const changedFiles = fs.readFileSync('changed_files.txt', 'utf8');
 
-          const systemPrompt = `You are an expert code reviewer for LearnMateAI (full-stack AI tutoring app).
-
-          Review the PR diff with focus on:
-          1. **Security** (OWASP Top 10): hardcoded secrets, SQL injection, XSS, CSRF, auth/authz, sensitive data exposure
-          2. **Code Quality**: readability, maintainability, performance, adherence to patterns in .claude/rules/
-          3. **Test Coverage**: gaps in unit/integration tests
-          4. **Project Standards**: consistency with CLAUDE.md, backend patterns, frontend patterns
-          5. **CI/CD Compliance**: will this pass Gitleaks, Bandit, npm audit, CodeQL?
-
-          Format your response as a brief code review with:
-          - Critical issues (if any)
-          - Key suggestions
-          - Summary`;
+          const systemPrompt = `You are an expert code reviewer for LearnMateAI.
+          Review the PR diff focusing on:
+          1. Security (OWASP Top 10)
+          2. Code Quality
+          3. Test Coverage
+          4. Project Standards`;
 
           const userPrompt = `Review this PR:
-
           Changed files: ${changedFiles}
-
           Diff:
           \`\`\`diff
           ${diff}
@@ -76,9 +64,7 @@ jobs:
             model: "claude-opus-4-7",
             max_tokens: 2048,
             system: systemPrompt,
-            messages: [
-              { role: "user", content: userPrompt }
-            ]
+            messages: [{ role: "user", content: userPrompt }]
           });
 
           const options = {
@@ -100,37 +86,32 @@ jobs:
             res.on('end', () => {
               try {
                 const response = JSON.parse(data);
-
-                // Check for API errors
                 if (response.error) {
-                  console.error('API Error:', JSON.stringify(response.error));
+                  console.error('API Error:', response.error);
                   process.exit(1);
                 }
-
                 if (!response.content || !response.content[0]) {
-                  console.error('Unexpected response format:', JSON.stringify(response).substring(0, 500));
+                  console.error('Invalid response:', response);
                   process.exit(1);
                 }
-
                 const reviewText = response.content[0].text;
                 console.log('\n========== 🤖 AI CODE REVIEW ==========');
                 console.log(reviewText);
-                console.log('\n========== END REVIEW ==========\n');
-
+                console.log('========== END REVIEW ==========\n');
               } catch (err) {
-                console.error('Failed to parse API response:', err.message);
+                console.error('Parse error:', err.message);
                 process.exit(1);
               }
             });
           });
 
-          req.on('error', (err) => {
-            console.error('API request error:', err);
+          req.on('error', err => {
+            console.error('Request error:', err);
             process.exit(1);
           });
 
           req.write(payload);
           req.end();
-          EOF
+          SCRIPT
 
           node review.js
