@@ -60,7 +60,7 @@
 | Bugfix (Issue #38): Migrate AI agents to use tool structured outputs (Completed) | **Feature (Issue #42)**: Student enrollment system & auth hardening (Completed) |
 | Bugfix (Issue #40): Fix stringified tool output parsing and refine AI prompts (Completed) | **Feature (Issue #43)**: Simulate mock data to prepare for testing (Completed) |
 | Eval system for outputs | **Test (Issue #21)**: Set up Playwright for E2E tests (Completed) |
-| Store eval history in DB for reporting | Eval quality badge display on generated content |
+| Store eval history in DB for reporting | **Feature (Issue #49)**: Improve mock data realism |
 
 **Sprint 2 deliverables:**
 - 3+ distinct features built with parallel agents (Summary, Flashcard, Quiz)

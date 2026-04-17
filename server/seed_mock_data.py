@@ -24,9 +24,11 @@ def run_seed():
     credentials = []
 
     try:
-        # Clear existing old notes and enrollments to avoid duplicating when re-running
+        # Clear existing old data to avoid duplicating when re-running
         db.query(StudentNote).delete()
         db.query(Enrollment).delete()
+        db.query(Module).delete()
+        db.query(Course).delete()
         
         # 1. Update existing teacher (id=1)
         active_teacher = db.query(User).filter(User.id == 1).first()
@@ -95,28 +97,69 @@ def run_seed():
         db.flush() # flush to get IDs for teacher2 and students
 
         # 4. Generate new courses and modules (Only create if not exist)
-        course_configs = [
-            # Title, Instructor
-            ("Web开发实践 (Web Development Practice)", active_teacher),
-            ("机器学习应用 (ML Applications)", active_teacher),
-            ("自然语言处理高级技术 (Advanced NLP)", teacher2),
-            ("人机交互设计 (HCI Design)", teacher2)
-        ]
+        course_configs = {
+            "Web开发实践 (Web Development Practice)": {
+                "instructor": active_teacher,
+                "description": "本课程旨在介绍现代Web开发的基础理论与实践技术，涵盖前端技术栈（如React/Vue）与后端服务框架及数据库集成，强调通过实际项目培养全栈开发能力。",
+                "modules": [
+                    {"title": "Web基础与前端框架", "desc": "学习HTML semantics, CSS3高级布局，并深入React生态，掌握组件化开发思想。"},
+                    {"title": "后端架构设计", "desc": "探索RESTful API设计与GraphQL架构，学习如何利用Node.js或Python FastAPI构建高并发的后端服务。"},
+                    {"title": "数据库集成与运维", "desc": "深入讲解NoSQL与关系型数据库设计，并介绍Docker容器化部署。"},
+                    {"title": "全栈项目实战", "desc": "独立完成一个包含前后端交互、身份验证与数据持久化的完整企业级Web应用。"},
+                    {"title": "性能优化与测试", "desc": "掌握前端渲染优化、后端缓存策略，并编写高覆盖率的单元测试与端到端测试。"}
+                ]
+            },
+            "机器学习应用 (ML Applications)": {
+                "instructor": active_teacher,
+                "description": "这是一门侧重于将机器学习算法运用到实际工业场景的课程，涵盖数据工程、模型训练、评估及模型部署，帮助学生掌握完整的ML生命周期。",
+                "modules": [
+                    {"title": "数据预处理与特征工程", "desc": "掌握数据清洗、缺失值处理、特征提取及降维技术的核心方法论。"},
+                    {"title": "监督学习算法应用", "desc": "深入探讨逻辑回归、支持向量机及各种集成学习模型的实际应用案例。"},
+                    {"title": "深度学习实战入门", "desc": "学习利用PyTorch构建基本的前馈神经网络与卷积神经网络，并了解如何进行超参数调优。"},
+                    {"title": "模型评估与诊断", "desc": "如何通过交叉验证、混淆矩阵、ROC曲线等指标全面诊断模型的偏差与方差问题。"},
+                    {"title": "模型部署与监控", "desc": "利用Flask/FastAPI开发模型推理服务，并学习使用MLOps工具对线上模型运行状态进行监控。"}
+                ]
+            },
+            "自然语言处理高级技术 (Advanced NLP)": {
+                "instructor": teacher2,
+                "description": "针对具有一定AI基础的学生，本课程深入剖析自然语言处理的前沿技术，包括Transformer架构、预训练大模型及复杂语言任务的微调方法。",
+                "modules": [
+                    {"title": "语言模型与注意力机制", "desc": "从RNN回顾到自注意力机制的演进，深入解读Transformer架构的基本原理与计算图。"},
+                    {"title": "预训练模型剖析", "desc": "全面解析BERT、GPT模型的底层架构，探讨其在预训练阶段的数据构建与目标函数设计。"},
+                    {"title": "大模型微调技术", "desc": "学习通过LoRA、P-Tuning等参数高效的微调方法，对大体量模型进行下游任务适配。"},
+                    {"title": "文本生成与信息检索", "desc": "探讨束搜索算法与RAG（检索增强生成）系统，如何解决文本生成的幻觉问题。"},
+                    {"title": "NLP前沿论文精读", "desc": "结合最新的顶级会议（ACL/EMNLP）论文，分析多模态交互与模型对齐技术的未来发展路径。"}
+                ]
+            },
+            "人机交互设计 (HCI Design)": {
+                "instructor": teacher2,
+                "description": "探索人类与计算系统交互的原则。课程将教授从用户调研、原型设计、可用性测试到最终高保真交互落地的完整UX设计流程。",
+                "modules": [
+                    {"title": "人类认知与界面心理学", "desc": "从人类视觉、记忆与注意力角度，理解这些认知限制如何影响界面元素的设计规范。"},
+                    {"title": "用户研究方法", "desc": "学习如何进行定性访谈、发放问卷以及构建详实的用户画像和同理心地图。"},
+                    {"title": "信息架构与交互流程", "desc": "运用卡片分类法梳理复杂的系统层级，并建立清晰流畅的用户旅程与操作流程图。"},
+                    {"title": "低保真与高保真原型", "desc": "熟练掌握Figma等工具，从线框图过渡到具备复杂动效和微交互的高保真原型。"},
+                    {"title": "可用性评估与数据追踪", "desc": "设计并执行A/B测试与可用性测试，并学会在界面迭代中利用定量数据进行决策支撑。"}
+                ]
+            }
+        }
         
-        module_base_titles = ["基础架构设计", "核心原理解析", "实践案例应用", "进阶难点攻克", "期末复习串讲"]
-        
-        for c_title, instructor in course_configs:
+        for c_title, config in course_configs.items():
+            instructor = config["instructor"]
+            description = config["description"]
+            modules_data = config["modules"]
+            
             c = db.query(Course).filter(Course.title == c_title).first()
             if not c:
-                c = Course(title=c_title, description=f"这是一门由教授带领的深度课程，注重动手实践与理论结合。", instructor_id=instructor.id)
+                c = Course(title=c_title, description=description, instructor_id=instructor.id)
                 db.add(c)
                 db.flush()
                 # add modules
-                for i, m_title in enumerate(module_base_titles, start=1):
+                for i, m_data in enumerate(modules_data, start=1):
                     m = Module(
                         course_id=c.id,
-                        title=f"{c.title.split(' ')[0]} - 模组 {i}: {m_title}",
-                        description=f"这是【{c.title}】的第{i}章内容。本章将详细讲解{m_title}相关的核心知识，并配备相关实验进行巩固。",
+                        title=f"{c.title.split(' ')[0]} - 模组 {i}: {m_data['title']}",
+                        description=m_data['desc'],
                         instructor_id=c.instructor_id,
                         learning_objectives="深入理解与掌握核心技术",
                     )
