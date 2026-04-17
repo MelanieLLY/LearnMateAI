@@ -74,7 +74,7 @@ jobs:
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Content-Length': payload.length,
+              'Content-Length': Buffer.byteLength(payload),
               'x-api-key': process.env.ANTHROPIC_API_KEY,
               'anthropic-version': '2023-06-01'
             }

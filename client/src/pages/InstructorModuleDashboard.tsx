@@ -95,12 +95,13 @@ export default function InstructorModuleDashboard() {
         try {
           const res = await fetch(`/api/v1/modules/${m.id}/materials`, fetchOpts);
           if (res.ok) matsMap[m.id] = await res.json();
-        } catch (e) {
+        } catch {
           // Ignore failures
         }
       }));
       setMaterialsByModule(matsMap);
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -143,7 +144,8 @@ export default function InstructorModuleDashboard() {
       setCourseAudience('');
       await fetchDashboardData();
       setSelectedCourseId(newCourse.id);
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -159,7 +161,8 @@ export default function InstructorModuleDashboard() {
       if (!res.ok) throw new Error('Failed to update course');
       setEditingCourseId(null);
       fetchDashboardData();
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -176,7 +179,8 @@ export default function InstructorModuleDashboard() {
         setSelectedCourseId('none');
       }
       fetchDashboardData();
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -212,7 +216,8 @@ export default function InstructorModuleDashboard() {
       setDescription('');
       setObjectives('');
       fetchDashboardData();
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -226,7 +231,8 @@ export default function InstructorModuleDashboard() {
       });
       if (!res.ok) throw new Error('Failed to delete module');
       fetchDashboardData();
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -252,7 +258,8 @@ export default function InstructorModuleDashboard() {
       if (!res.ok) throw new Error('Failed to update module');
       setEditingModuleId(null);
       fetchDashboardData();
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -290,7 +297,8 @@ export default function InstructorModuleDashboard() {
       if (fileInput) fileInput.value = '';
 
       alert(`上传成功！`);
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };
@@ -318,7 +326,8 @@ export default function InstructorModuleDashboard() {
       
       setEditingMaterialId(null);
       setMaterialEditAnnotation('');
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       alert(err.message);
     }
   };

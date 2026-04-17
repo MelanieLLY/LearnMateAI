@@ -34,7 +34,8 @@ export default function Login() {
 
       await checkAuth(); // Re-fetch the session to set user in Context
       navigate('/');
-    } catch (err: any) {
+    } catch (error) {
+      const err = error as Error;
       setError(err.message);
     } finally {
       setIsLoading(false);
