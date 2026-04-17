@@ -514,3 +514,25 @@ Stage all files and commit with message `feat(#24): implement interactive Quiz U
 
 **亮点:**
 - AI 在面对因用户“抢先误触合并”所引发的代码链条断裂时，展露了老兵一般的代码考古（Git Log）与纠偏能力；同时，将原版模型死板刻薄的挑刺，转化为兼顾学术严谨性又有真实交互温度的优质审查发声，真正赋能了用户“拿高分”的核心愿景。
+
+## 7 + Issue 49
+
+### Session 20: 完善课程与模块 Mock Data 真实度
+
+**with:** Antigravity
+
+#### 1. 标题：重构种子脚本注入真实业务数据
+**User Prompt:**
+我之前有一个 issue，是加了很多 mock data。但是那些 mock data 重复度太高了，比如描述和模组名字全是一样的占位符。请帮我过一遍，把课程名字、描述、每个模组的名字和描述都写得更加真实贴切。
+
+**AI Output:**
+- 创建了全新的 Issue #49: Improve mock data realism。
+- 在 `planning_files/learnmate-sprint-plan.md` 中正确编排并切出了对应分支 `chore/49-realistic-mock-data`。
+- 修改了 `server/seed_mock_data.py`，将占位符全面替换为了 Web全栈开发、机器学习应用、高级自然语言处理 及 人机交互设计 四门课程的真实描述及量身打造的模组名称与对应说明。
+- 在数据库清理了旧有冗余数据，并成功跑通重新注入，完成代码提交并创建了对应的 Pull Request (#50)。
+
+**AI Disclosure (Claude Mastery):**
+本次操作未使用自定义 Skill、Agent、MCP 或 Git Worktree。
+
+**亮点:**
+- 面对干瘪的 Mock Data，AI 不需要冗长的背景交代，就能直接依据标题智能补充生成极度贴合美国 CS 学科教学大纲的高规格课程与模块说明，不仅提升了展示体面度，还严守了 Agile Scrum 管理规范完成闭环。

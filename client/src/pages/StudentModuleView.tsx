@@ -50,10 +50,6 @@ export default function StudentModuleView() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Record<number, ModuleTab>>({});
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = async (): Promise<void> => {
     try {
       const response = await fetch('/api/v1/modules', {
@@ -87,12 +83,17 @@ export default function StudentModuleView() {
         }),
       );
       setPastNotes(notesRecord);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+    } catch (error) {
+      const err = error as Error | { message?: string };
+      setError(err instanceof Error ? err.message : String(err.message || err));
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const getActiveTab = (moduleId: number): ModuleTab => activeTab[moduleId] ?? 'notes';
 
