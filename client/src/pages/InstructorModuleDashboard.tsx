@@ -109,7 +109,6 @@ export default function InstructorModuleDashboard() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchDashboardData();
   }, []);
 
@@ -120,7 +119,6 @@ export default function InstructorModuleDashboard() {
         .then(data => setCourseStudents(data))
         .catch(() => setCourseStudents([]));
     } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCourseStudents([]);
     }
   }, [selectedCourseId]);
