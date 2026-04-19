@@ -355,6 +355,21 @@
 <blockquote>Antigravity，为 Instructor 建立聚合报告仪表盘，显示班级匿名统计数据（如平均分、易错知识点分布）。保持简洁实用，不需要花哨的图表库。</blockquote>
 </details>
 
+**🎯 Step 13.5: 真实测验分数全链路闭环 (Issue #6 续)** （待启动接力）
+- **操作**: 建立真实 `QuizSubmission` 记录库，改装测试桩批量引入假数据，最终打通老师端的实时浮动均分测算。
+
+<details>
+<summary>👉 点击展开接力行动指令 (Prompt) — 新窗口可用</summary><br>
+（如果你新开了一个聊天窗口，请直接复制下段发给新的 AI 分身）：<br>
+发送给 [Antigravity] (中文):<br>
+<blockquote>Antigravity，请继续我们在 LearnMateAI 项目 Issue #6 上的开发。我们在此前的上下文中已经通过了 implementation_plan.md 中的“打底数据补充机制”：
+1. 请帮我在后端创建 `QuizSubmission` 数据库模型，并增加 `POST /api/v1/quizzes/{quiz_id}/submit` 接口对接学生成绩。
+2. 修改前台 `QuizTakingView.tsx`，将最终算出的成绩利用此接口持久化。
+3. 在 `courses.py` 老师报表接口中，改为实时查询这批数据算 `overall_average` 全班均分。
+4. 最关键的：去改写 `seed_mock_data.py`，给所有模拟学生账号批量写满 `QuizSubmission` 数据，把整个班打光。
+最后，在 Dashboard 页面加一行文字，明示区分 Instructor-assigned Quiz 和 AI-generated Self-practice。计划之前已敲定，请直接看 `task.md` 开始编码。</blockquote>
+</details>
+
 ---
 
 ### 【Phase 5：CI/CD 安全防线与部署】
