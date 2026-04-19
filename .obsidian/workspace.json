@@ -202,10 +202,10 @@
   "active": "ffbf72dd999d10c4",
   "lastOpenFiles": [
     "server/uploads/materials/acd80de4-a750-4a46-afe8-6a24b238a6fb.pdf",
-    "server/learnmate.db-journal",
-    "client/src/pages/NotFound.tsx",
-    "learnmate.db",
     "server/mock_data.json",
+    "learnmate.db",
+    "client/src/pages/NotFound.tsx",
+    "server/learnmate.db-journal",
     "server/src/__pycache__/database.cpython-313.pyc",
     "server/src/__pycache__/__init__.cpython-313.pyc",
     "草稿.md",
