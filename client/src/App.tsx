@@ -15,7 +15,7 @@ function Navigation() {
   return (
     <nav className="glass-panel sticky top-0 z-50 flex items-center justify-between px-6 py-4 mb-4">
       <div className="flex items-center gap-6">
-        <Link to="/" className="text-lg font-bold bg-gradient-to-r from-brand-600 to-green-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+        <Link to="/" className="text-lg font-bold text-black hover:opacity-80 transition-opacity">
           🏠 LearnMateAI
         </Link>
       </div>
