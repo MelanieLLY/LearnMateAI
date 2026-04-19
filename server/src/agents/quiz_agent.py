@@ -35,6 +35,7 @@ def generate_quiz(
     module_content: str,
     student_notes: str,
     difficulty_level: str = "Medium",
+    num_questions: int = 5,
 ) -> dict:
     """Call the Claude API to generate a structured quiz from module content and student notes.
 
@@ -49,6 +50,7 @@ def generate_quiz(
             empty string if the student has not yet uploaded notes.
         difficulty_level: Desired difficulty — one of ``DIFFICULTY_LEVELS``
             (``"Easy"``, ``"Medium"``, ``"Hard"``).  Defaults to ``"Medium"``.
+        num_questions: Exact number of questions to generate. Defaults to 5.
 
     Returns:
         A dict containing:
@@ -92,7 +94,7 @@ def generate_quiz(
             {
                 "role": "user",
                 "content": build_quiz_user_message(
-                    module_content, student_notes, difficulty_level
+                    module_content, student_notes, difficulty_level, num_questions
                 ),
             }
         ],
@@ -137,7 +139,7 @@ def generate_quiz(
 
     quiz: dict = tool_use.input
 
-    _validate_quiz(quiz)
+    _validate_quiz(quiz, num_questions)
     logger.info(
         "Generated quiz with %d questions.", len(quiz.get("questions", []))
     )
@@ -170,7 +172,7 @@ def _maybe_truncate(module_content: str, student_notes: str) -> tuple[str, str]:
     return module_content, student_notes
 
 
-def _validate_quiz(quiz: dict) -> None:
+def _validate_quiz(quiz: dict, expected_count: int) -> None:
     """Validate the quiz dict returned by Claude against all structural requirements.
 
     Checks top-level fields, per-question fields, MC/SA ratio constraints, and
@@ -178,11 +180,12 @@ def _validate_quiz(quiz: dict) -> None:
 
     Args:
         quiz: Raw dict parsed from Claude's JSON response.
+        expected_count: The number of questions requested.
 
     Raises:
         ValueError: If the response is not a dict, any required field is missing
-            or has an incorrect type, fewer than 5 or more than 15 questions are
-            present, the MC ratio is below 60%, there are no short-answer
+            or has an incorrect type, the number of questions doesn't equal
+            expected_count, the MC ratio is below 60%, there are no short-answer
             questions, or any MC question does not have exactly 4 options.
     """
     if not isinstance(quiz, dict):
@@ -218,9 +221,9 @@ def _validate_quiz(quiz: dict) -> None:
         raise ValueError(
             f"Quiz 'questions' must be a list, got: {type(questions).__name__}"
         )
-    if not (5 <= len(questions) <= 15):
+    if len(questions) != expected_count:
         raise ValueError(
-            f"Quiz must have 5–15 questions, got: {len(questions)}"
+            f"Quiz must have exactly {expected_count} questions, got: {len(questions)}"
         )
 
     for i, q in enumerate(questions):

@@ -72,4 +72,5 @@ def generate_quiz_endpoint(
         module_id=module_id,
         student_id=student_id,
         difficulty_level=payload.difficulty_level,
+        num_questions=payload.num_questions,
     )

@@ -35,9 +35,8 @@ class QuizRequest(BaseModel):
     Attributes:
         difficulty_level: Desired difficulty.  Defaults to ``"Medium"``.
     """
-
     difficulty_level: str = "Medium"
-
+    num_questions: int = Field(default=5, ge=1, le=15)
     @field_validator("difficulty_level")
     @classmethod
     def difficulty_level_must_be_valid(cls, v: str) -> str:
