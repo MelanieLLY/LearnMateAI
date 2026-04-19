@@ -391,21 +391,22 @@
 </details>
 
 **🎯 Step 15: GitHub Actions 完整流水线 (Issue #20) ⭐** （未开始）
-- **操作**: 创建覆盖老师要求的全部 8 个 stage 的 CI/CD workflow。
+- **操作**: 创建覆盖老师要求的全部 9 个 stage 的 CI/CD workflow。
 
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
 发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，帮我配置最终的 <code>.github/workflows/production.yml</code>。必须包含以下 8 个 stage（每个是一个独立 job 或 step）：
+<blockquote>Antigravity，帮我配置最终的 <code>.github/workflows/production.yml</code>。必须包含以下 9 个 stage（每个是一个独立 job 或 step），并注明每个 stage 用于抓取什么问题 (What it catches)：
 
-1. **Lint** — ESLint + Prettier 检查前端代码
-2. **Type check** — <code>tsc --noEmit</code> 检查 TypeScript
-3. **Unit + Integration tests** — Pytest (后端) + Vitest (前端)
-4. **E2E tests** — Playwright
-5. **Security scan** — <code>npm audit</code>
-6. **AI PR review** — Step 14.5 中配好的 AI review action
-7. **Preview deploy** — Vercel preview 部署（PR 触发）
-8. **Production deploy** — Vercel production 部署（merge to main 触发）
+1. **Lint** (ESLint, Prettier) — Catches style violations, unused imports
+2. **Typecheck** (tsc --noEmit) — Catches type errors tests might miss
+3. **Unit Tests** (Jest / Vitest) — Catches logic bugs in isolated functions
+4. **Integration** (API route tests) — Catches API contract violations
+5. **E2E Tests** (Playwright) — Catches broken user workflows
+6. **Security Scan** (npm audit, OWASP) — Catches known vulnerable dependencies
+7. **AI PR Review** (Claude Code) — Catches architectural issues, edge cases
+8. **Preview Deploy** (Vercel preview URL) — Catches build failures, runtime errors
+9. **Prod Deploy** (Vercel production) — Final destination
 
 确保所有 stage 都能 pass（至少不 block PR merge）。
 </blockquote>

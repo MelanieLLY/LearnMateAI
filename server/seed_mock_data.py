@@ -44,7 +44,7 @@ def run_seed():
         for inst_data in mock_data["instructors"]:
             inst_email = inst_data["email"]
             inst = db.query(User).filter(User.email == inst_email).first()
-            pwd = generate_pwd()
+            pwd = inst_data.get("password", generate_pwd())
             
             if inst:
                 inst.full_name = inst_data["full_name"]
@@ -69,7 +69,7 @@ def run_seed():
         for stu_data in mock_data["students"]:
             stu_email = stu_data["email"]
             s = db.query(User).filter(User.email == stu_email).first()
-            pwd = generate_pwd()
+            pwd = stu_data.get("password", generate_pwd())
             
             if s:
                 s.hashed_password = get_password_hash(pwd)

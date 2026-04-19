@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "planning_files/Apr8_project3_requirment.md",
+                "file": "planning_files/project3_master_playbook.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Apr8_project3_requirment"
+              "title": "project3_master_playbook"
             }
           },
           {
@@ -35,8 +35,7 @@
               "title": "草稿"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -199,25 +198,26 @@
       "bases:新建数据库": false
     }
   },
-  "active": "ffbf72dd999d10c4",
+  "active": "77ab432557e1a912",
   "lastOpenFiles": [
+    "server/src/schemas/__pycache__/report.cpython-312.pyc",
+    "server/src/schemas/report.py",
+    "planning_files/Apr8_project3_requirment.md",
+    "server/learnmate.db-journal",
+    "草稿.md",
     "server/uploads/materials/acd80de4-a750-4a46-afe8-6a24b238a6fb.pdf",
     "server/mock_data.json",
     "learnmate.db",
     "client/src/pages/NotFound.tsx",
-    "server/learnmate.db-journal",
     "server/src/__pycache__/database.cpython-313.pyc",
     "server/src/__pycache__/__init__.cpython-313.pyc",
-    "草稿.md",
     "planning_files/project3_master_playbook.md",
     "docs/screenshot/18_evidence_11_playwright_e2e_report.png",
     "docs/screenshot/Screenshot 2026-04-15 at 19.49.20.png",
     "client/playwright-report/data/e89984d953a4f8e7b366b75634253ffb9858eb6b.md",
     "client/playwright-report/index.html",
     "client/playwright-report/data",
-    "client/playwright-report",
     "client/test-results/student-Student-Flow-login-and-browse-modules-chromium/error-context.md",
-    "client/test-results/student-Student-Flow-login-and-browse-modules-chromium",
     "test_accounts.md",
     "CODEBASE_DOCUMENTATION.md",
     "client/node_modules/playwright/node_modules/fsevents/README.md",
@@ -241,7 +241,6 @@
     "client/node_modules/playwright/lib/agents/playwright-test-coverage.prompt.md",
     "client/node_modules/playwright/README.md",
     "client/node_modules/jsdom/node_modules/lru-cache/README.md",
-    "client/node_modules/jsdom/node_modules/lru-cache/LICENSE.md",
     "client/node_modules/playwright-core/lib/vite/traceViewer/playwright-logo.svg",
     "client/node_modules/playwright-core/lib/vite/recorder/playwright-logo.svg",
     "client/node_modules/playwright-core/lib/tools/dashboard/appIcon.png",

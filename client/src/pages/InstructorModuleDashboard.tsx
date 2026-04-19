@@ -32,6 +32,19 @@ interface Material {
   annotation?: string | null;
 }
 
+interface ModuleStat {
+  module_name: string;
+  average_score: number;
+  completion_rate: number;
+}
+
+interface CourseReportResponse {
+  overall_average: number;
+  total_students: number;
+  common_gaps: string[];
+  module_stats: ModuleStat[];
+}
+
 export default function InstructorModuleDashboard() {
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -70,6 +83,10 @@ export default function InstructorModuleDashboard() {
 
   // Course Students State
   const [courseStudents, setCourseStudents] = useState<StudentUser[]>([]);
+
+  // Course Report State
+  const [courseReport, setCourseReport] = useState<CourseReportResponse | null>(null);
+  const [isReportLoading, setIsReportLoading] = useState(false);
 
   const fetchDashboardData = async () => {
     try {
@@ -118,8 +135,16 @@ export default function InstructorModuleDashboard() {
         .then(res => res.ok ? res.json() : [])
         .then(data => setCourseStudents(data))
         .catch(() => setCourseStudents([]));
+
+      setIsReportLoading(true);
+      fetch(`/api/v1/courses/${selectedCourseId}/report`, { credentials: 'include' })
+        .then(res => res.ok ? res.json() : null)
+        .then(data => setCourseReport(data))
+        .catch(() => setCourseReport(null))
+        .finally(() => setIsReportLoading(false));
     } else {
       setCourseStudents([]);
+      setCourseReport(null);
     }
   }, [selectedCourseId]);
 
@@ -470,6 +495,77 @@ export default function InstructorModuleDashboard() {
               </div>
             )}
           </section>
+
+          {typeof selectedCourseId === 'number' && courseReport && (
+            <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-slate-50/50">
+              <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <span className="text-brand-500 text-2xl">📊</span>
+                班级学情诊断报告 (Class Performance)
+              </h2>
+              {isReportLoading ? (
+                <div className="animate-pulse flex space-x-4">
+                  <div className="flex-1 space-y-4 py-1">
+                    <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                    <div className="space-y-2">
+                      <div className="h-4 bg-slate-200 rounded"></div>
+                      <div className="h-4 bg-slate-200 rounded w-5/6"></div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-8">
+                  {/* Summary Cards */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50 shadow-sm flex flex-col justify-center items-center">
+                      <p className="text-sm text-slate-500 font-medium mb-1">班级平均分</p>
+                      <p className="text-4xl font-black text-indigo-600">{courseReport.overall_average}</p>
+                    </div>
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100/50 shadow-sm flex flex-col justify-center items-center">
+                      <p className="text-sm text-slate-500 font-medium mb-1">已接入学生数</p>
+                      <p className="text-4xl font-black text-teal-600">{courseReport.total_students}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Common Gaps */}
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">⚠️ 高频易错点 (Common Gaps)</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {courseReport.common_gaps.length > 0 ? courseReport.common_gaps.map((gap, idx) => (
+                        <span key={idx} className="bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-lg text-sm font-semibold shadow-sm">
+                          {gap}
+                        </span>
+                      )) : (
+                        <span className="text-slate-400 text-sm italic">暂无足够数据分析易错点</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Module Stats Progress */}
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-700 mb-4 uppercase tracking-wider">📈 各模块掌握进度 (Module Mastery)</h3>
+                    <div className="space-y-4">
+                      {courseReport.module_stats.length > 0 ? courseReport.module_stats.map((mod, idx) => (
+                        <div key={idx} className="flex flex-col gap-1.5">
+                          <div className="flex justify-between items-end text-sm">
+                            <span className="font-medium text-slate-700">{mod.module_name}</span>
+                            <span className="font-bold text-slate-600">{mod.average_score} 分</span>
+                          </div>
+                          <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                            <div 
+                              className={`h-full rounded-full transition-all duration-1000 ${mod.average_score >= 85 ? 'bg-emerald-500' : mod.average_score >= 75 ? 'bg-amber-400' : 'bg-red-400'}`}
+                              style={{ width: `${mod.average_score}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      )) : (
+                        <span className="text-slate-400 text-sm italic">暂无模块进度数据</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
 
           <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
             <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
