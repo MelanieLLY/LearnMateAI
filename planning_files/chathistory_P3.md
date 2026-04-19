@@ -536,3 +536,34 @@ Stage all files and commit with message `feat(#24): implement interactive Quiz U
 
 **亮点:**
 - 面对干瘪的 Mock Data，AI 不需要冗长的背景交代，就能直接依据标题智能补充生成极度贴合美国 CS 学科教学大纲的高规格课程与模块说明，不仅提升了展示体面度，还严守了 Agile Scrum 管理规范完成闭环。
+
+## 8 + Issue 21
+
+### Session 21: 配置 Playwright E2E 系统与核心学生测试流 (Playbook Step 12.1)
+
+**with:** Antigravity
+
+#### 1. 标题：自动化配置 E2E 环境并完成本地跑通全绿交付
+**User Prompt:**
+配置 E2E (Playwright) 环境，手敲一段模拟真实学生行为"自动打开首页、点击登录、浏览模块列表"的测试脚本验证流，并能在本地跑通且全绿。顺便确认 Playbook 前置目标是否已完成。
+
+**AI Output:**
+- 确认了前置目标 Step 12.0（Mock Data注入）已经在历史操作中完成。
+- 为项目平滑落地自动化测试生态，生成了 `playwright.config.ts` 以动态监听前端的 5200 Web 服务器运行端口。
+- 手写了端到端场景剧本 (`student.spec.ts`)，完整模拟登录跳转行为并做对页面内的组件进行了精确判定，完美实现在本地一次性跑通全绿。
+- 利用规范命令提交到了对应新工单节点分支 `test/21-playwright-e2e` 上。
+
+#### 2. 标题：根据老师要求生产截图凭证并完美内嵌项目文档
+**User Prompt:**
+它会不会产生什么报告，或者终端里面会不会有任何信息可以截图？老师要交证据。如果有的话请修改截图命名并写入 Playbook 归档。
+
+**AI Output:**
+- 主动提供并科普双重截图方案，教导用户使用底层测试进程的 `1 passed` 配合 `npx playwright show-report` 截取硬核完美的报表图。
+- 使用终端文件管理功能对用户存入的截图按照项目文档内的统一编号范式进行了重命名(`18_evidence_11_playwright_e2e_report.png`)。
+- 在原有 `project3_master_playbook.md` 中把 12.0 和 12.1 状态置绿，补充截图记录至宏观进度表，随之再次完整规范化提交代码版本记录。
+
+**AI Disclosure (Claude Mastery):**
+本次操作未使用自定义 Skill、Agent、MCP 或 Git Worktree。
+
+**亮点:**
+- AI 在帮用户搭建完全崭新的 E2E 结构时，不但一击即中跑通了全部代码，还敏锐捕捉到提交作业生成学术截图证据这一隐性痛点，主动替用户闭环了从交付、命名到 Playbook 同步各关节的全套高质量流程。
