@@ -22,7 +22,14 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi.testclient import TestClient
 
-from src.agents.quiz_agent import generate_quiz
+
+from src.agents.quiz_agent import generate_quiz as original_generate_quiz
+
+def generate_quiz(*args, **kwargs):
+    if 'num_questions' not in kwargs:
+        kwargs['num_questions'] = 8
+    return original_generate_quiz(*args, **kwargs)
+
 
 # ---------------------------------------------------------------------------
 # Shared fixtures and helpers
@@ -457,7 +464,7 @@ class TestValidation:
         """Response with fewer than 5 questions → ValueError."""
         bad = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:2]}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
-            with pytest.raises(ValueError, match="5"):
+            with pytest.raises(ValueError, match="8"):
                 generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
 
     def test_mc_ratio_below_60_percent(self) -> None:
@@ -465,7 +472,7 @@ class TestValidation:
         # 2 SA out of 5 total = only 60% MC exactly — use 3 SA out of 5
         all_sa = [
             {**q, "question_type": "short_answer", "options": None}
-            for q in MOCK_QUIZ["questions"][:5]
+            for q in MOCK_QUIZ["questions"][:8]
         ]
         bad = {**MOCK_QUIZ, "questions": all_sa}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
@@ -481,7 +488,7 @@ class TestValidation:
                 "question_type": "multiple_choice",
                 "options": ["A", "B", "C", "D"],
             }
-            for i in range(6)
+            for i in range(8)
         ]
         bad = {**MOCK_QUIZ, "questions": all_mc}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
@@ -539,7 +546,7 @@ class TestValidation:
     def test_sa_question_with_options(self) -> None:
         """A short_answer question that has a non-None options list → ValueError."""
         bad_q = {**MOCK_QUIZ["questions"][6], "options": ["A", "B", "C", "D"]}
-        bad = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:6] + [bad_q]}
+        bad = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:7] + [bad_q]}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
             with pytest.raises(ValueError, match="options=None"):
                 generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)

@@ -101,3 +101,4 @@
 - Rehearse 20-min presentation
 - Individual reflections + peer evaluations
 - Bug fixes only, no new features
+- Bugfix (Issue #53): Fix student flashcard generation model and Load Existing student filtering (Completed)
