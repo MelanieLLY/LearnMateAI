@@ -225,10 +225,29 @@ export default function StudentModuleView() {
             <p className="text-slate-500 text-lg">暂无可用模块</p>
           </div>
         ) : (
-          <ul className="space-y-6">
-            {modules.map((mod) => {
-              const currentTab = getActiveTab(mod.id);
-              return (
+          <div className="space-y-10">
+            {(() => {
+              const groupedModules = modules.reduce((acc, mod) => {
+                const cId = mod.course_id ?? 0;
+                if (!acc[cId]) acc[cId] = [];
+                acc[cId].push(mod);
+                return acc;
+              }, {} as Record<number, Module[]>);
+
+              const courseList = Array.from(new Set(modules.map(m => m.course_id ?? 0))).map(cId => {
+                if (cId === 0) return { id: 0, title: "未分类模块" };
+                return courses.find(c => c.id === cId) || { id: cId, title: "未知课程" };
+              }).sort((a, b) => a.title.localeCompare(b.title));
+
+              return courseList.map(course => (
+                <div key={course.id} className="space-y-6">
+                  <h3 className="text-xl font-bold text-slate-700 pb-2 border-b border-slate-200 flex items-center gap-2 px-2">
+                    <span className="text-brand-500">🎓</span> {course.title}
+                  </h3>
+                  <ul className="space-y-6">
+                    {groupedModules[course.id].map((mod) => {
+                      const currentTab = getActiveTab(mod.id);
+                      return (
                 <li
                   key={mod.id}
                   className="glass-panel rounded-2xl overflow-hidden transition-all hover:shadow-xl hover:border-brand-500/30"
@@ -348,7 +367,11 @@ export default function StudentModuleView() {
                 </li>
               );
             })}
-          </ul>
+                  </ul>
+                </div>
+              ));
+            })()}
+          </div>
         )}
       </section>
     </div>

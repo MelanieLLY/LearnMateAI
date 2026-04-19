@@ -19,8 +19,8 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // Basic fallback: if student tries to access instructor, send home
-    return <Navigate to="/" replace />;
+    // If user tries to access a role-specific page they shouldn't, send them to 404
+    return <Navigate to="/404" replace />;
   }
 
   return children;
