@@ -410,7 +410,7 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 📸 截图 (证据 #9)。<br>
 </details>
 
-**🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐** （未开始）
+**🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐** （未开始）(Step 10.5已经做了两个了,所以这个可能不是必要的了)
 - **操作**: Issue #20 (CI/CD + Security) 的 PR 是我们选定的 **C.L.E.A.R. PR #2**。这里我们同样使用 Reviewer Agent 来完成第二个 PR 点评，稳拿 Writer/Reviewer 满分！
 
 <details>

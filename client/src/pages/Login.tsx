@@ -32,8 +32,16 @@ export default function Login() {
         throw new Error(errorData.detail || 'Login failed');
       }
 
+      const userData = await response.json();
       await checkAuth(); // Re-fetch the session to set user in Context
-      navigate('/');
+      
+      if (userData.role === 'student') {
+        navigate('/student');
+      } else if (userData.role === 'instructor') {
+        navigate('/instructor');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       const err = error as Error;
       setError(err.message);

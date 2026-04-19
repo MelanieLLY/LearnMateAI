@@ -1,6 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Home() {
+  const { user, isAuthenticated } = useAuth();
+
+  // If already logged in, redirect directly to the corresponding dashboard.
+  if (isAuthenticated && user) {
+    if (user.role === 'student') {
+      return <Navigate to="/student" replace />;
+    } else if (user.role === 'instructor') {
+      return <Navigate to="/instructor" replace />;
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center pt-20 pb-32">
       <div className="text-center max-w-3xl mb-16">

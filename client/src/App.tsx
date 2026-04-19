@@ -1,10 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import InstructorModuleDashboard from './pages/InstructorModuleDashboard';
 import StudentModuleView from './pages/StudentModuleView';
 import QuizTakingView from './pages/QuizTakingView';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
@@ -68,6 +69,9 @@ function App() {
                   <QuizTakingView />
                 </ProtectedRoute>
               } />
+
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>
           </main>
         </div>
