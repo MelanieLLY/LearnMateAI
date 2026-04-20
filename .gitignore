@@ -49,3 +49,6 @@ htmlcov/
 planning_files/chathistory_P3.md*.db
 *.db-journal
 secrets.txt
+草稿2.md
+草稿3.md
+/.obsidian

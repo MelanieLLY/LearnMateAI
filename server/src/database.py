@@ -20,7 +20,8 @@ logger = logging.getLogger("learnmate.database")
 env_db_url = os.environ.get("DATABASE_URL")
 
 if env_db_url and env_db_url.startswith("postgres"):
-    DATABASE_URL = env_db_url
+    # Strip SQLite-specific args from the URL just in case
+    DATABASE_URL = env_db_url.replace("?check_same_thread=False", "")
     engine_kwargs = {}
     logger.info("✅ Connected to Cloud PostgreSQL Database!")
 else:
