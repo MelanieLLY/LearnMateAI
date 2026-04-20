@@ -20,9 +20,12 @@ logger = logging.getLogger("learnmate.database")
 env_db_url = os.environ.get("DATABASE_URL")
 
 if env_db_url and env_db_url.startswith("postgres"):
-    # Strip SQLite-specific args from the URL just in case
-    DATABASE_URL = env_db_url.replace("?check_same_thread=False", "")
-    engine_kwargs = {}
+    DATABASE_URL = env_db_url
+    # Add robust connection pooling for Render's Postgres (which drops idle connections)
+    engine_kwargs = {
+        "pool_pre_ping": True,
+        "pool_recycle": 3600
+    }
     logger.info("✅ Connected to Cloud PostgreSQL Database!")
 else:
     DATABASE_URL = "sqlite:///./learnmate.db"
