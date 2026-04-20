@@ -81,6 +81,7 @@
 | Report dashboard UI (common gaps, avg scores) (In Progress) | LLM quality trend charts & LLM-as-judge reports |
 | | |
 | **Feature: Production & Polish** | |
+| Feature (Issue #58): Cloud Database Fallback & psycopg2 | CI/CD Deploy configuration for Render / Vercel |
 | Sentry + Grafana setup | UI polish (loading states, responsive) |
 | Security (rate limiting, OWASP, secrets) | Documentation (README, API docs, blog post) |
 | CI/CD: canary/blue-green deploy to prod | Presentation slides |
