@@ -19,6 +19,7 @@ def generate_and_store_quiz(
     student_id: int,
     difficulty_level: str = "Medium",
     num_questions: int = 5,
+    is_instructor_assigned: bool = False,
 ) -> Quiz:
     """Generate a quiz from a module's content and persist it to the database.
 
@@ -83,6 +84,7 @@ def generate_and_store_quiz(
         questions=raw["questions"],
         module_id=module_id,
         student_id=student_id,
+        is_instructor_assigned=is_instructor_assigned,
     )
 
     db.add(quiz)

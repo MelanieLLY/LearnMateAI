@@ -33,34 +33,33 @@ Each question object must have exactly these six keys:
     "correct_answer" (string)  — the correct answer
     "explanation"    (string)  — a brief explanation of the correct answer
 
-Example output (showing one MC and one SA question):
-{
-  "title": "Introduction to Machine Learning",
-  "difficulty_level": "Medium",
-  "questions": [
-    {
-      "id": 1,
-      "text": "Which of the following is a supervised learning algorithm?",
-      "question_type": "multiple_choice",
-      "options": [
-        "K-means clustering",
-        "Principal Component Analysis",
-        "Linear Regression",
-        "DBSCAN"
-      ],
-      "correct_answer": "Linear Regression",
-      "explanation": "Linear regression learns from labelled training data, making it supervised."
-    },
-    {
-      "id": 2,
-      "text": "Explain the difference between overfitting and underfitting.",
-      "question_type": "short_answer",
-      "options": null,
-      "correct_answer": "Overfitting: model memorises training data and generalises poorly. Underfitting: model is too simple to capture patterns.",
-      "explanation": "Both represent poor model generalisation but for opposite reasons."
-    }
-  ]
-}"""
+CRITICAL INSTRUCTION: 
+When calling the structured output tool, the `questions` argument MUST be a native JSON array of objects. DO NOT pass a stringified JSON array. 
+
+Example question object structure (one MC, one SA):
+[
+  {
+    "id": 1,
+    "text": "Which of the following is a supervised learning algorithm?",
+    "question_type": "multiple_choice",
+    "options": [
+      "K-means clustering",
+      "Principal Component Analysis",
+      "Linear Regression",
+      "DBSCAN"
+    ],
+    "correct_answer": "Linear Regression",
+    "explanation": "Linear regression learns from labelled training data, making it supervised."
+  },
+  {
+    "id": 2,
+    "text": "Explain the difference between overfitting and underfitting.",
+    "question_type": "short_answer",
+    "options": null,
+    "correct_answer": "Overfitting: model memorises training data and generalises poorly. Underfitting: model is too simple to capture patterns.",
+    "explanation": "Both represent poor model generalisation but for opposite reasons."
+  }
+]"""
 
 
 def build_quiz_user_message(

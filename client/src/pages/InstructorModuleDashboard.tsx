@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
+import InstructorQuizSection from '../components/InstructorQuizSection';
 
 interface Course {
   id: number;
@@ -498,10 +499,13 @@ export default function InstructorModuleDashboard() {
 
           {typeof selectedCourseId === 'number' && courseReport && (
             <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-slate-50/50">
-              <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
                 <span className="text-brand-500 text-2xl">📊</span>
                 班级学情诊断报告 (Class Performance)
               </h2>
+              <p className="text-slate-500 text-sm mb-6 flex items-center gap-1.5">
+                <span className="text-brand-400">ℹ️</span> 评分统计包含 <strong>Instructor-assigned Quiz</strong> (随堂测试) 与 <strong>AI-generated Self-practice</strong> (自主练习) 成绩。
+              </p>
               {isReportLoading ? (
                 <div className="animate-pulse flex space-x-4">
                   <div className="flex-1 space-y-4 py-1">
@@ -756,6 +760,8 @@ export default function InstructorModuleDashboard() {
                               )}
                             </div>
                           </div>
+
+                          <InstructorQuizSection moduleId={mod.id} />
                     </>
                   )}
                 </li>

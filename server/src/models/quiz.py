@@ -2,7 +2,7 @@
 
 from datetime import datetime, timezone
 
-from sqlalchemy import JSON, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import JSON, Boolean, Column, DateTime, ForeignKey, Integer, String
 
 from src.database import Base
 
@@ -20,6 +20,7 @@ class Quiz(Base):
             ``correct_answer``, and ``explanation``.
         module_id: Foreign key reference to the module this quiz belongs to.
         student_id: The user ID of the student who requested generation.
+        is_instructor_assigned: Boolean indicating if it's an official teacher quiz.
         created_at: UTC timestamp recorded when the quiz is first inserted.
     """
 
@@ -31,4 +32,5 @@ class Quiz(Base):
     questions = Column(JSON, nullable=False)
     module_id = Column(Integer, ForeignKey("modules.id"), nullable=False)
     student_id = Column(Integer, nullable=False)
+    is_instructor_assigned = Column(Boolean, nullable=False, default=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))

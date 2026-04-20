@@ -70,10 +70,10 @@ function computeScore(quiz: Quiz, answers: Record<number, string>): number {
 // Component
 // ---------------------------------------------------------------------------
 export default function QuizTakingView(): JSX.Element {
-  const { moduleId } = useParams<{ moduleId: string }>();
+  const { moduleId, quizId } = useParams<{ moduleId?: string, quizId?: string }>();
   const navigate = useNavigate();
 
-  const [phase, setPhase] = useState<Phase>('setup');
+  const [phase, setPhase] = useState<Phase>(quizId ? 'loading' : 'setup');
   const [difficulty, setDifficulty] = useState<Difficulty>('Medium');
   const [numQuestions, setNumQuestions] = useState<number>(5);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -96,7 +96,30 @@ export default function QuizTakingView(): JSX.Element {
     return () => clearInterval(id);
   }, [phase, finalScore]);
 
+  // If taking an existing quiz, fetch it on mount
+  useEffect(() => {
+    if (quizId && phase === 'loading') {
+      fetchExistingQuiz();
+    }
+  }, [quizId]);
+
+  const fetchExistingQuiz = async () => {
+    try {
+      const res = await fetch(`/api/v1/quizzes/${quizId}`, {
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('Failed to fetch quiz');
+      const data: Quiz = await res.json();
+      setQuiz(data);
+      setPhase('taking');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+      setPhase('setup'); // Fallback if error
+    }
+  };
+
   const generateQuiz = async () => {
+    if (!moduleId) return;
     setPhase('loading');
     setError(null);
     try {
@@ -125,17 +148,32 @@ export default function QuizTakingView(): JSX.Element {
     setAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!quiz) return;
     const score = computeScore(quiz, answers);
     setFinalScore(score);
+    
+    try {
+      const res = await fetch(`/api/v1/quizzes/${quiz.id}/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ score }),
+      });
+      if (!res.ok) {
+        console.error('Failed to save quiz submission:', await res.text());
+      }
+    } catch (err) {
+      console.error('Failed to save quiz submission:', err);
+    }
+    
     setPhase('results');
   };
 
   // -------------------------------------------------------------------------
   // Phase: setup
   // -------------------------------------------------------------------------
-  if (phase === 'setup') {
+  if (phase === 'setup' && !quizId) {
     return (
       <div className="max-w-2xl mx-auto space-y-8">
         <header className="pl-2">
