@@ -241,28 +241,41 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
     # --- Coerce questions if Claude returned it as a JSON string ---
     questions = quiz["questions"]
     if isinstance(questions, str):
+        import json as _json
         import re
+        clean_str = questions.strip()
+        clean_str = re.sub(r"^```(?:json)?\s*", "", clean_str)
+        clean_str = re.sub(r"\s*```$", "", clean_str)
+        parsed = None
+        # 1st attempt: standard json.loads (handles well-formed JSON strings)
         try:
-            clean_str = questions.strip()
-            clean_str = re.sub(r"^```(?:json)?\s*", "", clean_str)
-            clean_str = re.sub(r"\s*```$", "", clean_str)
-            from json_repair import repair_json
-            parsed = repair_json(clean_str, return_objects=True)
-            if isinstance(parsed, list) and parsed:
+            parsed = _json.loads(clean_str)
+        except _json.JSONDecodeError:
+            pass
+        # 2nd attempt: json_repair (optional dependency, handles malformed JSON)
+        if parsed is None:
+            try:
+                from json_repair import repair_json  # type: ignore[import]
+                parsed = repair_json(clean_str, return_objects=True)
+            except ImportError:
                 logger.warning(
-                    "Claude returned 'questions' as a string; repaired successfully."
+                    "json_repair is not installed; skipping repair attempt. "
+                    "Install it with: pip install json-repair"
                 )
-                quiz["questions"] = parsed
-                questions = parsed
-            else:
-                raise ValueError("repair_json produced an empty or non-list result")
-        except Exception as exc:
+            except Exception as repair_exc:
+                logger.warning("json_repair failed: %s", repair_exc)
+        if isinstance(parsed, list) and parsed:
+            logger.warning("Claude returned 'questions' as a string; parsed successfully.")
+            quiz["questions"] = parsed
+            questions = parsed
+        else:
             logger.error(
-                "Failed to repair 'questions' string: %s\nRaw value:\n%s", exc, questions
+                "Could not parse 'questions' string.\nRaw value:\n%s", questions
             )
             raise ValueError(
-                f"Quiz 'questions' was returned as a string and could not be repaired: {exc}"
-            ) from exc
+                "Quiz 'questions' was returned as a JSON string but could not be parsed. "
+                "Install json-repair for additional recovery: pip install json-repair"
+            )
 
     if not isinstance(questions, list):
         raise ValueError(
