@@ -75,7 +75,7 @@ async function renderAndShowAllModules() {
     // but the button should still be in the sidebar.
     await waitFor(() => expect(screen.getByRole('button', { name: /显示所有模组/i })).toBeInTheDocument(), { timeout: 2000 });
     fireEvent.click(screen.getByRole('button', { name: /显示所有模组/i }));
-  } catch (e) {
+  } catch {
     // Ignore in case the test is meant to fail loading
   }
 }

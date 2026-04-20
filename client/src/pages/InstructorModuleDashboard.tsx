@@ -533,6 +533,7 @@ export default function InstructorModuleDashboard() {
               </div>
             )}
           </section>
+            )}
 
           {typeof selectedCourseId === 'number' && courseReport && (
             <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-slate-50/50">
