@@ -35,9 +35,8 @@ class QuizRequest(BaseModel):
     Attributes:
         difficulty_level: Desired difficulty.  Defaults to ``"Medium"``.
     """
-
     difficulty_level: str = "Medium"
-
+    num_questions: int = Field(default=5, ge=1, le=15)
     @field_validator("difficulty_level")
     @classmethod
     def difficulty_level_must_be_valid(cls, v: str) -> str:
@@ -57,6 +56,16 @@ class QuizRequest(BaseModel):
                 f"difficulty_level must be one of {sorted(DIFFICULTY_LEVELS)}, got: {v!r}"
             )
         return v
+        
+class QuizUpdateRequest(BaseModel):
+    """Request body for updating an existing quiz.
+    
+    Attributes:
+        title: The updated title.
+        questions: The updated list of quiz questions.
+    """
+    title: str
+    questions: List[QuizQuestion]
 
 
 class QuizResponse(BaseModel):
@@ -75,6 +84,7 @@ class QuizResponse(BaseModel):
     id: int
     module_id: int
     student_id: int
+    is_instructor_assigned: bool
     title: str
     difficulty_level: str = Field(...)
     questions: List[QuizQuestion]

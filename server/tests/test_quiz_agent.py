@@ -22,7 +22,14 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi.testclient import TestClient
 
-from src.agents.quiz_agent import generate_quiz
+
+from src.agents.quiz_agent import generate_quiz as original_generate_quiz
+
+def generate_quiz(*args, **kwargs):
+    if 'num_questions' not in kwargs:
+        kwargs['num_questions'] = 8
+    return original_generate_quiz(*args, **kwargs)
+
 
 # ---------------------------------------------------------------------------
 # Shared fixtures and helpers
@@ -457,7 +464,7 @@ class TestValidation:
         """Response with fewer than 5 questions → ValueError."""
         bad = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:2]}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
-            with pytest.raises(ValueError, match="5"):
+            with pytest.raises(ValueError, match="8"):
                 generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
 
     def test_mc_ratio_below_60_percent(self) -> None:
@@ -465,7 +472,7 @@ class TestValidation:
         # 2 SA out of 5 total = only 60% MC exactly — use 3 SA out of 5
         all_sa = [
             {**q, "question_type": "short_answer", "options": None}
-            for q in MOCK_QUIZ["questions"][:5]
+            for q in MOCK_QUIZ["questions"][:8]
         ]
         bad = {**MOCK_QUIZ, "questions": all_sa}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
@@ -481,7 +488,7 @@ class TestValidation:
                 "question_type": "multiple_choice",
                 "options": ["A", "B", "C", "D"],
             }
-            for i in range(6)
+            for i in range(8)
         ]
         bad = {**MOCK_QUIZ, "questions": all_mc}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
@@ -536,13 +543,47 @@ class TestValidation:
             with pytest.raises(ValueError, match="non-empty string"):
                 generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
 
-    def test_sa_question_with_options(self) -> None:
-        """A short_answer question that has a non-None options list → ValueError."""
+    def test_sa_question_with_nonempty_options(self) -> None:
+        """A short_answer question that has a non-None, non-empty options list → ValueError."""
         bad_q = {**MOCK_QUIZ["questions"][6], "options": ["A", "B", "C", "D"]}
-        bad = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:6] + [bad_q]}
+        bad = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:7] + [bad_q]}
         with patch("src.agents.quiz_agent.anthropic.Anthropic", self._mock_for(bad)):
             with pytest.raises(ValueError, match="options=None"):
                 generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
+
+    def test_sa_question_with_empty_list_options_coerced(self) -> None:
+        """A short_answer question with options=[] is coerced to None (no error)."""
+        coerced_q = {**MOCK_QUIZ["questions"][6], "options": []}  # empty list
+        ok = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:6] + [coerced_q, MOCK_QUIZ["questions"][7]]}
+        mock_cls, _ = _make_mock_client(ok)
+        with patch("src.agents.quiz_agent.anthropic.Anthropic", mock_cls):
+            result = generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
+        sa_qs = [q for q in result["questions"] if q["question_type"] == "short_answer"]
+        for q in sa_qs:
+            assert q.get("options") is None, f"Expected coerced None, got {q.get('options')!r}"
+
+    def test_one_extra_question_tolerated(self) -> None:
+        """Claude returning num_questions+1 questions is tolerated (no error)."""
+        # num_questions defaults to 8 in the wrapper; add one extra MC question
+        extra_mc = {
+            **MOCK_QUIZ["questions"][0],
+            "id": 9,
+            "text": "Extra question that Claude added.",
+        }
+        extended = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"] + [extra_mc]}
+        mock_cls, _ = _make_mock_client(extended)
+        with patch("src.agents.quiz_agent.anthropic.Anthropic", mock_cls):
+            result = generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
+        assert len(result["questions"]) == 9
+
+    def test_one_fewer_question_tolerated(self) -> None:
+        """Claude returning num_questions-1 questions is tolerated (no error)."""
+        shortened = {**MOCK_QUIZ, "questions": MOCK_QUIZ["questions"][:7]}  # 7 instead of 8
+        # Keep ratio valid: 7 questions, first 6 MC + 1 SA
+        mock_cls, _ = _make_mock_client(shortened)
+        with patch("src.agents.quiz_agent.anthropic.Anthropic", mock_cls):
+            result = generate_quiz(module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES)
+        assert len(result["questions"]) == 7
 
 
 class TestJsonParseFailure:
@@ -561,7 +602,7 @@ class TestJsonParseFailure:
         mock_cls = MagicMock(return_value=mock_client)
 
         with patch("src.agents.quiz_agent.anthropic.Anthropic", mock_cls):
-            with pytest.raises(ValueError, match="structured output"):
+            with pytest.raises(ValueError, match="Quiz generation failed after"):
                 generate_quiz(
                     module_content=MODULE_CONTENT, student_notes=STUDENT_NOTES
                 )

@@ -14,7 +14,7 @@ SYSTEM_PROMPT: str = """You are an expert educator. Given course material and st
 generate a comprehensive quiz at the requested difficulty level.
 
 Rules:
-- Generate between 5 and 15 questions total.
+- Generate EXACTLY the number of questions requested by the user.
 - At least 60% of questions must be multiple_choice.
 - At least 1 question must be short_answer.
 - Every multiple_choice question must have exactly 4 options.
@@ -33,40 +33,40 @@ Each question object must have exactly these six keys:
     "correct_answer" (string)  — the correct answer
     "explanation"    (string)  — a brief explanation of the correct answer
 
-Example output (showing one MC and one SA question):
-{
-  "title": "Introduction to Machine Learning",
-  "difficulty_level": "Medium",
-  "questions": [
-    {
-      "id": 1,
-      "text": "Which of the following is a supervised learning algorithm?",
-      "question_type": "multiple_choice",
-      "options": [
-        "K-means clustering",
-        "Principal Component Analysis",
-        "Linear Regression",
-        "DBSCAN"
-      ],
-      "correct_answer": "Linear Regression",
-      "explanation": "Linear regression learns from labelled training data, making it supervised."
-    },
-    {
-      "id": 2,
-      "text": "Explain the difference between overfitting and underfitting.",
-      "question_type": "short_answer",
-      "options": null,
-      "correct_answer": "Overfitting: model memorises training data and generalises poorly. Underfitting: model is too simple to capture patterns.",
-      "explanation": "Both represent poor model generalisation but for opposite reasons."
-    }
-  ]
-}"""
+CRITICAL INSTRUCTION: 
+When calling the structured output tool, the `questions` argument MUST be a native JSON array of objects. DO NOT pass a stringified JSON array. 
+
+Example question object structure (one MC, one SA):
+[
+  {
+    "id": 1,
+    "text": "Which of the following is a supervised learning algorithm?",
+    "question_type": "multiple_choice",
+    "options": [
+      "K-means clustering",
+      "Principal Component Analysis",
+      "Linear Regression",
+      "DBSCAN"
+    ],
+    "correct_answer": "Linear Regression",
+    "explanation": "Linear regression learns from labelled training data, making it supervised."
+  },
+  {
+    "id": 2,
+    "text": "Explain the difference between overfitting and underfitting.",
+    "question_type": "short_answer",
+    "options": null,
+    "correct_answer": "Overfitting: model memorises training data and generalises poorly. Underfitting: model is too simple to capture patterns.",
+    "explanation": "Both represent poor model generalisation but for opposite reasons."
+  }
+]"""
 
 
 def build_quiz_user_message(
     module_content: str,
     student_notes: str,
     difficulty_level: str,
+    num_questions: int,
 ) -> str:
     """Build the user-turn message containing both learning sources and the difficulty level.
 
@@ -74,6 +74,7 @@ def build_quiz_user_message(
         module_content: Instructor-provided course material for the module.
         student_notes: The student's personal notes for the module.
         difficulty_level: One of ``DIFFICULTY_LEVELS`` indicating desired difficulty.
+        num_questions: Exact number of questions to generate.
 
     Returns:
         A formatted string combining both sources and the difficulty instruction,
@@ -82,5 +83,5 @@ def build_quiz_user_message(
     return (
         f"## Course Material\n\n{module_content}\n\n"
         f"## Student Notes\n\n{student_notes}\n\n"
-        f"Generate a {difficulty_level} difficulty quiz covering key concepts from both sources above."
+        f"Generate a {difficulty_level} difficulty quiz with EXACTLY {num_questions} questions covering key concepts from both sources above."
     )

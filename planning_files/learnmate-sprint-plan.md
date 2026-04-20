@@ -76,9 +76,9 @@
 
 | Person A | Person B |
 |---|---|
-| **Feature: Instructor report** | **Feature: System Eval & MLOps** |
-| Aggregated class report API (anonymous stats) | Eval metrics dashboard (For dev/testing view) |
-| Report dashboard UI (common gaps, avg scores) | LLM quality trend charts & LLM-as-judge reports |
+| **Feature (Issue #6): Instructor report** | **Feature: System Eval & MLOps** |
+| Aggregated class report API (anonymous stats) (In Progress) | Eval metrics dashboard (For dev/testing view) |
+| Report dashboard UI (common gaps, avg scores) (In Progress) | LLM quality trend charts & LLM-as-judge reports |
 | | |
 | **Feature: Production & Polish** | |
 | Sentry + Grafana setup | UI polish (loading states, responsive) |
@@ -101,3 +101,4 @@
 - Rehearse 20-min presentation
 - Individual reflections + peer evaluations
 - Bug fixes only, no new features
+- Bugfix (Issue #53): Fix student flashcard generation model and Load Existing student filtering (Completed)

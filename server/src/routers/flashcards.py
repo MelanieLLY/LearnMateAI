@@ -66,4 +66,5 @@ def get_flashcards(
         HTTPException: 401 if unauthenticated, 403 if not a student,
             404 if the module does not exist.
     """
-    return get_flashcards_for_module(db=db, module_id=module_id)
+    student_id = int(user["sub"])
+    return get_flashcards_for_module(db=db, module_id=module_id, student_id=student_id)

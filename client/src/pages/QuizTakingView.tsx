@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 // ---------------------------------------------------------------------------
@@ -70,11 +70,12 @@ function computeScore(quiz: Quiz, answers: Record<number, string>): number {
 // Component
 // ---------------------------------------------------------------------------
 export default function QuizTakingView(): JSX.Element {
-  const { moduleId } = useParams<{ moduleId: string }>();
+  const { moduleId, quizId } = useParams<{ moduleId?: string, quizId?: string }>();
   const navigate = useNavigate();
 
-  const [phase, setPhase] = useState<Phase>('setup');
+  const [phase, setPhase] = useState<Phase>(quizId ? 'loading' : 'setup');
   const [difficulty, setDifficulty] = useState<Difficulty>('Medium');
+  const [numQuestions, setNumQuestions] = useState<number>(5);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -95,7 +96,30 @@ export default function QuizTakingView(): JSX.Element {
     return () => clearInterval(id);
   }, [phase, finalScore]);
 
+  const fetchExistingQuiz = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/v1/quizzes/${quizId}`, {
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('Failed to fetch quiz');
+      const data: Quiz = await res.json();
+      setQuiz(data);
+      setPhase('taking');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+      setPhase('setup'); // Fallback if error
+    }
+  }, [quizId]);
+
+  // If taking an existing quiz, fetch it on mount
+  useEffect(() => {
+    if (quizId && phase === 'loading') {
+      fetchExistingQuiz();
+    }
+  }, [quizId, phase, fetchExistingQuiz]);
+
   const generateQuiz = async () => {
+    if (!moduleId) return;
     setPhase('loading');
     setError(null);
     try {
@@ -103,7 +127,7 @@ export default function QuizTakingView(): JSX.Element {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ difficulty_level: difficulty }),
+        body: JSON.stringify({ difficulty_level: difficulty, num_questions: numQuestions }),
       });
       if (!res.ok) throw new Error('Failed to generate quiz');
       const data: Quiz = await res.json();
@@ -124,17 +148,32 @@ export default function QuizTakingView(): JSX.Element {
     setAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!quiz) return;
     const score = computeScore(quiz, answers);
     setFinalScore(score);
+    
+    try {
+      const res = await fetch(`/api/v1/quizzes/${quiz.id}/submit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ score }),
+      });
+      if (!res.ok) {
+        console.error('Failed to save quiz submission:', await res.text());
+      }
+    } catch (err) {
+      console.error('Failed to save quiz submission:', err);
+    }
+    
     setPhase('results');
   };
 
   // -------------------------------------------------------------------------
   // Phase: setup
   // -------------------------------------------------------------------------
-  if (phase === 'setup') {
+  if (phase === 'setup' && !quizId) {
     return (
       <div className="max-w-2xl mx-auto space-y-8">
         <header className="pl-2">
@@ -181,6 +220,25 @@ export default function QuizTakingView(): JSX.Element {
                   </button>
                 );
               })}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-slate-700 mb-3 flex justify-between items-center">
+              <span>Number of Questions</span>
+              <span className="text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-md">{numQuestions}</span>
+            </h2>
+            <input
+              type="range"
+              min="1"
+              max="15"
+              value={numQuestions}
+              onChange={(e) => setNumQuestions(Number(e.target.value))}
+              className="w-full accent-brand-600 cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none"
+            />
+            <div className="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+              <span>1</span>
+              <span>15</span>
             </div>
           </div>
 

@@ -88,12 +88,14 @@ def generate_and_store_flashcards(
 def get_flashcards_for_module(
     db: Session,
     module_id: int,
+    student_id: int,
 ) -> list[Flashcard]:
-    """Retrieve all flashcards stored for a given module.
+    """Retrieve all flashcards stored for a given module and student.
 
     Args:
         db: Active SQLAlchemy database session.
         module_id: ID of the module whose flashcards to retrieve.
+        student_id: ID of the student.
 
     Returns:
         A list of ``Flashcard`` ORM instances (may be empty).
@@ -105,4 +107,7 @@ def get_flashcards_for_module(
     if module is None:
         raise HTTPException(status_code=404, detail="Module not found")
 
-    return db.query(Flashcard).filter(Flashcard.module_id == module_id).all()
+    return db.query(Flashcard).filter(
+        Flashcard.module_id == module_id,
+        Flashcard.student_id == student_id
+    ).all()

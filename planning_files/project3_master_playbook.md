@@ -346,13 +346,28 @@
 **🎯 Step 12.5: 前端体验自建优化与 JSON 动态数据驱动 (Issue #51)** ✅ （已完成）
 - **操作**: 这是正式联测前的底层逻辑查缺补漏。利用 Vite + React 彻底实现了鉴权上下文直通与 404 越权重塑，让角色登录秒进专属仪表盘；优化模块网格将所有数据关联成按字母升序排列的字典树。后端全域移除硬编码，剥离为 `mock_data.json`，极大地降低了敏捷测试及扩展新用户的痛点。
 
-**🎯 Step 13: Instructor 报告仪表盘 (Issue #6)** （未开始）
+**🎯 Step 13: Instructor 报告仪表盘 (Issue #6)** （执行中）
 - **操作**: 班级报告数据可视化。
 
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
 发送给 [Antigravity] (中文):<br>
 <blockquote>Antigravity，为 Instructor 建立聚合报告仪表盘，显示班级匿名统计数据（如平均分、易错知识点分布）。保持简洁实用，不需要花哨的图表库。</blockquote>
+</details>
+
+**🎯 Step 13.5: 真实测验分数全链路闭环 (Issue #6 续)** （待启动接力）
+- **操作**: 建立真实 `QuizSubmission` 记录库，改装测试桩批量引入假数据，最终打通老师端的实时浮动均分测算。
+
+<details>
+<summary>👉 点击展开接力行动指令 (Prompt) — 新窗口可用</summary><br>
+（如果你新开了一个聊天窗口，请直接复制下段发给新的 AI 分身）：<br>
+发送给 [Antigravity] (中文):<br>
+<blockquote>Antigravity，请继续我们在 LearnMateAI 项目 Issue #6 上的开发。我们在此前的上下文中已经通过了 implementation_plan.md 中的“打底数据补充机制”：
+1. 请帮我在后端创建 `QuizSubmission` 数据库模型，并增加 `POST /api/v1/quizzes/{quiz_id}/submit` 接口对接学生成绩。
+2. 修改前台 `QuizTakingView.tsx`，将最终算出的成绩利用此接口持久化。
+3. 在 `courses.py` 老师报表接口中，改为实时查询这批数据算 `overall_average` 全班均分。
+4. 最关键的：去改写 `seed_mock_data.py`，给所有模拟学生账号批量写满 `QuizSubmission` 数据，把整个班打光。
+最后，在 Dashboard 页面加一行文字，明示区分 Instructor-assigned Quiz 和 AI-generated Self-practice。计划之前已敲定，请直接看 `task.md` 开始编码。</blockquote>
 </details>
 
 ---
@@ -391,21 +406,22 @@
 </details>
 
 **🎯 Step 15: GitHub Actions 完整流水线 (Issue #20) ⭐** （未开始）
-- **操作**: 创建覆盖老师要求的全部 8 个 stage 的 CI/CD workflow。
+- **操作**: 创建覆盖老师要求的全部 9 个 stage 的 CI/CD workflow。
 
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
 发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，帮我配置最终的 <code>.github/workflows/production.yml</code>。必须包含以下 8 个 stage（每个是一个独立 job 或 step）：
+<blockquote>Antigravity，帮我配置最终的 <code>.github/workflows/production.yml</code>。必须包含以下 9 个 stage（每个是一个独立 job 或 step），并注明每个 stage 用于抓取什么问题 (What it catches)：
 
-1. **Lint** — ESLint + Prettier 检查前端代码
-2. **Type check** — <code>tsc --noEmit</code> 检查 TypeScript
-3. **Unit + Integration tests** — Pytest (后端) + Vitest (前端)
-4. **E2E tests** — Playwright
-5. **Security scan** — <code>npm audit</code>
-6. **AI PR review** — Step 14.5 中配好的 AI review action
-7. **Preview deploy** — Vercel preview 部署（PR 触发）
-8. **Production deploy** — Vercel production 部署（merge to main 触发）
+1. **Lint** (ESLint, Prettier) — Catches style violations, unused imports
+2. **Typecheck** (tsc --noEmit) — Catches type errors tests might miss
+3. **Unit Tests** (Jest / Vitest) — Catches logic bugs in isolated functions
+4. **Integration** (API route tests) — Catches API contract violations
+5. **E2E Tests** (Playwright) — Catches broken user workflows
+6. **Security Scan** (npm audit, OWASP) — Catches known vulnerable dependencies
+7. **AI PR Review** (Claude Code) — Catches architectural issues, edge cases
+8. **Preview Deploy** (Vercel preview URL) — Catches build failures, runtime errors
+9. **Prod Deploy** (Vercel production) — Final destination
 
 确保所有 stage 都能 pass（至少不 block PR merge）。
 </blockquote>

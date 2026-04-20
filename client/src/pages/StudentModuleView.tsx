@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import FlashcardSection from '../components/FlashcardSection';
 import ModuleSummarySection from '../components/ModuleSummarySection';
+import QuizListSection from '../components/QuizListSection';
 
 interface Module {
   id: number;
@@ -23,7 +23,7 @@ interface Note {
   uploaded_at: string;
 }
 
-type ModuleTab = 'notes' | 'flashcards' | 'summary';
+type ModuleTab = 'notes' | 'flashcards' | 'summary' | 'quizzes';
 
 interface TabConfig {
   id: ModuleTab;
@@ -35,10 +35,10 @@ const MODULE_TABS: TabConfig[] = [
   { id: 'notes', label: 'Notes', icon: '📝' },
   { id: 'flashcards', label: 'Flashcards', icon: '🃏' },
   { id: 'summary', label: 'Summary', icon: '📋' },
+  { id: 'quizzes', label: 'Quizzes', icon: '🃟' },
 ];
 
 export default function StudentModuleView() {
-  const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<number>>(new Set());
@@ -266,15 +266,7 @@ export default function StudentModuleView() {
                       </div>
                     )}
 
-                    {/* --- Quiz CTA --- */}
-                    <div className="mb-6 flex justify-end">
-                      <button
-                        onClick={() => navigate(`/student/quiz/${mod.id}`)}
-                        className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all shadow-md hover:shadow-lg transform active:scale-[0.98] flex items-center gap-2"
-                      >
-                        <span>🧠</span> Take Quiz
-                      </button>
-                    </div>
+                    {/* --- Quiz CTA was moved to Tab --- */}
 
                     {/* ——— Tab bar ——— */}
                     <div className="flex gap-1 border-b border-slate-100 -mx-6 sm:-mx-8 px-6 sm:px-8">
@@ -362,6 +354,11 @@ export default function StudentModuleView() {
                     {/* SUMMARY tab */}
                     {currentTab === 'summary' && (
                       <ModuleSummarySection moduleId={mod.id} />
+                    )}
+
+                    {/* QUIZZES tab */}
+                    {currentTab === 'quizzes' && (
+                      <QuizListSection moduleId={mod.id} />
                     )}
                   </div>
                 </li>

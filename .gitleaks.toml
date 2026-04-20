@@ -1,0 +1,19 @@
+# Gitleaks configuration — LearnMateAI
+# Allows false-positive detections on known test/mock account credentials.
+# These are not real secrets; they are demo passwords used for local dev seeding.
+
+[allowlist]
+  description = "Ignore test account passwords in seed/mock data files"
+
+  # Allow by file path pattern (covers any new commits to these files)
+  paths = [
+    '''server/mock_data\.json''',
+    '''server/seed_mock_data\.py''',
+    '''server/test_accounts\.md''',
+    '''client/e2e/.*\.spec\.ts''',
+  ]
+
+  # Allow by exact commit fingerprint (covers the pre-existing commit 0462aa8)
+  commits = [
+    "0462aa8d208f235713c20bb4699b23cc83dcf981",
+  ]

@@ -11,45 +11,53 @@
       "id": 1,
       "email": "robert.smith@university.edu",
       "full_name": "Prof. Robert Smith",
-      "title": "Instructor 1"
+      "title": "Instructor 1",
+      "password": "SEED_INSTRUCTOR1_PASSWORD"
     },
     {
       "id": 2,
       "email": "dr.jane.doe@university.edu",
       "full_name": "Dr. Jane Doe",
-      "title": "Instructor 2"
+      "title": "Instructor 2",
+      "password": "SEED_INSTRUCTOR2_PASSWORD"
     }
   ],
   "students": [
     {
       "email": "alex.johnson@student.edu",
       "full_name": "Alex Johnson",
-      "title": "Student 1"
+      "title": "Student 1",
+      "password": "SEED_STUDENT1_PASSWORD"
     },
     {
       "email": "emily.davis@student.edu",
       "full_name": "Emily Davis",
-      "title": "Student 2"
+      "title": "Student 2",
+      "password": "SEED_STUDENT2_PASSWORD"
     },
     {
       "email": "michael.wilson@student.edu",
       "full_name": "Michael Wilson",
-      "title": "Student 3"
+      "title": "Student 3",
+      "password": "SEED_STUDENT3_PASSWORD"
     },
     {
       "email": "sophia.martinez@student.edu",
       "full_name": "Sophia Martinez",
-      "title": "Student 4"
+      "title": "Student 4",
+      "password": "SEED_STUDENT4_PASSWORD"
     },
     {
       "email": "daniel.williams@student.edu",
       "full_name": "Daniel Williams",
-      "title": "Student 5"
+      "title": "Student 5",
+      "password": "SEED_STUDENT5_PASSWORD"
     },
     {
       "email": "olivia.brown@student.edu",
       "full_name": "Olivia Brown",
-      "title": "Student 6"
+      "title": "Student 6",
+      "password": "SEED_STUDENT6_PASSWORD"
     }
   ],
   "courses": [
@@ -78,7 +86,42 @@
           "title": "性能优化与测试",
           "desc": "掌握前端渲染优化、后端缓存策略，并编写高覆盖率的单元测试与端到端测试。"
         }
-      ]
+      ],
+      "report": {
+        "overall_average": 82,
+        "common_gaps": [
+          "React Hooks 闭包陷阱",
+          "GraphQL N+1查询问题",
+          "Redux 状态冗余"
+        ],
+        "module_stats": [
+          {
+            "module_name": "Web基础与前端框架",
+            "average_score": 88,
+            "completion_rate": 95
+          },
+          {
+            "module_name": "后端架构设计",
+            "average_score": 76,
+            "completion_rate": 80
+          },
+          {
+            "module_name": "数据库集成与运维",
+            "average_score": 85,
+            "completion_rate": 88
+          },
+          {
+            "module_name": "全栈项目实战",
+            "average_score": 79,
+            "completion_rate": 75
+          },
+          {
+            "module_name": "性能优化与测试",
+            "average_score": 82,
+            "completion_rate": 70
+          }
+        ]
+      }
     },
     {
       "title": "机器学习应用 (ML Applications)",
@@ -105,7 +148,42 @@
           "title": "模型部署与监控",
           "desc": "利用Flask/FastAPI开发模型推理服务，并学习使用MLOps工具对线上模型运行状态进行监控。"
         }
-      ]
+      ],
+      "report": {
+        "overall_average": 78,
+        "common_gaps": [
+          "反向传播求导推导",
+          "偏差-方差权衡分析",
+          "数据泄露 (Data Leakage)"
+        ],
+        "module_stats": [
+          {
+            "module_name": "数据预处理与特征工程",
+            "average_score": 85,
+            "completion_rate": 90
+          },
+          {
+            "module_name": "监督学习算法应用",
+            "average_score": 80,
+            "completion_rate": 85
+          },
+          {
+            "module_name": "深度学习实战入门",
+            "average_score": 72,
+            "completion_rate": 70
+          },
+          {
+            "module_name": "模型评估与诊断",
+            "average_score": 75,
+            "completion_rate": 75
+          },
+          {
+            "module_name": "模型部署与监控",
+            "average_score": 78,
+            "completion_rate": 60
+          }
+        ]
+      }
     },
     {
       "title": "自然语言处理高级技术 (Advanced NLP)",
@@ -132,7 +210,42 @@
           "title": "NLP前沿论文精读",
           "desc": "结合最新的顶级会议（ACL/EMNLP）论文，分析多模态交互与模型对齐技术的未来发展路径。"
         }
-      ]
+      ],
+      "report": {
+        "overall_average": 84,
+        "common_gaps": [
+          "自注意力机制计算图",
+          "RAG幻觉问题缓解",
+          "LoRA秩(Rank)选择"
+        ],
+        "module_stats": [
+          {
+            "module_name": "语言模型与注意力机制",
+            "average_score": 82,
+            "completion_rate": 90
+          },
+          {
+            "module_name": "预训练模型剖析",
+            "average_score": 85,
+            "completion_rate": 88
+          },
+          {
+            "module_name": "大模型微调技术",
+            "average_score": 88,
+            "completion_rate": 85
+          },
+          {
+            "module_name": "文本生成与信息检索",
+            "average_score": 80,
+            "completion_rate": 80
+          },
+          {
+            "module_name": "NLP前沿论文精读",
+            "average_score": 85,
+            "completion_rate": 70
+          }
+        ]
+      }
     },
     {
       "title": "人机交互设计 (HCI Design)",
@@ -159,7 +272,42 @@
           "title": "可用性评估与数据追踪",
           "desc": "设计并执行A/B测试与可用性测试，并学会在界面迭代中利用定量数据进行决策支撑。"
         }
-      ]
+      ],
+      "report": {
+        "overall_average": 89,
+        "common_gaps": [
+          "可用性测试样本量过少",
+          "用户心智模型不匹配",
+          "可访问性 (a11y) 盲区"
+        ],
+        "module_stats": [
+          {
+            "module_name": "人类认知与界面心理学",
+            "average_score": 92,
+            "completion_rate": 95
+          },
+          {
+            "module_name": "用户研究方法",
+            "average_score": 88,
+            "completion_rate": 90
+          },
+          {
+            "module_name": "信息架构与交互流程",
+            "average_score": 85,
+            "completion_rate": 85
+          },
+          {
+            "module_name": "低保真与高保真原型",
+            "average_score": 90,
+            "completion_rate": 90
+          },
+          {
+            "module_name": "可用性评估与数据追踪",
+            "average_score": 90,
+            "completion_rate": 88
+          }
+        ]
+      }
     }
   ]
 }

@@ -31,10 +31,14 @@ logger = logging.getLogger(__name__)
 MAX_INPUT_CHARS: int = 10_000
 
 
+_MAX_RETRIES: int = 2
+
+
 def generate_quiz(
     module_content: str,
     student_notes: str,
     difficulty_level: str = "Medium",
+    num_questions: int = 5,
 ) -> dict:
     """Call the Claude API to generate a structured quiz from module content and student notes.
 
@@ -49,6 +53,7 @@ def generate_quiz(
             empty string if the student has not yet uploaded notes.
         difficulty_level: Desired difficulty — one of ``DIFFICULTY_LEVELS``
             (``"Easy"``, ``"Medium"``, ``"Hard"``).  Defaults to ``"Medium"``.
+        num_questions: Exact number of questions to generate. Defaults to 5.
 
     Returns:
         A dict containing:
@@ -81,67 +86,92 @@ def generate_quiz(
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     client = anthropic.Anthropic(api_key=api_key)
 
-    logger.info(
-        "Requesting quiz generation from Claude API (difficulty=%s).", difficulty_level
-    )
-    message = client.messages.create(
-        model="claude-sonnet-4-6",
-        max_tokens=4096,
-        system=SYSTEM_PROMPT,
-        messages=[
-            {
-                "role": "user",
-                "content": build_quiz_user_message(
-                    module_content, student_notes, difficulty_level
-                ),
-            }
-        ],
-        tools=[
-            {
-                "name": "generate_quiz_output",
-                "description": "Output the generated quiz.",
-                "input_schema": {
-                    "type": "object",
-                    "properties": {
-                        "title": {"type": "string"},
-                        "difficulty_level": {"type": "string", "enum": ["Easy", "Medium", "Hard"]},
-                        "questions": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {"type": "integer"},
-                                    "text": {"type": "string"},
-                                    "question_type": {"type": "string", "enum": ["multiple_choice", "short_answer"]},
-                                    "options": {
-                                        "type": ["array", "null"],
-                                        "items": {"type": "string"}
-                                    },
-                                    "correct_answer": {"type": "string"},
-                                    "explanation": {"type": "string"}
-                                },
-                                "required": ["id", "text", "question_type", "correct_answer", "explanation"]
-                            }
-                        }
-                    },
-                    "required": ["title", "difficulty_level", "questions"]
+    last_error: Exception | None = None
+    for attempt in range(1, _MAX_RETRIES + 1):
+        logger.info(
+            "Requesting quiz generation from Claude API (difficulty=%s, attempt=%d/%d).",
+            difficulty_level,
+            attempt,
+            _MAX_RETRIES,
+        )
+        message = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=4096,
+            system=SYSTEM_PROMPT,
+            messages=[
+                {
+                    "role": "user",
+                    "content": build_quiz_user_message(
+                        module_content, student_notes, difficulty_level, num_questions
+                    ),
                 }
-            }
-        ],
-        tool_choice={"type": "tool", "name": "generate_quiz_output"}
+            ],
+            tools=[
+                {
+                    "name": "generate_quiz_output",
+                    "description": "Output the generated quiz.",
+                    "input_schema": {
+                        "type": "object",
+                        "properties": {
+                            "title": {"type": "string"},
+                            "difficulty_level": {"type": "string", "enum": ["Easy", "Medium", "Hard"]},
+                            "questions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {"type": "integer"},
+                                        "text": {"type": "string"},
+                                        "question_type": {"type": "string", "enum": ["multiple_choice", "short_answer"]},
+                                        "options": {
+                                            "type": ["array", "null"],
+                                            "items": {"type": "string"}
+                                        },
+                                        "correct_answer": {"type": "string"},
+                                        "explanation": {"type": "string"}
+                                    },
+                                    "required": ["id", "text", "question_type", "correct_answer", "explanation"]
+                                }
+                            }
+                        },
+                        "required": ["title", "difficulty_level", "questions"]
+                    }
+                }
+            ],
+            tool_choice={"type": "tool", "name": "generate_quiz_output"}
+        )
+
+        tool_use = next((block for block in message.content if block.type == "tool_use"), None)
+        if not tool_use:
+            last_error = ValueError(
+                f"Claude API returned no tool_use block on attempt {attempt}. "
+                f"Response: {message.content}"
+            )
+            logger.warning(str(last_error))
+            continue
+
+        quiz: dict = tool_use.input
+        try:
+            _validate_and_coerce_quiz(quiz, num_questions)
+            logger.info(
+                "Generated quiz with %d questions (attempt %d).",
+                len(quiz.get("questions", [])),
+                attempt,
+            )
+            return quiz
+        except ValueError as exc:
+            last_error = exc
+            logger.warning(
+                "Quiz validation failed on attempt %d/%d: %s",
+                attempt,
+                _MAX_RETRIES,
+                exc,
+            )
+
+    raise ValueError(
+        f"Quiz generation failed after {_MAX_RETRIES} attempts. "
+        f"Last error: {last_error}"
     )
-
-    tool_use = next((block for block in message.content if block.type == "tool_use"), None)
-    if not tool_use:
-        raise ValueError(f"Claude API returned no structured output. Response: {message.content}")
-
-    quiz: dict = tool_use.input
-
-    _validate_quiz(quiz)
-    logger.info(
-        "Generated quiz with %d questions.", len(quiz.get("questions", []))
-    )
-    return quiz
 
 
 # ---------------------------------------------------------------------------
@@ -170,20 +200,23 @@ def _maybe_truncate(module_content: str, student_notes: str) -> tuple[str, str]:
     return module_content, student_notes
 
 
-def _validate_quiz(quiz: dict) -> None:
-    """Validate the quiz dict returned by Claude against all structural requirements.
+def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
+    """Validate and coerce the quiz dict returned by Claude.
 
-    Checks top-level fields, per-question fields, MC/SA ratio constraints, and
-    that every multiple-choice question has exactly 4 options.
+    Unlike a pure validator, this function also attempts to *fix* minor
+    inconsistencies that Claude occasionally introduces (e.g. returning an
+    empty list instead of ``None`` for short-answer options, or returning
+    a ``questions`` field as a JSON-encoded string instead of a list).
 
     Args:
-        quiz: Raw dict parsed from Claude's JSON response.
+        quiz: Raw dict from Claude's tool-use response (mutated in-place).
+        expected_count: The number of questions originally requested.
 
     Raises:
-        ValueError: If the response is not a dict, any required field is missing
-            or has an incorrect type, fewer than 5 or more than 15 questions are
-            present, the MC ratio is below 60%, there are no short-answer
-            questions, or any MC question does not have exactly 4 options.
+        ValueError: If the response is not a dict, any required top-level
+            field is missing, the question count falls outside the tolerated
+            range, the MC/SA ratio constraints cannot be satisfied, or any
+            individual question is structurally invalid.
     """
     if not isinstance(quiz, dict):
         raise ValueError(
@@ -205,22 +238,67 @@ def _validate_quiz(quiz: dict) -> None:
             f"got: {quiz['difficulty_level']!r}"
         )
 
+    # --- Coerce questions if Claude returned it as a JSON string ---
     questions = quiz["questions"]
     if isinstance(questions, str):
-        import json
+        import json as _json
+        import re
+        clean_str = questions.strip()
+        clean_str = re.sub(r"^```(?:json)?\s*", "", clean_str)
+        clean_str = re.sub(r"\s*```$", "", clean_str)
+        parsed = None
+        # 1st attempt: standard json.loads (handles well-formed JSON strings)
         try:
-            questions = json.loads(questions)
-            quiz["questions"] = questions
-        except Exception:
-            pass
+            parsed = _json.loads(clean_str)
+        except _json.JSONDecodeError as json_exc:
+            logger.warning(
+                "json.loads failed on 'questions' string (will try json_repair): %s\n"
+                "First 200 chars: %s",
+                json_exc,
+                clean_str[:200],
+            )
+        # 2nd attempt: json_repair (optional dependency, handles malformed JSON)
+        if parsed is None:
+            try:
+                from json_repair import repair_json  # type: ignore[import]
+                parsed = repair_json(clean_str, return_objects=True)
+            except ImportError:
+                logger.warning(
+                    "json_repair is not installed; skipping repair attempt. "
+                    "Install it with: pip install json-repair"
+                )
+            except Exception as repair_exc:
+                logger.warning("json_repair failed: %s", repair_exc)
+        if isinstance(parsed, list) and parsed:
+            logger.warning("Claude returned 'questions' as a string; parsed successfully.")
+            quiz["questions"] = parsed
+            questions = parsed
+        else:
+            logger.error(
+                "Could not parse 'questions' string.\nRaw value:\n%s", questions
+            )
+            raise ValueError(
+                "Quiz 'questions' was returned as a JSON string but could not be parsed. "
+                "Install json-repair for additional recovery: pip install json-repair"
+            )
 
     if not isinstance(questions, list):
         raise ValueError(
             f"Quiz 'questions' must be a list, got: {type(questions).__name__}"
         )
-    if not (5 <= len(questions) <= 15):
+
+    # --- Tolerate ±1 question (Claude occasionally returns one extra/fewer) ---
+    min_acceptable = max(1, expected_count - 1)
+    max_acceptable = expected_count + 1
+    if not (min_acceptable <= len(questions) <= max_acceptable):
         raise ValueError(
-            f"Quiz must have 5–15 questions, got: {len(questions)}"
+            f"Quiz must have {expected_count} (±1) questions, got: {len(questions)}"
+        )
+    if len(questions) != expected_count:
+        logger.warning(
+            "Claude returned %d questions instead of %d; using as-is.",
+            len(questions),
+            expected_count,
         )
 
     for i, q in enumerate(questions):
@@ -281,9 +359,12 @@ def _validate_question(index: int, q: dict) -> None:
                     f"MC question {index} option {j} must be a non-empty string"
                 )
     else:
-        # short_answer: options must be absent or None
-        if q.get("options") is not None:
+        # short_answer: options should be None; coerce empty list [] to None
+        raw_options = q.get("options")
+        if raw_options == [] or raw_options is None:
+            q["options"] = None  # normalise in-place
+        elif raw_options is not None:
             raise ValueError(
                 f"SA question {index} must have options=None, "
-                f"got: {q.get('options')!r}"
+                f"got: {raw_options!r}"
             )
