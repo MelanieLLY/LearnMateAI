@@ -6,12 +6,14 @@ import sys
 # Set up to run from the root of server directory
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from src.database import SessionLocal
+from src.database import SessionLocal, engine, Base
 from src.models.user import User
 from src.models.course import Course
 from src.models.module import Module
 from src.models.enrollment import Enrollment
 from src.models.student_note import StudentNote
+from src.models.quiz import Quiz
+from src.models.quiz_submission import QuizSubmission
 from src.services.auth_service import get_password_hash
 
 def generate_pwd(length=12):
@@ -22,6 +24,7 @@ def generate_pwd(length=12):
 import json
 
 def run_seed():
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     credentials = []
 
@@ -30,8 +33,19 @@ def run_seed():
     with open(json_path, "r", encoding="utf-8") as f:
         mock_data = json.load(f)
 
+    # Resolve password placeholders — values in mock_data.json are env var *names*
+    # (e.g. "SEED_STUDENT1_PASSWORD"). Substitute from the environment, or fall
+    # back to a fresh random password so seeding always succeeds in CI without secrets.
+    for entry in mock_data.get("instructors", []) + mock_data.get("students", []):
+        placeholder = entry.get("password", "")
+        if placeholder and placeholder.isupper() and "_" in placeholder:
+            # Looks like an env-var name — resolve it
+            entry["password"] = os.environ.get(placeholder, generate_pwd())
+
     try:
         # Clear existing old data to avoid duplicating when re-running
+        db.query(QuizSubmission).delete()
+        db.query(Quiz).delete()
         db.query(StudentNote).delete()
         db.query(Enrollment).delete()
         db.query(Module).delete()
@@ -145,6 +159,35 @@ def run_seed():
                         content=sentence
                     )
                     db.add(note)
+                    
+        db.flush()
+        
+        # 6. Generate Quizzes and Submissions
+        print("Generating mock quizzes and submissions...")
+        for c in all_courses:
+            course_modules = db.query(Module).filter(Module.course_id == c.id).all()
+            for m in course_modules:
+                # Create a generic Instructor-assigned quiz for this module
+                quiz = Quiz(
+                    title=f"Assessment: {m.title}",
+                    difficulty_level="Medium",
+                    questions=[{"id": 1, "text": "Mock Question?", "question_type": "short_answer", "correct_answer": "42", "explanation": "Mock"}],
+                    module_id=m.id,
+                    student_id=c.instructor_id, # use instructor's ID to denote assigned quiz
+                    is_instructor_assigned=True
+                )
+                db.add(quiz)
+                db.flush()
+                
+                # Each student submits it
+                for s in students:
+                    score = random.randint(50, 100)
+                    sub = QuizSubmission(
+                        quiz_id=quiz.id,
+                        student_id=s.id,
+                        score=score
+                    )
+                    db.add(sub)
                     
         db.commit()
         
