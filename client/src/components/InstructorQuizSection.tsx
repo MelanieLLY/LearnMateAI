@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface QuizQuestion {
   id: number;
@@ -25,7 +25,7 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
   const [isGenerating, setIsGenerating] = useState(false);
   const [editingQuiz, setEditingQuiz] = useState<Quiz | null>(null);
   
-  const loadQuizzes = async () => {
+  const loadQuizzes = useCallback(async () => {
     try {
       const res = await fetch(`/api/v1/modules/${moduleId}/quizzes`, { credentials: 'include' });
       if (res.ok) {
@@ -34,11 +34,11 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
     } catch {
       // ignore
     }
-  };
+  }, [moduleId]);
 
   useEffect(() => {
     loadQuizzes();
-  }, [moduleId]);
+  }, [loadQuizzes]);
 
   const handleGenerateQuiz = async () => {
     setIsGenerating(true);

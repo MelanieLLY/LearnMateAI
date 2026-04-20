@@ -154,9 +154,21 @@ def get_course_report(
             "common_gaps": [],
             "module_stats": []
         }
+        
+    # Query real overall average from QuizSubmissions
+    from sqlalchemy.sql import func
+    from src.models.quiz_submission import QuizSubmission
+    from src.models.quiz import Quiz
+    from src.models.module import Module
+    
+    avg_score = db.query(func.avg(QuizSubmission.score)).join(Quiz).join(Module).filter(
+        Module.course_id == course_id
+    ).scalar()
+    
+    real_average = int(avg_score) if avg_score is not None else mock_report.get("overall_average", 0)
     
     return CourseReportResponse(
-        overall_average=mock_report.get("overall_average", 0),
+        overall_average=real_average,
         total_students=total_students,
         common_gaps=mock_report.get("common_gaps", []),
         module_stats=[ModuleStat(**m) for m in mock_report.get("module_stats", [])]

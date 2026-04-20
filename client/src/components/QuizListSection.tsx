@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface QuizQuestion {
@@ -31,7 +31,7 @@ export default function QuizListSection({ moduleId }: QuizListSectionProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadQuizzes = async () => {
+  const loadQuizzes = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -46,11 +46,11 @@ export default function QuizListSection({ moduleId }: QuizListSectionProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [moduleId]);
 
   useEffect(() => {
     loadQuizzes();
-  }, [moduleId]);
+  }, [loadQuizzes]);
 
   if (isLoading) {
     return (

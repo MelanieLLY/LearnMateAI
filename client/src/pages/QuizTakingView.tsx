@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 // ---------------------------------------------------------------------------
@@ -96,14 +96,7 @@ export default function QuizTakingView(): JSX.Element {
     return () => clearInterval(id);
   }, [phase, finalScore]);
 
-  // If taking an existing quiz, fetch it on mount
-  useEffect(() => {
-    if (quizId && phase === 'loading') {
-      fetchExistingQuiz();
-    }
-  }, [quizId]);
-
-  const fetchExistingQuiz = async () => {
+  const fetchExistingQuiz = useCallback(async () => {
     try {
       const res = await fetch(`/api/v1/quizzes/${quizId}`, {
         credentials: 'include',
@@ -116,7 +109,14 @@ export default function QuizTakingView(): JSX.Element {
       setError(err instanceof Error ? err.message : 'Unknown error');
       setPhase('setup'); // Fallback if error
     }
-  };
+  }, [quizId]);
+
+  // If taking an existing quiz, fetch it on mount
+  useEffect(() => {
+    if (quizId && phase === 'loading') {
+      fetchExistingQuiz();
+    }
+  }, [quizId, phase, fetchExistingQuiz]);
 
   const generateQuiz = async () => {
     if (!moduleId) return;

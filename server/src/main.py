@@ -15,6 +15,7 @@ from src.models import summary  # noqa: F401 — registers ORM model
 from src.models import user  # noqa: F401 — registers ORM model
 from src.models import enrollment  # noqa: F401
 from src.models import material  # noqa: F401
+from src.models import quiz_submission  # noqa: F401
 from src.routers.auth import router as auth_router
 from src.routers.courses import router as courses_router
 from src.routers.flashcards import router as flashcards_router

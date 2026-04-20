@@ -192,21 +192,6 @@ def run_seed():
         db.commit()
         
         print("Successfully seeded mock data!")
-        
-        # Write credentials to root
-        root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        cred_file = os.path.join(root_path, "test_accounts.md")
-        with open(cred_file, "w") as f:
-            f.write("# Mock Test Accounts\n\n")
-            for c in credentials:
-                f.write(c + "\n")
-        print(f"Saved credentials to {cred_file}")
-        
-        # Remove old text file if it exists
-        old_txt = os.path.join(root_path, "test_accounts.txt")
-        if os.path.exists(old_txt):
-            os.remove(old_txt)
-
     except Exception as e:
         db.rollback()
         print(f"Error seeding data: {e}")

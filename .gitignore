@@ -48,3 +48,4 @@ htmlcov/
 # Others
 planning_files/chathistory_P3.md*.db
 *.db-journal
+secrets.txt

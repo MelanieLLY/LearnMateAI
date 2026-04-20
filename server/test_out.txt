@@ -1,0 +1,76 @@
+Failed to parse 'questions' string: Expecting ',' delimiter: line 17 column 22 (char 394)
+Raw string:
+[
+  {
+    "id": 1,
+    "text": "根据米勒定律（Miller's Law），人类短期记忆一次能够有效记住的信息组块数量大约是多少？",
+    "question_type": "multiple_choice",
+    "options": [
+      "5 ± 2 个组块",
+      "7 ± 2 个组块",
+      "10 ± 2 个组块",
+      "3 ± 1 个组块"
+    ],
+    "correct_answer": "7 ± 2 个组块",
+    "explanation": "米勒定律指出，人类短期记忆的容量约为 7±2 个信息组块。界面设计中常利用这一原则，将导航选项、菜单项等限制在此范围内，以减少用户的认知负担。"
+  },
+  {
+    "id": 2,
+    "text": "在界面设计中，"视觉层级"（Visual Hierarchy）主要利用了人类视觉认知的哪一特性？",
+    "question_type": "multiple_choice",
+    "options": [
+      "人眼对运动物体不敏感",
+      "人类倾向于优先处理突出或差异化的视觉元素",
+      "人类的周边视觉比中央视觉更清晰",
+      "人眼无法同时感知颜色和形状"
+    ],
+    "correct_answer": "人类倾向于优先处理突出或差异化的视觉元素",
+    "explanation": "视觉层级设计利用了人类"前注意属性"（Pre-attentive Attributes）的认知特性——大小、颜色、对比度等差异会使某些元素在视觉上自动脱颖而出，引导用户的注意力优先聚焦于关键内容。"
+  },
+  {
+    "id": 3,
+    "text": "以下哪项设计策略最能有效降低用户的"认知负荷"（Cognitive Load）？",
+    "question_type": "multiple_choice",
+    "options": [
+      "在单一页面上展示尽可能多的功能选项",
+      "使用专业术语以体现系统的专业性",
+      "将复杂任务分解为多个简单步骤，并提供清晰的进度反馈",
+      "去除所有图标，仅使用文字标签"
+    ],
+    "correct_answer": "将复杂任务分解为多个简单步骤，并提供清晰的进度反馈",
+    "explanation": "认知负荷理论表明，人类工作记忆资源有限。将复杂任务拆解为步骤（渐进式披露）并提供进度反馈，可以降低用户在单一时刻需要处理的信息量，从而有效减轻认知负担。"
+  },
+  {
+    "id": 4,
+    "text": "格式塔心理学（Gestalt Psychology）中的"接近性原则"（Principle of Proximity）在界面设计中意味着什么？",
+    "question_type": "multiple_choice",
+    "options": [
+      "相似颜色的元素会被视为同一组",
+      "在空间上相互靠近的元素会被用户感知为一个整体或同一类别",
+      "对称的布局比非对称布局更容易被记忆",
+      "用户倾向于忽略页面边缘的元素"
+    ],
+    "correct_answer": "在空间上相互靠近的元素会被用户感知为一个整体或同一类别",
+    "explanation": "格式塔接近性原则指出，物理位置相近的元素在感知上会被自动归为一组。界面设计师利用此原则，通过合理的间距和布局来传达信息的逻辑关系，例如将标签与其对应的输入框紧密放置。"
+  },
+  {
+    "id": 5,
+    "text": "请解释"注意力资源有限性"这一认知限制对界面设计的具体影响，并举例说明设计师应如何应对这一挑战。",
+    "question_type": "short_answer",
+    "options": null,
+    "correct_answer": "人类的注意力是一种有限资源，无法同时高效处理多个信息源。这意味着界面中过多的动画、弹窗、通知或视觉干扰会分散用户对核心任务的注意力。设计师应对措施包括：减少不必要的视觉噪音、采用渐进式披露（Progressive Disclosure）仅在需要时呈现信息、克制使用动效与通知，以及通过清晰的视觉层级将用户注意力引导至最重要的操作区域。",
+    "explanation": "注意力资源有限性是界面设计的核心约束之一。优秀的界面设计应尊重这一认知规律，通过简洁、聚焦的设计帮助用户将有限的注意力集中在完成目标任务上，而非被无关元素分散。"
+  }
+]
+Traceback (most recent call last):
+  File "/Users/melaniey/Github/LearnMateAI/server/scratch_api_test.py", line 11, in <module>
+    quiz = generate_and_store_quiz(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/melaniey/Github/LearnMateAI/server/src/services/quiz_service.py", line 74, in generate_and_store_quiz
+    raw = generate_quiz(
+          ^^^^^^^^^^^^^^
+  File "/Users/melaniey/Github/LearnMateAI/server/src/agents/quiz_agent.py", line 142, in generate_quiz
+    _validate_quiz(quiz, num_questions)
+  File "/Users/melaniey/Github/LearnMateAI/server/src/agents/quiz_agent.py", line 229, in _validate_quiz
+    raise ValueError(
+ValueError: Quiz 'questions' must be a list, got: str

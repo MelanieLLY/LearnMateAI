@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import FlashcardSection from '../components/FlashcardSection';
 import ModuleSummarySection from '../components/ModuleSummarySection';
 import QuizListSection from '../components/QuizListSection';
@@ -40,7 +39,6 @@ const MODULE_TABS: TabConfig[] = [
 ];
 
 export default function StudentModuleView() {
-  const navigate = useNavigate();
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<number>>(new Set());
