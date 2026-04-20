@@ -250,8 +250,13 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
         # 1st attempt: standard json.loads (handles well-formed JSON strings)
         try:
             parsed = _json.loads(clean_str)
-        except _json.JSONDecodeError:
-            pass
+        except _json.JSONDecodeError as json_exc:
+            logger.warning(
+                "json.loads failed on 'questions' string (will try json_repair): %s\n"
+                "First 200 chars: %s",
+                json_exc,
+                clean_str[:200],
+            )
         # 2nd attempt: json_repair (optional dependency, handles malformed JSON)
         if parsed is None:
             try:
