@@ -39,7 +39,7 @@
 3. **Issue #24**: `feat(frontend): Quiz taking UI` (并行特性 A)
 4. **Issue #33**: `feat(frontend): Flashcard & Summary UI` (并行特性 B)
 
-### 【Phase 4: QA 保障 (Day 7-8)】
+好的，谢谢。你现在看一下有我的 PlayBook 嗯。 ### 【Phase 4: QA 保障 (Day 7-8)】
 6. **Issue #21**: `test: Set up Playwright for E2E tests`。
 7. **Issue #6 & #7**: `Instructor report` + `System Eval`。
 
@@ -346,7 +346,7 @@
 **🎯 Step 12.5: 前端体验自建优化与 JSON 动态数据驱动 (Issue #51)** ✅ （已完成）
 - **操作**: 这是正式联测前的底层逻辑查缺补漏。利用 Vite + React 彻底实现了鉴权上下文直通与 404 越权重塑，让角色登录秒进专属仪表盘；优化模块网格将所有数据关联成按字母升序排列的字典树。后端全域移除硬编码，剥离为 `mock_data.json`，极大地降低了敏捷测试及扩展新用户的痛点。
 
-**🎯 Step 13: Instructor 报告仪表盘 (Issue #6)** （执行中）
+**🎯 Step 13: Instructor 报告仪表盘 (Issue #6)** ✅ （已完成）
 - **操作**: 班级报告数据可视化。
 
 <details>
@@ -355,7 +355,7 @@
 <blockquote>Antigravity，为 Instructor 建立聚合报告仪表盘，显示班级匿名统计数据（如平均分、易错知识点分布）。保持简洁实用，不需要花哨的图表库。</blockquote>
 </details>
 
-**🎯 Step 13.5: 真实测验分数全链路闭环 (Issue #6 续)** （待启动接力）
+**🎯 Step 13.5: 真实测验分数全链路闭环 (Issue #6 续)** ✅ （已完成）
 - **操作**: 建立真实 `QuizSubmission` 记录库，改装测试桩批量引入假数据，最终打通老师端的实时浮动均分测算。
 
 <details>
@@ -390,7 +390,7 @@
 </blockquote>
 </details>
 
-**🎯 Step 14.5: 配置 AI PR Review（为后续 C.L.E.A.R. PR 做准备）** （未开始）
+**🎯 Step 14.5: 配置 AI PR Review（为后续 C.L.E.A.R. PR 做准备）** ✅ （已完成）
 - **操作**: 在 GitHub Actions 中添加 AI PR review，确保 Issue #20 的 PR 能触发自动 review。
 
 <details>
@@ -411,7 +411,9 @@
 <details>
 <summary>👉 点击展开行动指令 (Prompt)</summary><br>
 发送给 [Antigravity] (中文):<br>
-<blockquote>Antigravity，帮我配置最终的 <code>.github/workflows/production.yml</code>。必须包含以下 9 个 stage（每个是一个独立 job 或 step），并注明每个 stage 用于抓取什么问题 (What it catches)：
+<blockquote>
+Antigravity，帮我配置最终的 <code>.github/workflows/production.yml</code>。
+必须包含以下 9 个 stage（每个是一个独立 job 或 step），并注明每个 stage 用于抓取什么问题 (What it catches)：
 
 1. **Lint** (ESLint, Prettier) — Catches style violations, unused imports
 2. **Typecheck** (tsc --noEmit) — Catches type errors tests might miss
