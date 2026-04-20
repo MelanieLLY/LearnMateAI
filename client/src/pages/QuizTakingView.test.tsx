@@ -89,7 +89,7 @@ describe('QuizTakingView', () => {
         '/api/v1/modules/3/quizzes',
         expect.objectContaining({
           method: 'POST',
-          body: JSON.stringify({ difficulty_level: 'Medium' }),
+          body: JSON.stringify({ difficulty_level: 'Medium', num_questions: 5 }),
         }),
       );
     });
@@ -258,7 +258,7 @@ describe('QuizTakingView', () => {
       expect(global.fetch).toHaveBeenCalledWith(
         '/api/v1/modules/3/quizzes',
         expect.objectContaining({
-          body: JSON.stringify({ difficulty_level: 'Hard' }),
+          body: JSON.stringify({ difficulty_level: 'Hard', num_questions: 5 }),
         }),
       );
     });
