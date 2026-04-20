@@ -363,7 +363,7 @@ export default function InstructorModuleDashboard() {
     : (selectedCourseId === 'new' ? [] : modules.filter(m => m.course_id === selectedCourseId));
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 pb-12">
+    <div className="max-w-[90rem] mx-auto space-y-8 pb-12 px-4 xl:px-8">
       <header className="mb-8 pl-2">
         <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨‍🏫 教员工作台 (Instructor Dashboard)</h1>
         <p className="text-slate-500">管理您的课程、模块，并上传教学资料。</p>
@@ -382,24 +382,61 @@ export default function InstructorModuleDashboard() {
           <div className="glass-panel p-6 rounded-2xl animate-pulse h-64 bg-slate-100"></div>
         </div>
       ) : (
-        <>
-          <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
-            <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-              <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span>
-              选择班级上下文 (Global Class Context)
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
+          {/* Left Sidebar */}
+          <aside className="w-full lg:w-1/4 xl:w-1/5 shrink-0 glass-panel p-5 rounded-2xl sticky top-6 z-10 hidden md:block">
+            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <span className="text-brand-500">📚</span> 班级切换
             </h2>
-            <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3">
-              <strong className="text-slate-700 whitespace-nowrap">当前操作班级：</strong>
-              <select 
-                value={selectedCourseId} 
-                onChange={(e) => setSelectedCourseId(e.target.value === 'none' || e.target.value === 'new' ? e.target.value : Number(e.target.value))}
-                className="w-full sm:max-w-md px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 bg-white shadow-sm"
+            <div className="space-y-2">
+              <button
+                onClick={() => setSelectedCourseId('none')}
+                className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all ${selectedCourseId === 'none' ? 'bg-brand-100 text-brand-700 bg-opacity-70 shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
               >
-                <option value="none">-- 游荡模块 / 全部 (Orphan Modules / All) --</option>
-                {courses.map(c => <option key={c.id} value={c.id}>📚 {c.title}</option>)}
-                <option value="new">➕ 新建一个班级 (Create New Class)...</option>
-              </select>
+                🌍 游荡模块 / 全部
+              </button>
+              {courses.map(c => (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedCourseId(c.id)}
+                  className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all ${selectedCourseId === c.id ? 'bg-brand-100 text-brand-700 bg-opacity-70 shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
+                >
+                  📘 {c.title}
+                </button>
+              ))}
+              <div className="pt-3 mt-3 border-t border-slate-100">
+                <button
+                  onClick={() => setSelectedCourseId('new')}
+                  className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${selectedCourseId === 'new' ? 'bg-brand-600 text-white shadow-md' : 'text-brand-600 hover:bg-brand-50 border border-brand-100 border-dashed'}`}
+                >
+                  ➕ 新建一个班级
+                </button>
+              </div>
             </div>
+          </aside>
+          
+          {/* Mobile course selector (visible only on small screens) */}
+          <div className="md:hidden w-full glass-panel p-4 rounded-xl mb-4">
+            <h2 className="text-sm font-bold text-slate-700 mb-2">选择班级班级上下文</h2>
+            <select 
+              value={selectedCourseId} 
+              onChange={(e) => setSelectedCourseId(e.target.value === 'none' || e.target.value === 'new' ? e.target.value : Number(e.target.value))}
+              className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50 bg-white"
+            >
+              <option value="none">🌍 游荡模块 / 全部 (Orphan Modules / All)</option>
+              {courses.map(c => <option key={c.id} value={c.id}>📘 {c.title}</option>)}
+              <option value="new">➕ 新建一个班级 (Create New Class)...</option>
+            </select>
+          </div>
+
+          {/* Right Main Content */}
+          <main className="w-full lg:flex-1 space-y-8">
+            {(selectedCourseId === 'new' || typeof selectedCourseId === 'number') && (
+              <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
+                <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                  <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span>
+                  班级上下文 (Class Context)
+                </h2>
 
             {selectedCourseId === 'new' && (
               <form onSubmit={handleCreateCourse} className="flex flex-col gap-4 p-5 border border-brand-200 bg-brand-50/30 rounded-xl shadow-sm mt-4">
@@ -496,6 +533,7 @@ export default function InstructorModuleDashboard() {
               </div>
             )}
           </section>
+            )}
 
           {typeof selectedCourseId === 'number' && courseReport && (
             <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-slate-50/50">
@@ -770,7 +808,8 @@ export default function InstructorModuleDashboard() {
           </ul>
         )}
           </section>
-        </>
+          </main>
+        </div>
       )}
     </div>
   );

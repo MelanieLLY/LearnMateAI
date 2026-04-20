@@ -69,7 +69,7 @@ function computeScore(quiz: Quiz, answers: Record<number, string>): number {
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
-export default function QuizTakingView(): JSX.Element {
+export default function QuizTakingView() {
   const { moduleId, quizId } = useParams<{ moduleId?: string, quizId?: string }>();
   const navigate = useNavigate();
 
