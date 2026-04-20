@@ -67,6 +67,19 @@ function mockModulesFetch(modules: object[]): void {
   });
 }
 
+
+async function renderAndShowAllModules() {
+  render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+  try {
+    // In case of error tests, this might not exist or we might be testing error states
+    // but the button should still be in the sidebar.
+    await waitFor(() => expect(screen.getByRole('button', { name: /显示所有模组/i })).toBeInTheDocument(), { timeout: 2000 });
+    fireEvent.click(screen.getByRole('button', { name: /显示所有模组/i }));
+  } catch (e) {
+    // Ignore in case the test is meant to fail loading
+  }
+}
+
 describe('StudentModuleView', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -79,7 +92,7 @@ describe('StudentModuleView', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => [MOCK_MODULE] })
       .mockResolvedValue({ ok: false }); // notes fetch silently fails
 
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     // Page title is always present
     expect(screen.getByText('👨🎓 学生端：模块浏览与学习')).toBeInTheDocument();
@@ -96,7 +109,7 @@ describe('StudentModuleView', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => [MOCK_MODULE_ML] })
       .mockResolvedValue({ ok: false });
 
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Advanced Machine Learning/ })).toBeInTheDocument();
@@ -137,7 +150,7 @@ describe('StudentModuleView', () => {
   it('displays error message if fetching modules fails', async () => {
     (global.fetch as ReturnType<typeof vi.fn>).mockRejectedValueOnce(new Error('Network Error'));
 
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() => {
       expect(screen.getByText(/错误: Network Error/)).toBeInTheDocument();
@@ -149,7 +162,7 @@ describe('StudentModuleView', () => {
 
   it('renders all three tabs for a loaded module', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument();
@@ -163,7 +176,7 @@ describe('StudentModuleView', () => {
 
   it('shows notes section by default and hides it after switching to Flashcards tab', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument();
@@ -185,7 +198,7 @@ describe('StudentModuleView', () => {
 
   it('shows Generate New and Load Existing buttons in Flashcards tab', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument();
@@ -199,7 +212,7 @@ describe('StudentModuleView', () => {
 
   it('calls POST flashcards endpoint and renders the card question', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument();
@@ -234,7 +247,7 @@ describe('StudentModuleView', () => {
 
   it('navigates to the second card via Next button', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument(),
@@ -265,7 +278,7 @@ describe('StudentModuleView', () => {
 
   it('shows level selector buttons and Generate button in Summary tab', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument(),
@@ -283,7 +296,7 @@ describe('StudentModuleView', () => {
 
   it('calls POST summaries with selected level and renders the summary', async () => {
     mockModulesFetch([MOCK_MODULE]);
-    render(<MemoryRouter><StudentModuleView /></MemoryRouter>);
+    await renderAndShowAllModules();
 
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: /Introduction to AI/ })).toBeInTheDocument(),
