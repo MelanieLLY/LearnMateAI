@@ -5,6 +5,10 @@ LearnMate AI is a smart teaching assistant platform made for modern schools. It 
 
 <img width="557" height="539" alt="Screenshot 2026-04-20 at 11 01 32 PM" src="https://github.com/user-attachments/assets/45ff7555-95a6-45f3-b1df-ec1d5fa6b91f" />
 
+## Blog Post
+
+https://dev.to/jing_2026/learnmateai-building-an-intelligent-teaching-assistant-platform-48pb
+
 ## 📍 Online Demo
 
 > [!IMPORTANT]
