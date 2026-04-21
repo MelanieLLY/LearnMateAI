@@ -26,13 +26,13 @@ function Navigation() {
               👤 {user?.email} ({user?.role})
             </span>
             <button onClick={logout} className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
-              登出
+              Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors">登录 (Login)</Link>
-            <Link to="/register" className="text-sm font-medium px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-500 transition-colors shadow-sm">注册 (Register)</Link>
+            <Link to="/login" className="text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors">Login</Link>
+            <Link to="/register" className="text-sm font-medium px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-500 transition-colors shadow-sm">Register</Link>
           </>
         )}
       </div>

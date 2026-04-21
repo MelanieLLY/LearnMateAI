@@ -17,10 +17,10 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center pt-20 pb-32">
       <div className="text-center max-w-3xl mb-16">
         <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 mb-6 bg-gradient-to-r from-brand-600 to-green-500 bg-clip-text text-transparent">
-          欢迎使用 LearnMateAI
+          Welcome to LearnMateAI
         </h1>
         <p className="text-xl text-slate-500">
-          请选择您的身份登入，开始全新的学习与教学体验。
+          Please select your role to log in and start a brand new learning and teaching experience.
         </p>
       </div>
 
@@ -32,8 +32,8 @@ export default function Home() {
           <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
             👨‍🏫
           </div>
-          <strong className="text-xl text-slate-800 mb-1">老师 Dashboard</strong>
-          <span className="text-sm text-slate-500">(Instructor Dashboard)</span>
+          <strong className="text-xl text-slate-800 mb-1">Instructor Dashboard</strong>
+          <span className="text-sm text-slate-500">(For Teachers)</span>
         </Link>
 
         <Link
@@ -43,8 +43,8 @@ export default function Home() {
           <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
             👨‍🎓
           </div>
-          <strong className="text-xl text-slate-800 mb-1">学生 Dashboard</strong>
-          <span className="text-sm text-slate-500">(Student View)</span>
+          <strong className="text-xl text-slate-800 mb-1">Student Dashboard</strong>
+          <span className="text-sm text-slate-500">(For Students)</span>
         </Link>
       </div>
     </div>

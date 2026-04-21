@@ -390,7 +390,7 @@
 </blockquote>
 </details>
 
-**🎯 Step 14.5: 配置 AI PR Review（为后续 C.L.E.A.R. PR 做准备）** ✅ （已完成）
+**🎯 Step 14.5: 配置 AI PR Review（为后续 C.L.E.A.R. PR 做准备）** ✅Jing (Initial Setup) & Melanie (Production)
 - **操作**: 在 GitHub Actions 中添加 AI PR review，确保 Issue #20 的 PR 能触发自动 review。
 
 <details>
@@ -405,7 +405,7 @@
 </blockquote>
 </details>
 
-**🎯 Step 15: GitHub Actions 完整流水线 (Issue #20) ⭐** （未开始）
+**🎯 Step 15: GitHub Actions 完整流水线 (Issue #20) ⭐** ✅MelanieLLY & Jing (Collaborated)
 - **操作**: 创建覆盖老师要求的全部 9 个 stage 的 CI/CD workflow。
 
 <details>
@@ -431,7 +431,7 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 📸 截图 (证据 #9)。<br>
 </details>
 
-**🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐** （未开始）(Step 10.5已经做了两个了,所以这个可能不是必要的了)
+**🎯 Step 15.5: 提交 C.L.E.A.R. PR #2 (Issue #20) ⭐** ✅MelanieLLY
 - **操作**: Issue #20 (CI/CD + Security) 的 PR 是我们选定的 **C.L.E.A.R. PR #2**。这里我们同样使用 Reviewer Agent 来完成第二个 PR 点评，稳拿 Writer/Reviewer 满分！
 
 <details>
@@ -570,6 +570,6 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 | #7 | Pytest 全绿通过截图 | Step 8 |
 | #7b | 两个终端同时（或交替）跑在不同分支写UI (`17_evidence_7b_parallel_terminals.png`) | Step 9 & 10 |
 | #8 | C.L.E.A.R. PR #1 的 GitHub comment 截图 | Step 11 |
-| #9 | GitHub Actions All Green 截图 | Step 15 |
-| #10 | C.L.E.A.R. PR #2 的 GitHub comment 截图 | Step 15.5 |
+| #9 | GitHub Actions All Green 截图 (`19_evidence_9_github_actions_all_green.png`) | Step 15 |
+| #10 | C.L.E.A.R. PR #2 的 GitHub comment 截图 - 这是项目流水线的 AI Review 证据 (`20_evidence_10_clear_pr_comment.png`) | Step 15.5 |
 | #11 | Playwright E2E 测试全绿截图 (`18_evidence_11_playwright_e2e_report.png`) | Step 12.1 |

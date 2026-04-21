@@ -29,7 +29,7 @@ export default function Login() {
 
       if (!response.ok) {
         if (response.status === 502 || response.status === 504 || response.status === 503) {
-          throw new Error('☁️ 云端服务器正在从休眠中苏醒 (Cold Start)。此过程在免费套餐中极易发生，请耐心等待约 50 秒后再试！');
+          throw new Error('☁️ The cloud server is waking up from hibernation (Cold Start). This is common on the free tier. Please wait about 50 seconds and try again!');
         }
         let errorMsg = 'Login failed';
         try {
@@ -53,7 +53,7 @@ export default function Login() {
       }
     } catch (error) {
       if (error instanceof TypeError) {
-        setError('🚨 网络请求失败！如果这发生在首次访问，可能是免费版后端的 Cold Start (冷启动) 超时导致。请给服务器 50 秒苏醒时间，并再试一次！');
+        setError('🚨 Network request failed! If this happens on your first visit, it might be due to a Cold Start timeout on the free backend tier. Please give the server 50 seconds to wake up and try again!');
       } else {
         const err = error as Error;
         setError(err.message);
@@ -69,7 +69,7 @@ export default function Login() {
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
       
       <h2 className="text-3xl font-bold text-slate-800 text-center mb-8 relative z-10">
-        登录
+        Login
       </h2>
       
       {error && (
@@ -107,12 +107,12 @@ export default function Login() {
           disabled={isLoading}
           className="mt-2 w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transform active:scale-[0.98]"
         >
-          {isLoading ? '登录中...' : '登录 (Login)'}
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
 
       <p className="text-center mt-8 text-sm text-slate-500 relative z-10">
-        还没有账号? <Link to="/register" className="text-brand-600 font-medium hover:text-brand-700 transition-colors">去注册</Link>
+        Don't have an account? <Link to="/register" className="text-brand-600 font-medium hover:text-brand-700 transition-colors">Register</Link>
       </p>
     </div>
   );

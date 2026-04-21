@@ -35,7 +35,7 @@ export default function Register() {
 
       if (!response.ok) {
         if (response.status === 502 || response.status === 504 || response.status === 503) {
-          throw new Error('☁️ 云端服务器正在从休眠中苏醒 (Cold Start)。此过程在免费套餐中极易发生，请耐心等待约 50 秒后再试！');
+          throw new Error('☁️ The cloud server is waking up from hibernation (Cold Start). This is common on the free tier. Please wait about 50 seconds and try again!');
         }
         let errorMsg = 'Registration failed';
         try {
@@ -51,7 +51,7 @@ export default function Register() {
       navigate('/login');
     } catch (error) {
       if (error instanceof TypeError) {
-        setError('🚨 网络请求失败！如果这发生在首次访问，可能是免费版后端的 Cold Start (冷启动) 超时导致。请给服务器 50 秒苏醒时间，并再试一次！');
+        setError('🚨 Network request failed! If this happens on your first visit, it might be due to a Cold Start timeout on the free backend tier. Please give the server 50 seconds to wake up and try again!');
       } else {
         const err = error as Error;
         setError(err.message);
@@ -67,7 +67,7 @@ export default function Register() {
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
       <h2 className="text-3xl font-bold text-slate-800 text-center mb-8 relative z-10">
-        注册账号
+        Register Account
       </h2>
       
       {error && (
@@ -78,7 +78,7 @@ export default function Register() {
       
       <form onSubmit={handleRegister} className="flex flex-col gap-5 relative z-10">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">姓名 / Full Name</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5 ml-1">Full Name</label>
           <input 
             type="text" 
             value={fullName} 
@@ -107,7 +107,7 @@ export default function Register() {
             onChange={e => setPassword(e.target.value)} 
             required 
             className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all placeholder:text-slate-400"
-            placeholder="至少6位字符"
+            placeholder="At least 6 characters"
           />
         </div>
         
@@ -122,7 +122,7 @@ export default function Register() {
               className="hidden"
             /> 
             <span className="text-xl">🎓</span>
-            <span className="font-medium text-slate-800 text-sm">我是学生</span>
+            <span className="font-medium text-slate-800 text-sm">I am a student</span>
           </label>
           <label className={`flex-1 border rounded-xl p-3 cursor-pointer transition-all flex items-center justify-center gap-2 ${role === 'instructor' ? 'border-blue-500 bg-blue-50/50 ring-1 ring-blue-500' : 'border-slate-200 hover:bg-slate-50'}`}>
             <input 
@@ -134,7 +134,7 @@ export default function Register() {
               className="hidden"
             /> 
             <span className="text-xl">👨‍🏫</span>
-            <span className="font-medium text-slate-800 text-sm">我是老师</span>
+            <span className="font-medium text-slate-800 text-sm">I am an instructor</span>
           </label>
         </div>
         
@@ -143,12 +143,12 @@ export default function Register() {
           disabled={isLoading}
           className="mt-4 w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transform active:scale-[0.98]"
         >
-          {isLoading ? '注册中...' : '注册 (Register)'}
+          {isLoading ? 'Registering...' : 'Register'}
         </button>
       </form>
 
       <p className="text-center mt-8 text-sm text-slate-500 relative z-10">
-        已经有账号了? <Link to="/login" className="text-brand-600 font-medium hover:text-brand-700 transition-colors">去登录</Link>
+        Already have an account? <Link to="/login" className="text-brand-600 font-medium hover:text-brand-700 transition-colors">Login</Link>
       </p>
     </div>
   );

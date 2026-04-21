@@ -11,10 +11,10 @@ export default function NotFound() {
           404
         </h1>
         <h2 className="text-3xl font-bold text-slate-800 mb-6 relative z-10">
-          Oops! 页面未找到
+          Oops! Page Not Found
         </h2>
         <p className="text-lg text-slate-500 mb-10 max-w-md mx-auto relative z-10">
-          您所访问的页面不存在，或者您没有足够的权限访问当前页面。如果你刚切换过身份，系统可能会需要重新认证。
+          The page you are visiting does not exist, or you don't have permission to view it. If you recently switched roles, the system might need to re-authenticate.
         </p>
         
         <div className="relative z-10 space-y-4 sm:space-y-0 sm:space-x-4">
@@ -22,13 +22,13 @@ export default function NotFound() {
             to="/" 
             className="inline-block px-8 py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-brand-500/30 transform hover:-translate-y-0.5 active:scale-95"
           >
-            返回主页 (Go Home)
+            Go Home
           </Link>
           <Link 
             to="/login" 
             className="inline-block px-8 py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-brand-300 hover:bg-brand-50 transition-all shadow-sm transform hover:-translate-y-0.5 active:scale-95"
           >
-            重新登录 (Re-Login)
+            Re-Login
           </Link>
         </div>
       </div>

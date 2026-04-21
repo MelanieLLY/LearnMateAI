@@ -73,8 +73,8 @@ async function renderAndShowAllModules() {
   try {
     // In case of error tests, this might not exist or we might be testing error states
     // but the button should still be in the sidebar.
-    await waitFor(() => expect(screen.getByRole('button', { name: /显示所有模组/i })).toBeInTheDocument(), { timeout: 2000 });
-    fireEvent.click(screen.getByRole('button', { name: /显示所有模组/i }));
+    await waitFor(() => expect(screen.getByRole('button', { name: /Show All Modules/i })).toBeInTheDocument(), { timeout: 2000 });
+    fireEvent.click(screen.getByRole('button', { name: /Show All Modules/i }));
   } catch {
     // Ignore in case the test is meant to fail loading
   }
@@ -95,7 +95,7 @@ describe('StudentModuleView', () => {
     await renderAndShowAllModules();
 
     // Page title is always present
-    expect(screen.getByText('👨🎓 学生端：模块浏览与学习')).toBeInTheDocument();
+    expect(screen.getByText('👨🎓 Student Module View')).toBeInTheDocument();
 
     // Module heading renders (use role to handle emoji in child <span>)
     await waitFor(() => {
@@ -121,12 +121,12 @@ describe('StudentModuleView', () => {
       json: async () => ({ id: 101, content: 'This is my study note', module_id: 1, student_id: 2 }),
     });
 
-    const textarea = screen.getByPlaceholderText('在这里输入你的学习笔记、问题或心得...');
+    const textarea = screen.getByPlaceholderText('Type your study notes, questions, or insights here...');
     fireEvent.change(textarea, { target: { value: 'This is my study note' } });
     expect(textarea).toHaveValue('This is my study note');
 
     const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
-    fireEvent.click(screen.getByText('提交笔记'));
+    fireEvent.click(screen.getByText('Submit Note'));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
@@ -153,9 +153,9 @@ describe('StudentModuleView', () => {
     await renderAndShowAllModules();
 
     await waitFor(() => {
-      expect(screen.getByText(/错误: Network Error/)).toBeInTheDocument();
+      expect(screen.getByText(/Error: Network Error/)).toBeInTheDocument();
     });
-    expect(screen.getByText('暂无可用模块')).toBeInTheDocument();
+    expect(screen.getByText('No modules available')).toBeInTheDocument();
   });
 
   // ——— New: Tab navigation ———
@@ -183,14 +183,14 @@ describe('StudentModuleView', () => {
     });
 
     // Notes tab active by default — textarea visible
-    expect(screen.getByPlaceholderText('在这里输入你的学习笔记、问题或心得...')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Type your study notes, questions, or insights here...')).toBeInTheDocument();
 
     // Switch to Flashcards tab
     fireEvent.click(screen.getByRole('button', { name: /Flashcards/ }));
 
     // Notes textarea must be gone
     expect(
-      screen.queryByPlaceholderText('在这里输入你的学习笔记、问题或心得...'),
+      screen.queryByPlaceholderText('Type your study notes, questions, or insights here...'),
     ).not.toBeInTheDocument();
   });
 
