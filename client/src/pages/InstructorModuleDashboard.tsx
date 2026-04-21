@@ -47,6 +47,10 @@ interface CourseReportResponse {
 }
 
 export default function InstructorModuleDashboard() {
+  useEffect(() => {
+    document.title = 'Instructor Dashboard | LearnMateAI';
+  }, []);
+
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [materialsByModule, setMaterialsByModule] = useState<Record<number, Material[]>>({});

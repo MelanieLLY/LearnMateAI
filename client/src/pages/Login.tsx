@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useEffect,  useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
+  useEffect(() => {
+    document.title = 'Login | LearnMateAI';
+  }, []);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

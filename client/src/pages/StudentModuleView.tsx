@@ -39,6 +39,10 @@ const MODULE_TABS: TabConfig[] = [
 ];
 
 export default function StudentModuleView() {
+  useEffect(() => {
+    document.title = 'Student Dashboard | LearnMateAI';
+  }, []);
+
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<number>>(new Set());

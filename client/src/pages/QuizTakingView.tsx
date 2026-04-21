@@ -70,6 +70,10 @@ function computeScore(quiz: Quiz, answers: Record<number, string>): number {
 // Component
 // ---------------------------------------------------------------------------
 export default function QuizTakingView() {
+  useEffect(() => {
+    document.title = 'Quiz | LearnMateAI';
+  }, []);
+
   const { moduleId, quizId } = useParams<{ moduleId?: string, quizId?: string }>();
   const navigate = useNavigate();
 

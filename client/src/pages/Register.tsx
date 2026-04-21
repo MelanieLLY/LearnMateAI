@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useEffect,  useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Register() {
+  useEffect(() => {
+    document.title = 'Register | LearnMateAI';
+  }, []);
+
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');

@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Home() {
+  useEffect(() => {
+    document.title = 'Home | LearnMateAI';
+  }, []);
+
   const { user, isAuthenticated } = useAuth();
 
   // If already logged in, redirect directly to the corresponding dashboard.

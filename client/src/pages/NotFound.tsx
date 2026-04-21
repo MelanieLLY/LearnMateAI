@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function NotFound() {
+  useEffect(() => {
+    document.title = 'Page Not Found | LearnMateAI';
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center pt-32 pb-32">
       <div className="relative text-center">
