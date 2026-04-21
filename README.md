@@ -1,19 +1,26 @@
 # LearnMate AI
 
-LearnMate AI is an intelligent teaching assistant platform tailored for modern educational scenarios. By providing independent, multi-platform role experiences, we explore and demonstrate how to accelerate the implementation of production-level SaaS platforms using advanced AI coding assistants (Claude Code Mastery), Agent workflows, and full-stack automated deployments.
+LearnMate AI is a smart teaching assistant platform made for modern schools. It has different parts for instructors and students. We built this to show how to quickly create a production-ready SaaS app using advanced AI coding tools (Claude Code), Agent workflows, and full-stack automatic deployments.
+## Architecture Diagram
+
+<img width="557" height="539" alt="Screenshot 2026-04-20 at 11 01 32 PM" src="https://github.com/user-attachments/assets/45ff7555-95a6-45f3-b1df-ec1d5fa6b91f" />
+
+## Blog Post
+
+https://dev.to/jing_2026/learnmateai-building-an-intelligent-teaching-assistant-platform-48pb
 
 ## 📍 Online Demo
 
 > [!IMPORTANT]
-> **Important Note on Network Latency (Cold Start)**  
-> To manage costs, our backend is deployed on Render's free tier. If there's no active traffic for a while, the server automatically spins down to sleep. Therefore, **your first login or request might experience a loading delay of approximately 3 minutes**. This waking-up phase is normal—please wait patiently. Operations will quickly resume normal response times once the server is awake.
+> **Network Latency (Cold Start) Note**  
+> We use Render's free tier for our backend. If nobody uses the app for a while, the server goes to sleep to save money. So, **your first login might take about 3 minutes to load**. This is normal. Please wait while it wakes up. After that, it will be fast!
 
 * **Frontend (Vercel)**: [https://learn-mate-ai-zeta.vercel.app](https://learn-mate-ai-zeta.vercel.app)
 * **Backend (Render)**: [https://learnmate-api.onrender.com](https://learnmate-api.onrender.com)
 
 ### 🔑 Test Accounts
 
-For the convenience of Instructors/TAs wanting a quick walkthrough of different roles, we strongly suggest logging in via the built-in test accounts:
+You can try the app easily using these test accounts:
 
 **👨‍🏫 Instructor Role**
 * **Account**: `robert.smith@university.edu`
@@ -27,31 +34,31 @@ For the convenience of Instructors/TAs wanting a quick walkthrough of different 
 
 ---
 
-## 🚀 Core Features & Design Ingenuities
+## 🚀 Core Features & Smart Designs
 
-We rejected making a simple CRUD app. By analyzing core user stories and Issues, we implemented a series of unique engineering interactions and UX solutions addressing real pain points in educational scenarios:
+We did not want to make a simple CRUD app. Instead, we created special features to solve real problems in education:
 
-### 1. Instructor Module
-* **Harm-Aware Audience Customization**
-  * **Design Ingenuity**: To proactively mitigate cultural or psychological harm in AI-generated materials (quizzes, flashcards), we empowered instructors with the ability to customize the "audience profile" for the class. When the system generates content, the underlying Prompt Engine heavily incorporates the instructor's predefined audience sensitivity profile to preempt AI hallucinations and biases at the root. This achieves state-of-the-art "Harm-Aware" content moderation.
-* **Real-time Instructor Report Dashboard** 
-  * **Design Ingenuity**: Dismissing rigid flat tables, we bridged total data continuity with `QuizSubmission` instances on the backend. This dashboard calculates dynamic class averages in real time and stealthily aggregates anonymous student testing figures into an "Error Distribution Radar." This allows instructors to instantly visualize "collective blind spots" across the class—without infringing on individual privacy—and adapt pacing accordingly.
+### 1. Instructor Features
+* **Safe Content Control**
+  * **Design**: To stop the AI from generating harmful or biased content, instructors can set an "audience profile" for the class. The Prompt Engine uses this profile to make sure the AI respects cultural and psychological safety.
+* **Live Class Report Dashboard** 
+  * **Design**: Instead of boring tables, our dashboard calculates class averages in real time. It uses backend QuizSubmission data to show an "Error Distribution Radar." This helps instructors see what the class is struggling with without breaking student privacy.
 
-### 2. Student Module
-* **3D Interactive Immersive Flashcards**
-  * **Design Ingenuity**: Combatting text fatigue, we leveraged CSS3 to build **3D dual-sided flipping flashcards with realistic depth-of-field**. Coupled with LLM summarization endpoints, dense PDF context is transformed into pocket-sized, interactive "playables." The smooth physical feedback dramatically increases the gratification of micro-learning.
-* **Progressive Quizzes with Human-like Feedback (Interactive Quiz Taking UI)**
-  * **Design Ingenuity**: Eschewing monotonous long scroll-forms, we employed an intensive "single-question stepper card" layout. Most remarkably, upon submission, the system rapidly calls the LLM API to render an animated **Score Badge** accompanied by in-depth diagnostic feedback targeting the student's specific mistakes. This delivers a highly immersive presence, mirroring a private teaching assistant marking your test face-to-face.
+### 2. Student Features
+* **Interactive 3D Flashcards**
+  * **Design**: Reading long texts is tiring. We used CSS3 to build real-feeling 3D flipping flashcards. The LLM summarizes long PDFs into these fun, pocket-sized cards.
+* **Smart Quizzes with Helpful Feedback**
+  * **Design**: We used a step-by-step layout for taking quizzes. When you finish, the LLM API quickly gives you a Score Badge and deep feedback on your mistakes. It feels like a real tutor is grading your test.
 
-### 3. Core Architecture & Access Control
-* **Data-driven Routing & Identity Demarcation**
-  * **Design Ingenuity**: We entirely scrapped hardcoded frontend roles. Utilizing JSON configuration logic as a single source of truth, combined with React Context and strict routing guards (404 / Unauthorized Redirections), any logged-in identity is securely bound to their assigned data-mesh within milliseconds. This completely shuts out cross-account data sniffing.
+### 3. Setup & Security
+* **Data Safety by Role**
+  * **Design**: We use React Context and strict router rules so that students and instructors can only see their own data. This completely blocks accounts from seeing data they shouldn't.
 
 ---
 
 ## 🏗 System Architecture
 
-Engineered for high concurrency, decoupled workflows, and multilayer security, this platform operates on a robust Client-Server architecture:
+The app is built to handle many users, keep data safe, and connect securely with APIs:
 
 ```mermaid
 graph TD
@@ -63,8 +70,8 @@ graph TD
 
     %% Backend and API Layer
     subgraph Server [Backend: FastAPI / Python]
-        Security[JWT Auth & Validator] --> API[FastAPI Endpoints]
-        API --> Handlers[Business Logic & Handlers]
+        Security[JWT Auth] --> API[FastAPI Endpoints]
+        API --> Handlers[Business Logic]
         Handlers --> Prompt[Local Prompt Engine]
     end
 
@@ -75,8 +82,8 @@ graph TD
     end
 
     %% Relations
-    Client -- "Axios HTTP (API Request)" --> Security
-    Handlers -- "SQLAlchemy ORM (pool_pre_ping)" --> DB
+    Client -- "Axios HTTP Request" --> Security
+    Handlers -- "SQLAlchemy ORM" --> DB
     Prompt -- "LLM Reasoning / Tool calls" --> LLM
 ```
 
@@ -84,42 +91,42 @@ graph TD
 
 ## 🛠 Tech Stack
 
-* **Frontend**: React.js 18, Vite, React Router DOM, Tailwind CSS (with seamless A11y Skeleton rendering)
-* **Backend**: Python 3.10+, FastAPI (ASGI), Pydantic, SQLAlchemy ORM
+* **Frontend**: React.js 18, Vite, React Router DOM, Tailwind CSS (with Skeleton loading)
+* **Backend**: Python 3.10+, FastAPI, Pydantic, SQLAlchemy ORM
 * **Database**: PostgreSQL Cloud (Neon/Render DB)
 * **CI/CD Pipeline**: GitHub Actions
-* **Quality Gates**: ESLint, Flake8, Gitleaks, Bandit, NPM Audit
+* **Quality & Security**: ESLint, Flake8, Gitleaks, Bandit, NPM Audit
 
 ---
 
-## 🤖 Claude Code Mastery & Workflow
+## 🤖 Claude Code & Workflow
 
-The absolute core highlight of this repository lies squarely in matching the exact development lifecycle criteria set forth by the **Project 3 Requirement Guidelines**:
+A big highlight of this project is how we used AI to build it, following the Project 3 Guidelines:
 
-1. **Test-Driven Development Engine (Red-Green-Refactor)**
-   * To permanently eradicate LLM hallucinations during high-stakes Quiz generation endpoints, we bottlenecked the entire prompt-response framework via a robust **TDD** pipeline. Emplacing intensive Pytest integration loops forces the model outputs to comply precisely with Pydantic Schemas. 
-2. **Comprehensive `.claude` AI Agent Environment**
-   * The project ecosystem hosts intricate prompt strategies (`CLAUDE.md`) paired with multiple Hook interceptions. Case in point: a customized Git hook structurally prevents developers from committing code should the test suites remain shattered—enforcing an iron-clad quality floor directly within the terminal.
-3. **Security Gates & CI/CD Pipeline**
-   * Running sophisticated Parallel Worktrees across UI branches, our master branch merges undergo a grueling 9-Stage CI pipeline spanning Gitleaks detection through synchronized deployments and fully autonomous algorithmic C.L.E.A.R AI Code Reviews.
+1. **Test-Driven Development (TDD)**
+   * To stop AI mistakes, we used Pytest integration loops. This forces the model to follow Pydantic Schemas exactly.
+2. **AI Agent Environment (`.claude`)**
+   * The project has special prompt rules in `CLAUDE.md`. We also set up a custom Git hook that stops developers from pushing code if tests fail. This keeps the code high quality.
+3. **Security & CI/CD Pipeline**
+   * Our 9-stage CI pipeline checks for secrets (Gitleaks), deploys the code, and runs AI Code Reviews automatically on the master branch.
 
 ---
 
 ## 💻 Local Development Setup
 
-To evaluate this platform locally:
+To run this app on your computer:
 
 ```bash
-# 1. Clone repository (Reference .env.example for variables)
+# 1. Download the code (Look at .env.example for variables)
 git clone <repository-url>
 cd LearnMateAI
 
-# 2. Spin up frontend (Port: 5200)
+# 2. Start the frontend (Port: 5200)
 cd client
 npm install
 npm run dev
 
-# 3. Spin up backend API (Port: 8200)
+# 3. Start the backend API (Port: 8200)
 cd server
 python3 -m venv venv
 source venv/bin/activate
@@ -129,12 +136,12 @@ python -m uvicorn main:app --reload --port 8200
 
 ---
 
-## License & Assets Archive
+## License & Project Info
 
 **Copyright © 2026 LearnMate Team. All Rights Reserved.**
 
-This repository and its codebase serve as an academic proprietary delivery. Interaction flows and architectural IP are strictly reserved for grading perusal by the officiating Instructors & TAs of the associated course (Project 3). Third-party duplication, syndication, or commercial monetization is forcefully prohibited.
+This repository is an academic project for grading in Project 3. You may not copy, share, or sell this code. 
 
-> **Visual Archives:**
-> Base mockup screenshots logged during the `/init` repository mapping sprint:
-> [Initialization Draft 1](https://github.com/user-attachments/assets/cd358470-668c-4226-8a37-af7739b2b528) | [Initialization Draft 2](https://github.com/user-attachments/assets/502f65f4-c737-4121-a22c-42fa8c3fd00e)
+> **Visual Drafts:**
+> Early design screenshots from the `/init` sprint:
+> [Draft 1](https://github.com/user-attachments/assets/cd358470-668c-4226-8a37-af7739b2b528) | [Draft 2](https://github.com/user-attachments/assets/502f65f4-c737-4121-a22c-42fa8c3fd00e)

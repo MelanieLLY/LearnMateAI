@@ -105,3 +105,35 @@
 - Bugfix (Issue #53): Fix student flashcard generation model and Load Existing student filtering (Completed)
 - Feature (Issue #56): Implement split-screen UI layout for course/module browsing (In Progress)
 - Refactor (Issue #64): Translate all UI and seed data to English (Completed)
+- Docs (Issue #65): README (In Progress)
+
+---
+
+## Sprint 1 Retrospective (Mar 24 – Mar 30)
+**What went well:** 
+* Successfully laid down the Next.js and FastAPI foundations, establishing early CI/CD integration and deployment workflows.
+* Auth system (JWT roles) worked cleanly preventing access crossovers.
+* Nailed the strict Test-Driven Development (TDD) workflow required for HW4. We merged quality, thoroughly-tested code for the Instructor Module Management API.
+* Good collaboration and visibility maintained through regular async standups.
+
+**What could be improved:**
+* Dealing with strict TDD and Claude CLI constraints slowed down rapid prototyping initially, though it ensured better stability long-term.
+
+**Action Items:**
+* Transition away from strict HW4 constraints and pivot hard towards complex parallel AI Agent generation tasks for Sprint 2.
+
+---
+
+## Sprint 2 Retrospective (Mar 31 – Apr 15)
+**What went well:**
+* Immense engineering progress on Agentic content (Flashcards, Quizzes, Summaries).
+* Effectively resolved difficult AI integration bugs, specifically migrating agents to structured tool outputs and fixing stringified JSON parsing (Issues #38 & #40).
+* Frontend team delivered outstanding UX (Stepper quiz UI, 3D flashcards, split-screen module browsing).
+* MLOps/Eval pipelines and Instructor analytics architectures were successfully put in place.
+
+**What could be improved:**
+* Managing mock data versus real data flow, and handling database fallbacks (psycopg2) created unexpected overhead.
+* LLM hallucinations during early testing required multiple prompt refinement iterations.
+
+**Action Items:**
+* Enter code freeze for new features. Focus entirely on bug fixes (e.g., UI translation, filter refinements), project presentations, and documentation polish before the final deadline.
