@@ -104,3 +104,4 @@
 - Bug fixes only, no new features
 - Bugfix (Issue #53): Fix student flashcard generation model and Load Existing student filtering (Completed)
 - Feature (Issue #56): Implement split-screen UI layout for course/module browsing (In Progress)
+- Refactor (Issue #64): Translate all UI and seed data to English (In Progress)

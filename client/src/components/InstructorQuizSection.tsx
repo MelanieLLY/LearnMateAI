@@ -51,7 +51,7 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
       });
       if (!res.ok) throw new Error('Failed to generate quiz');
       await loadQuizzes();
-      alert('已成功生成一套随机标准测验卷！');
+      alert('Successfully generated a set of random standard quizzes!');
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -99,28 +99,28 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
     <div className="mt-6 bg-purple-50/50 p-5 rounded-xl border border-purple-100">
       <div className="flex items-center justify-between mb-4">
         <h4 className="font-semibold text-purple-800 flex items-center gap-2">
-          <span>🧠</span> 随堂测验管理 (Assessments)
+          <span>🧠</span> Assessments Management
         </h4>
         <button 
           onClick={handleGenerateQuiz}
           disabled={isGenerating}
           className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition-colors shadow-sm disabled:opacity-50"
         >
-          {isGenerating ? 'AI 生成中...' : '✨ 快速生成新测验'}
+          {isGenerating ? 'Generating...' : '✨ Quick Generate Quiz'}
         </button>
       </div>
 
       {quizzes.length === 0 ? (
-        <p className="text-slate-500 text-sm">此模块暂未发布任何随堂测验。</p>
+        <p className="text-slate-500 text-sm">No assessments have been published for this module yet.</p>
       ) : (
         <div className="space-y-4">
           {quizzes.map(quiz => (
             <div key={quiz.id} className="bg-white p-4 rounded-xl border border-purple-200">
               {editingQuiz?.id === quiz.id ? (
                 <div className="space-y-5">
-                  <div className="font-semibold text-slate-800 border-b pb-2 mb-4">✎ 编辑测验 (Edit Quiz)</div>
+                  <div className="font-semibold text-slate-800 border-b pb-2 mb-4">✎ Edit Quiz</div>
                   <div>
-                    <label className="block text-xs text-slate-500 mb-1">测验标题</label>
+                    <label className="block text-xs text-slate-500 mb-1">Quiz Title</label>
                     <input 
                       className="w-full px-3 py-2 border border-slate-300 rounded focus:border-brand-500 outline-none" 
                       value={editingQuiz.title} 
@@ -130,7 +130,7 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
                   
                   {editingQuiz.questions.map((q, idx) => (
                     <div key={q.id} className="p-3 bg-slate-50 border border-slate-200 rounded text-sm space-y-3">
-                      <div className="font-medium text-slate-700">题目 {idx + 1}</div>
+                      <div className="font-medium text-slate-700">Question {idx + 1}</div>
                       <textarea 
                         className="w-full px-3 py-2 border border-slate-300 rounded outline-none h-20"
                         value={q.text}
@@ -153,7 +153,7 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
                       )}
 
                       <div className="mt-2">
-                        <label className="text-xs font-semibold text-green-700 block mb-1">正确答案 (必须与上方一致)</label>
+                        <label className="text-xs font-semibold text-green-700 block mb-1">Correct Answer (must match exactly)</label>
                         <input 
                           className="w-full px-3 py-1.5 border border-green-300 bg-green-50 rounded outline-none" 
                           value={q.correct_answer} 
@@ -164,18 +164,18 @@ export default function InstructorQuizSection({ moduleId }: { moduleId: number }
                   ))}
 
                   <div className="flex gap-2 pt-2">
-                    <button onClick={handleSaveEdit} className="px-4 py-2 bg-green-600 text-white text-sm rounded shadow-sm hover:bg-green-500">保存修改</button>
-                    <button onClick={() => setEditingQuiz(null)} className="px-4 py-2 bg-slate-200 text-slate-700 text-sm rounded hover:bg-slate-300">取消</button>
+                    <button onClick={handleSaveEdit} className="px-4 py-2 bg-green-600 text-white text-sm rounded shadow-sm hover:bg-green-500">Save Changes</button>
+                    <button onClick={() => setEditingQuiz(null)} className="px-4 py-2 bg-slate-200 text-slate-700 text-sm rounded hover:bg-slate-300">Cancel</button>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center justify-between">
                   <div>
                     <h5 className="font-bold text-slate-800">{quiz.title}</h5>
-                    <p className="text-xs text-slate-500 mt-1">包含 {quiz.questions.length} 题 • {new Date(quiz.created_at).toLocaleDateString()}</p>
+                    <p className="text-xs text-slate-500 mt-1">Contains {quiz.questions.length} questions • {new Date(quiz.created_at).toLocaleDateString()}</p>
                   </div>
                   <button onClick={() => setEditingQuiz(quiz)} className="px-3 py-1.5 text-xs font-medium text-purple-700 bg-purple-100 rounded hover:bg-purple-200 transition-colors">
-                    ✏️ 编辑题目
+                    ✏️ Edit Questions
                   </button>
                 </div>
               )}

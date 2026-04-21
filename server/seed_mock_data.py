@@ -124,10 +124,10 @@ def run_seed():
                 for i, m_data in enumerate(modules_data, start=1):
                     m = Module(
                         course_id=c.id,
-                        title=f"{c.title.split(' ')[0]} - 模组 {i}: {m_data['title']}",
+                        title=f"{c.title.split(' ')[0]} - Module {i}: {m_data['title']}",
                         description=m_data['desc'],
                         instructor_id=c.instructor_id,
-                        learning_objectives="深入理解与掌握核心技术",
+                        learning_objectives="Deeply understand and master core technologies",
                     )
                     db.add(m)
         db.flush()
@@ -148,9 +148,9 @@ def run_seed():
                     target_module = random.choice(course_modules)
                     clean_title = target_module.title.split(': ')[-1] if ': ' in target_module.title else target_module.title
                     note_templates = mock_data.get("note_templates", [
-                        "对于【{clean_title}】这一块的知识点我已经理解得很好了，自己动手推导了一遍，考试可以不用再复习这节了。",
-                        "这堂课信息量好大，但是老师讲到【{clean_title}】里面那些底层原理怎么相互呼应的时候，我的脑子一团乱，完全没听懂。",
-                        "今天课上老师特意敲黑板强调了【{clean_title}】在实际应用场景中是重中之重的内容，需要在这个模组上多花时间死磕。"
+                        "I have perfectly mastered the contents of [{clean_title}].",
+                        "This is too complex, I didn't understand the underlying principles of [{clean_title}] at all.",
+                        "The instructor heavily emphasized that [{clean_title}] is critical, I must review it."
                     ])
                     sentence = random.choice(note_templates).replace("{clean_title}", clean_title)
                     note = StudentNote(

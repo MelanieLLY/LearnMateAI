@@ -1,10 +1,10 @@
 {
   "note_templates": [
-    "对于【{clean_title}】这一块的知识点我已经理解得很好了，自己动手推导了一遍，考试可以不用再复习这节了。",
-    "这堂课信息量好大，但是老师讲到【{clean_title}】里面那些底层原理怎么相互呼应的时候，我的脑子一团乱，完全没听懂。",
-    "今天课上老师特意敲黑板强调了【{clean_title}】在实际应用场景中是重中之重的内容，需要在这个模组上多花时间死磕。",
-    "原来【{clean_title}】并不是我想象中的那么枯燥，通过今天做的练习题，我发现它能解决好几个生活中的实际痛点！",
-    "刚看完【{clean_title}】这一章的教材，虽然大部分算是能看懂，但感觉离真正能闭卷运用还差挺远的，明晚得针对性地刷下题。"
+    "I have a solid understanding of the concepts in [{clean_title}]. I derived everything myself and probably won't need to review this chapter much for the exam.",
+    "This lecture had a ton of information, but when the instructor explained how the underlying principles relate in [{clean_title}], I lost track and didn't understand at all.",
+    "Today the instructor emphasized that [{clean_title}] is absolutely critical for real-world applications. I'll need to spend a lot of time reviewing this module.",
+    "It turns out [{clean_title}] is not as boring as I thought! After doing the exercises today, I realized it solves several practical pain points!",
+    "I just finished reading the chapter on [{clean_title}]. Even though I could comprehend most of it, I feel far from being able to apply it in a closed-book scenario. I need to do some targeted practice tomorrow evening."
   ],
   "instructors": [
     {
@@ -62,61 +62,61 @@
   ],
   "courses": [
     {
-      "title": "Web开发实践 (Web Development Practice)",
+      "title": "Web Development Practice",
       "instructor_email": "robert.smith@university.edu",
-      "description": "本课程旨在介绍现代Web开发的基础理论与实践技术，涵盖前端技术栈（如React/Vue）与后端服务框架及数据库集成，强调通过实际项目培养全栈开发能力。",
+      "description": "This course aims to introduce the fundamental theories and practical techniques of modern web development, covering frontend technology stacks (like React/Vue), backend service frameworks, and database integration, emphasizing full-stack capacity through practical projects.",
       "modules": [
         {
-          "title": "Web基础与前端框架",
-          "desc": "学习HTML semantics, CSS3高级布局，并深入React生态，掌握组件化开发思想。"
+          "title": "Web Basics & Frontend Frameworks",
+          "desc": "Learn HTML semantics, advanced CSS3 layout, dive deep into the React ecosystem, and master component-based architecture."
         },
         {
-          "title": "后端架构设计",
-          "desc": "探索RESTful API设计与GraphQL架构，学习如何利用Node.js或Python FastAPI构建高并发的后端服务。"
+          "title": "Backend Architecture Design",
+          "desc": "Explore RESTful API design and GraphQL architecture, and learn how to build high-concurrency backend services using Node.js or Python FastAPI."
         },
         {
-          "title": "数据库集成与运维",
-          "desc": "深入讲解NoSQL与关系型数据库设计，并介绍Docker容器化部署。"
+          "title": "Database Integration & DevOps",
+          "desc": "Deep dive into NoSQL and relational database design, along with an introduction to Docker containerization deployment."
         },
         {
-          "title": "全栈项目实战",
-          "desc": "独立完成一个包含前后端交互、身份验证与数据持久化的完整企业级Web应用。"
+          "title": "Full-Stack Project Practice",
+          "desc": "Independently build a complete enterprise web application involving frontend-backend interactions, authentication, and data persistence."
         },
         {
-          "title": "性能优化与测试",
-          "desc": "掌握前端渲染优化、后端缓存策略，并编写高覆盖率的单元测试与端到端测试。"
+          "title": "Performance Optimization & Testing",
+          "desc": "Master frontend rendering optimization and backend caching strategies, and learn to write high-coverage unit tests and E2E tests."
         }
       ],
       "report": {
         "overall_average": 82,
         "common_gaps": [
-          "React Hooks 闭包陷阱",
-          "GraphQL N+1查询问题",
-          "Redux 状态冗余"
+          "React Hooks Closure Trap",
+          "GraphQL N+1 Query Problem",
+          "Redux State Redundancy"
         ],
         "module_stats": [
           {
-            "module_name": "Web基础与前端框架",
+            "module_name": "Web Basics & Frontend Frameworks",
             "average_score": 88,
             "completion_rate": 95
           },
           {
-            "module_name": "后端架构设计",
+            "module_name": "Backend Architecture Design",
             "average_score": 76,
             "completion_rate": 80
           },
           {
-            "module_name": "数据库集成与运维",
+            "module_name": "Database Integration & DevOps",
             "average_score": 85,
             "completion_rate": 88
           },
           {
-            "module_name": "全栈项目实战",
+            "module_name": "Full-Stack Project Practice",
             "average_score": 79,
             "completion_rate": 75
           },
           {
-            "module_name": "性能优化与测试",
+            "module_name": "Performance Optimization & Testing",
             "average_score": 82,
             "completion_rate": 70
           }
@@ -124,61 +124,61 @@
       }
     },
     {
-      "title": "机器学习应用 (ML Applications)",
+      "title": "Machine Learning Applications",
       "instructor_email": "robert.smith@university.edu",
-      "description": "这是一门侧重于将机器学习算法运用到实际工业场景的课程，涵盖数据工程、模型训练、评估及模型部署，帮助学生掌握完整的ML生命周期。",
+      "description": "This course focuses on applying machine learning algorithms to practical industrial scenarios, covering data engineering, model training, evaluation, and model deployment to help students master the complete ML lifecycle.",
       "modules": [
         {
-          "title": "数据预处理与特征工程",
-          "desc": "掌握数据清洗、缺失值处理、特征提取及降维技术的核心方法论。"
+          "title": "Data Preprocessing & Feature Engineering",
+          "desc": "Master core methodologies for data cleaning, missing value processing, feature extraction, and dimensionality reduction."
         },
         {
-          "title": "监督学习算法应用",
-          "desc": "深入探讨逻辑回归、支持向量机及各种集成学习模型的实际应用案例。"
+          "title": "Supervised Learning Algorithm Applications",
+          "desc": "In-depth discussion on practical application cases for logistic regression, support vector machines, and various ensemble learning models."
         },
         {
-          "title": "深度学习实战入门",
-          "desc": "学习利用PyTorch构建基本的前馈神经网络与卷积神经网络，并了解如何进行超参数调优。"
+          "title": "Introduction to Deep Learning Practice",
+          "desc": "Learn to utilize PyTorch to build basic feedforward neural networks and convolutional neural networks, and understand how to fine-tune hyperparameters."
         },
         {
-          "title": "模型评估与诊断",
-          "desc": "如何通过交叉验证、混淆矩阵、ROC曲线等指标全面诊断模型的偏差与方差问题。"
+          "title": "Model Evaluation & Diagnostics",
+          "desc": "Discover how to comprehensively diagnose model bias and variance using metrics like cross-validation, confusion matrices, and ROC curves."
         },
         {
-          "title": "模型部署与监控",
-          "desc": "利用Flask/FastAPI开发模型推理服务，并学习使用MLOps工具对线上模型运行状态进行监控。"
+          "title": "Model Deployment & Monitoring",
+          "desc": "Develop model inference services using Flask/FastAPI and learn to monitor online model performance utilizing MLOps tools."
         }
       ],
       "report": {
         "overall_average": 78,
         "common_gaps": [
-          "反向传播求导推导",
-          "偏差-方差权衡分析",
-          "数据泄露 (Data Leakage)"
+          "Backpropagation Derivation",
+          "Bias-Variance Tradeoff Analysis",
+          "Data Leakage"
         ],
         "module_stats": [
           {
-            "module_name": "数据预处理与特征工程",
+            "module_name": "Data Preprocessing & Feature Engineering",
             "average_score": 85,
             "completion_rate": 90
           },
           {
-            "module_name": "监督学习算法应用",
+            "module_name": "Supervised Learning Algorithm Applications",
             "average_score": 80,
             "completion_rate": 85
           },
           {
-            "module_name": "深度学习实战入门",
+            "module_name": "Introduction to Deep Learning Practice",
             "average_score": 72,
             "completion_rate": 70
           },
           {
-            "module_name": "模型评估与诊断",
+            "module_name": "Model Evaluation & Diagnostics",
             "average_score": 75,
             "completion_rate": 75
           },
           {
-            "module_name": "模型部署与监控",
+            "module_name": "Model Deployment & Monitoring",
             "average_score": 78,
             "completion_rate": 60
           }
@@ -186,61 +186,61 @@
       }
     },
     {
-      "title": "自然语言处理高级技术 (Advanced NLP)",
+      "title": "Advanced NLP Technologies",
       "instructor_email": "dr.jane.doe@university.edu",
-      "description": "针对具有一定AI基础的学生，本课程深入剖析自然语言处理的前沿技术，包括Transformer架构、预训练大模型及复杂语言任务的微调方法。",
+      "description": "Aimed at students with foundational AI knowledge, this course dissects cutting-edge Natural Language Processing technologies, including Transformer architectures, pre-trained large models, and fine-tuning methods for complex language tasks.",
       "modules": [
         {
-          "title": "语言模型与注意力机制",
-          "desc": "从RNN回顾到自注意力机制的演进，深入解读Transformer架构的基本原理与计算图。"
+          "title": "Language Models & Attention Mechanisms",
+          "desc": "A review from RNN to the evolution of self-attention mechanisms, offering an in-depth reading of basic principles and computation graphs for the Transformer architecture."
         },
         {
-          "title": "预训练模型剖析",
-          "desc": "全面解析BERT、GPT模型的底层架构，探讨其在预训练阶段的数据构建与目标函数设计。"
+          "title": "Pre-Trained Models Demystified",
+          "desc": "A comprehensive analysis of BERT and GPT model architectures, discussing their data construction and objective function design during the pre-training phase."
         },
         {
-          "title": "大模型微调技术",
-          "desc": "学习通过LoRA、P-Tuning等参数高效的微调方法，对大体量模型进行下游任务适配。"
+          "title": "Large Model Fine-Tuning Techniques",
+          "desc": "Learn parameter-efficient fine-tuning methods like LoRA and P-Tuning to adapt massive models to downstream tasks."
         },
         {
-          "title": "文本生成与信息检索",
-          "desc": "探讨束搜索算法与RAG（检索增强生成）系统，如何解决文本生成的幻觉问题。"
+          "title": "Text Generation & Information Retrieval",
+          "desc": "Explore beam search algorithms and RAG (Retrieval-Augmented Generation) systems, learning how to mitigate text generation hallucinations."
         },
         {
-          "title": "NLP前沿论文精读",
-          "desc": "结合最新的顶级会议（ACL/EMNLP）论文，分析多模态交互与模型对齐技术的未来发展路径。"
+          "title": "Intensive Reading of NLP Papers",
+          "desc": "Combines recent leading conference papers (ACL/EMNLP) to analyze the future trajectory of multi-modal interaction and model alignment technologies."
         }
       ],
       "report": {
         "overall_average": 84,
         "common_gaps": [
-          "自注意力机制计算图",
-          "RAG幻觉问题缓解",
-          "LoRA秩(Rank)选择"
+          "Self-Attention Computaion Graph",
+          "RAG Hallucination Mitigation",
+          "LoRA Rank Selection"
         ],
         "module_stats": [
           {
-            "module_name": "语言模型与注意力机制",
+            "module_name": "Language Models & Attention Mechanisms",
             "average_score": 82,
             "completion_rate": 90
           },
           {
-            "module_name": "预训练模型剖析",
+            "module_name": "Pre-Trained Models Demystified",
             "average_score": 85,
             "completion_rate": 88
           },
           {
-            "module_name": "大模型微调技术",
+            "module_name": "Large Model Fine-Tuning Techniques",
             "average_score": 88,
             "completion_rate": 85
           },
           {
-            "module_name": "文本生成与信息检索",
+            "module_name": "Text Generation & Information Retrieval",
             "average_score": 80,
             "completion_rate": 80
           },
           {
-            "module_name": "NLP前沿论文精读",
+            "module_name": "Intensive Reading of NLP Papers",
             "average_score": 85,
             "completion_rate": 70
           }
@@ -248,61 +248,61 @@
       }
     },
     {
-      "title": "人机交互设计 (HCI Design)",
+      "title": "Human-Computer Interaction Design",
       "instructor_email": "dr.jane.doe@university.edu",
-      "description": "探索人类与计算系统交互的原则。课程将教授从用户调研、原型设计、可用性测试到最终高保真交互落地的完整UX设计流程。",
+      "description": "Explore the principles bridging human interaction and computing systems. This course teaches the full end-to-end UX design process from user research and prototyping to usability testing and high-fidelity interactions.",
       "modules": [
         {
-          "title": "人类认知与界面心理学",
-          "desc": "从人类视觉、记忆与注意力角度，理解这些认知限制如何影响界面元素的设计规范。"
+          "title": "Human Cognition & Interface Psychology",
+          "desc": "From the perspectives of human vision, memory, and attention, understand how these cognitive limitations influence interface design guidelines."
         },
         {
-          "title": "用户研究方法",
-          "desc": "学习如何进行定性访谈、发放问卷以及构建详实的用户画像和同理心地图。"
+          "title": "User Research Methodologies",
+          "desc": "Learn how to conduct qualitative interviews and surveys, while also building comprehensive user personas and empathy maps."
         },
         {
-          "title": "信息架构与交互流程",
-          "desc": "运用卡片分类法梳理复杂的系统层级，并建立清晰流畅的用户旅程与操作流程图。"
+          "title": "Information Architecture & Interaction Flows",
+          "desc": "Apply card sorting techniques to untangle complex system hierarchies and establish clear, seamless user journeys and flowcharts."
         },
         {
-          "title": "低保真与高保真原型",
-          "desc": "熟练掌握Figma等工具，从线框图过渡到具备复杂动效和微交互的高保真原型。"
+          "title": "Low-Fi and High-Fi Prototyping",
+          "desc": "Gain proficiency in tools like Figma, transitioning from wireframes to high-fidelity prototypes featuring complex animations and micro-interactions."
         },
         {
-          "title": "可用性评估与数据追踪",
-          "desc": "设计并执行A/B测试与可用性测试，并学会在界面迭代中利用定量数据进行决策支撑。"
+          "title": "Usability Evaluation & Data Tracking",
+          "desc": "Design and execute A/B tests alongside usability tests, learning to support decision-making with quantitative data during reiterative interface design."
         }
       ],
       "report": {
         "overall_average": 89,
         "common_gaps": [
-          "可用性测试样本量过少",
-          "用户心智模型不匹配",
-          "可访问性 (a11y) 盲区"
+          "Insufficient Usability Testing Sample Size",
+          "Mismatched User Mental Models",
+          "Accessibility (a11y) Blindspots"
         ],
         "module_stats": [
           {
-            "module_name": "人类认知与界面心理学",
+            "module_name": "Human Cognition & Interface Psychology",
             "average_score": 92,
             "completion_rate": 95
           },
           {
-            "module_name": "用户研究方法",
+            "module_name": "User Research Methodologies",
             "average_score": 88,
             "completion_rate": 90
           },
           {
-            "module_name": "信息架构与交互流程",
+            "module_name": "Information Architecture & Interaction Flows",
             "average_score": 85,
             "completion_rate": 85
           },
           {
-            "module_name": "低保真与高保真原型",
+            "module_name": "Low-Fi and High-Fi Prototyping",
             "average_score": 90,
             "completion_rate": 90
           },
           {
-            "module_name": "可用性评估与数据追踪",
+            "module_name": "Usability Evaluation & Data Tracking",
             "average_score": 90,
             "completion_rate": 88
           }

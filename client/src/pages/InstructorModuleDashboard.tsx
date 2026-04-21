@@ -47,6 +47,10 @@ interface CourseReportResponse {
 }
 
 export default function InstructorModuleDashboard() {
+  useEffect(() => {
+    document.title = 'Instructor Dashboard | LearnMateAI';
+  }, []);
+
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [materialsByModule, setMaterialsByModule] = useState<Record<number, Material[]>>({});
@@ -194,7 +198,7 @@ export default function InstructorModuleDashboard() {
   };
 
   const handleDeleteCourse = async (courseId: number) => {
-    if (!confirm('确定要删除这个班级吗？相关联的模块将失去关联变成游荡模块。')) return;
+    if (!confirm('Are you sure you want to delete this class? Associated modules will become orphaned.')) return;
     try {
       const res = await fetch(`/api/v1/courses/${courseId}`, {
         method: 'DELETE',
@@ -249,7 +253,7 @@ export default function InstructorModuleDashboard() {
   };
 
   const handleDeleteModule = async (moduleId: number) => {
-    if (!confirm('确定要删除这个模块吗？')) return;
+    if (!confirm('Are you sure you want to delete this module?')) return;
     try {
       const res = await fetch(`/api/v1/modules/${moduleId}`, {
         method: 'DELETE',
@@ -293,7 +297,7 @@ export default function InstructorModuleDashboard() {
   const handleUploadMaterial = async (moduleId: number) => {
     const file = pendingFiles[moduleId];
     if (!file) {
-      alert('请先选择要上传的文件');
+      alert('Please select a file to upload first');
       return;
     }
     const formData = new FormData();
@@ -322,7 +326,7 @@ export default function InstructorModuleDashboard() {
       const fileInput = document.getElementById(`file-input-${moduleId}`) as HTMLInputElement;
       if (fileInput) fileInput.value = '';
 
-      alert(`上传成功！`);
+      alert(`Upload successful!`);
     } catch (error) {
       const err = error as Error;
       alert(err.message);
@@ -365,13 +369,13 @@ export default function InstructorModuleDashboard() {
   return (
     <div className="max-w-[90rem] mx-auto space-y-8 pb-12 px-4 xl:px-8">
       <header className="mb-8 pl-2">
-        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨‍🏫 教员工作台 (Instructor Dashboard)</h1>
-        <p className="text-slate-500">管理您的课程、模块，并上传教学资料。</p>
+        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨‍🏫 Instructor Dashboard</h1>
+        <p className="text-slate-500">Manage your courses, modules, and teaching materials.</p>
       </header>
       
       {error && (
         <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl mb-6 text-sm flex items-center shadow-sm border border-red-100">
-          <span className="mr-2">⚠️</span> 错误: {error}
+          <span className="mr-2">⚠️</span> Error: {error}
         </div>
       )}
 
@@ -386,14 +390,14 @@ export default function InstructorModuleDashboard() {
           {/* Left Sidebar */}
           <aside className="w-full lg:w-1/4 xl:w-1/5 shrink-0 glass-panel p-5 rounded-2xl sticky top-6 z-10 hidden md:block">
             <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <span className="text-brand-500">📚</span> 班级切换
+              <span className="text-brand-500">📚</span> Class Switcher
             </h2>
             <div className="space-y-2">
               <button
                 onClick={() => setSelectedCourseId('none')}
                 className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all ${selectedCourseId === 'none' ? 'bg-brand-100 text-brand-700 bg-opacity-70 shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
               >
-                🌍 游荡模块 / 全部
+                🌍 Orphan Modules / All
               </button>
               {courses.map(c => (
                 <button
@@ -409,7 +413,7 @@ export default function InstructorModuleDashboard() {
                   onClick={() => setSelectedCourseId('new')}
                   className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${selectedCourseId === 'new' ? 'bg-brand-600 text-white shadow-md' : 'text-brand-600 hover:bg-brand-50 border border-brand-100 border-dashed'}`}
                 >
-                  ➕ 新建一个班级
+                  ➕ Create New Class
                 </button>
               </div>
             </div>
@@ -417,15 +421,15 @@ export default function InstructorModuleDashboard() {
           
           {/* Mobile course selector (visible only on small screens) */}
           <div className="md:hidden w-full glass-panel p-4 rounded-xl mb-4">
-            <h2 className="text-sm font-bold text-slate-700 mb-2">选择班级班级上下文</h2>
+            <h2 className="text-sm font-bold text-slate-700 mb-2">Select Class Context</h2>
             <select 
               value={selectedCourseId} 
               onChange={(e) => setSelectedCourseId(e.target.value === 'none' || e.target.value === 'new' ? e.target.value : Number(e.target.value))}
               className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50 bg-white"
             >
-              <option value="none">🌍 游荡模块 / 全部 (Orphan Modules / All)</option>
+              <option value="none">🌍 Orphan Modules / All (Orphan Modules / All)</option>
               {courses.map(c => <option key={c.id} value={c.id}>📘 {c.title}</option>)}
-              <option value="new">➕ 新建一个班级 (Create New Class)...</option>
+              <option value="new">➕ Create New Class (Create New Class)...</option>
             </select>
           </div>
 
@@ -435,33 +439,33 @@ export default function InstructorModuleDashboard() {
               <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
                 <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                   <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span>
-                  班级上下文 (Class Context)
+                  Class Context
                 </h2>
 
             {selectedCourseId === 'new' && (
               <form onSubmit={handleCreateCourse} className="flex flex-col gap-4 p-5 border border-brand-200 bg-brand-50/30 rounded-xl shadow-sm mt-4">
-                <h4 className="font-semibold text-brand-800">快速创建班级</h4>
+                <h4 className="font-semibold text-brand-800">Quick Create Class</h4>
                 <input 
                   required 
-                  placeholder="班级名称 (Class Name)" 
+                  placeholder="Class Name" 
                   value={courseTitle} 
                   onChange={e => setCourseTitle(e.target.value)} 
                   className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
                 />
                 <textarea 
-                  placeholder="班级介绍 (Description)" 
+                  placeholder="Description" 
                   value={courseDesc} 
                   onChange={e => setCourseDesc(e.target.value)} 
                   className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
                 />
                 <textarea 
-                  placeholder="受众背景/情感敏感度 (Audience Context)" 
+                  placeholder="Audience Context" 
                   value={courseAudience} 
                   onChange={e => setCourseAudience(e.target.value)} 
                   className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
                 />
                 <button type="submit" className="py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-sm">
-                  创建并选中班级
+                  Create and Select Class
                 </button>
               </form>
             )}
@@ -470,31 +474,31 @@ export default function InstructorModuleDashboard() {
               <div className="mt-6 p-6 border border-slate-200 bg-slate-50/50 rounded-xl">
                 {editingCourseId === selectedCourseId ? (
                   <div className="flex flex-col gap-4">
-                    <h4 className="font-semibold text-slate-800 flex items-center gap-2">📝 编辑班级信息</h4>
+                    <h4 className="font-semibold text-slate-800 flex items-center gap-2">📝 Edit Class Information</h4>
                     <input 
                       value={editCourseForm.title || ''} 
                       onChange={e => setEditCourseForm({...editCourseForm, title: e.target.value})} 
-                      placeholder="班级名称" 
+                      placeholder="Class Name" 
                       className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/50 outline-none"
                     />
                     <textarea 
                       value={editCourseForm.description || ''} 
                       onChange={e => setEditCourseForm({...editCourseForm, description: e.target.value})} 
-                      placeholder="简介" 
+                      placeholder="Description" 
                       className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/50 outline-none"
                     />
                     <textarea 
                       value={editCourseForm.audience_context || ''} 
                       onChange={e => setEditCourseForm({...editCourseForm, audience_context: e.target.value})} 
-                      placeholder="受众" 
+                      placeholder="Audience" 
                       className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/50 outline-none"
                     />
                     <div className="flex gap-3 mt-2">
                       <button onClick={handleEditCourse} className="px-5 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
-                        保存 (Save)
+                        Save
                       </button>
                       <button onClick={() => setEditingCourseId(null)} className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition-colors">
-                        取消 (Cancel)
+                        Cancel
                       </button>
                     </div>
                   </div>
@@ -504,11 +508,11 @@ export default function InstructorModuleDashboard() {
                     <>
                       <h3 className="text-xl font-bold text-slate-800 mb-3">📘 {activeCourse.title}</h3>
                       <div className="space-y-2 mb-6">
-                        <p className="text-slate-600"><strong className="text-slate-800">简介:</strong> {activeCourse.description || '无'}</p>
-                        <p className="text-slate-600"><strong className="text-slate-800">受众/背景:</strong> {activeCourse.audience_context || '无'}</p>
+                        <p className="text-slate-600"><strong className="text-slate-800">Description:</strong> {activeCourse.description || 'None'}</p>
+                        <p className="text-slate-600"><strong className="text-slate-800">Audience/Context:</strong> {activeCourse.audience_context || 'None'}</p>
                         <div className="text-slate-600">
-                          <strong className="text-slate-800 block mb-1 mt-2">已加入本班级的学生:</strong>
-                          {courseStudents.length === 0 ? <span className="text-sm italic">暂无学生选修此课</span> : (
+                          <strong className="text-slate-800 block mb-1 mt-2">Students enrolled in this class:</strong>
+                          {courseStudents.length === 0 ? <span className="text-sm italic">No students enrolled yet</span> : (
                             <div className="flex flex-wrap gap-2 mt-1">
                               {courseStudents.map(s => (
                                 <span key={s.id} className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md text-sm font-medium">
@@ -521,10 +525,10 @@ export default function InstructorModuleDashboard() {
                       </div>
                       <div className="flex gap-3">
                         <button onClick={startEditingCourse} className="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-100 text-slate-700 transition-colors text-sm font-medium">
-                          ✏️ 编辑班级 (Edit)
+                          ✏️ Edit Class
                         </button>
                         <button onClick={() => handleDeleteCourse(activeCourse.id)} className="px-4 py-2 border border-red-200 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium">
-                          🗑️ 删除班级 (Delete)
+                          🗑️ Delete Class
                         </button>
                       </div>
                     </>
@@ -539,10 +543,10 @@ export default function InstructorModuleDashboard() {
             <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow bg-gradient-to-br from-white to-slate-50/50">
               <h2 className="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
                 <span className="text-brand-500 text-2xl">📊</span>
-                班级学情诊断报告 (Class Performance)
+                Class Performance Report
               </h2>
               <p className="text-slate-500 text-sm mb-6 flex items-center gap-1.5">
-                <span className="text-brand-400">ℹ️</span> 评分统计包含 <strong>Instructor-assigned Quiz</strong> (随堂测试) 与 <strong>AI-generated Self-practice</strong> (自主练习) 成绩。
+                <span className="text-brand-400">ℹ️</span> Score statistics include <strong>Instructor-assigned Quiz</strong> (In-class Quiz) and <strong>AI-generated Self-practice</strong> (Self-practice) scores.
               </p>
               {isReportLoading ? (
                 <div className="animate-pulse flex space-x-4">
@@ -559,38 +563,38 @@ export default function InstructorModuleDashboard() {
                   {/* Summary Cards */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50 shadow-sm flex flex-col justify-center items-center">
-                      <p className="text-sm text-slate-500 font-medium mb-1">班级平均分</p>
+                      <p className="text-sm text-slate-500 font-medium mb-1">Class Average Score</p>
                       <p className="text-4xl font-black text-indigo-600">{courseReport.overall_average}</p>
                     </div>
                     <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100/50 shadow-sm flex flex-col justify-center items-center">
-                      <p className="text-sm text-slate-500 font-medium mb-1">已接入学生数</p>
+                      <p className="text-sm text-slate-500 font-medium mb-1">Enrolled Students</p>
                       <p className="text-4xl font-black text-teal-600">{courseReport.total_students}</p>
                     </div>
                   </div>
                   
                   {/* Common Gaps */}
                   <div>
-                    <h3 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">⚠️ 高频易错点 (Common Gaps)</h3>
+                    <h3 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">⚠️ Common Gaps</h3>
                     <div className="flex flex-wrap gap-2">
                       {courseReport.common_gaps.length > 0 ? courseReport.common_gaps.map((gap, idx) => (
                         <span key={idx} className="bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-lg text-sm font-semibold shadow-sm">
                           {gap}
                         </span>
                       )) : (
-                        <span className="text-slate-400 text-sm italic">暂无足够数据分析易错点</span>
+                        <span className="text-slate-400 text-sm italic">Insufficient data to analyze common gaps</span>
                       )}
                     </div>
                   </div>
 
                   {/* Module Stats Progress */}
                   <div>
-                    <h3 className="text-sm font-bold text-slate-700 mb-4 uppercase tracking-wider">📈 各模块掌握进度 (Module Mastery)</h3>
+                    <h3 className="text-sm font-bold text-slate-700 mb-4 uppercase tracking-wider">📈 Module Mastery</h3>
                     <div className="space-y-4">
                       {courseReport.module_stats.length > 0 ? courseReport.module_stats.map((mod, idx) => (
                         <div key={idx} className="flex flex-col gap-1.5">
                           <div className="flex justify-between items-end text-sm">
                             <span className="font-medium text-slate-700">{mod.module_name}</span>
-                            <span className="font-bold text-slate-600">{mod.average_score} 分</span>
+                            <span className="font-bold text-slate-600">{mod.average_score} pts</span>
                           </div>
                           <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                             <div 
@@ -600,7 +604,7 @@ export default function InstructorModuleDashboard() {
                           </div>
                         </div>
                       )) : (
-                        <span className="text-slate-400 text-sm italic">暂无模块进度数据</span>
+                        <span className="text-slate-400 text-sm italic">No module progress data available</span>
                       )}
                     </div>
                   </div>
@@ -612,24 +616,24 @@ export default function InstructorModuleDashboard() {
           <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
             <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
               <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">2</span>
-              在当前上下文中创建模块 (Create Module)
+              Create Module in Current Context
             </h2>
             <form onSubmit={handleCreateModule} className="flex flex-col gap-4">
               <input 
                 required 
-                placeholder="模块标题 (Title)" 
+                placeholder="Module Title" 
                 value={title} 
                 onChange={e => setTitle(e.target.value)} 
                 className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
               />
               <textarea 
-                placeholder="基本描述 (Description)" 
+                placeholder="Basic Description" 
                 value={description} 
                 onChange={e => setDescription(e.target.value)} 
                 className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
               />
               <textarea 
-                placeholder="当前模块具体学习目标 (Learning Objectives)" 
+                placeholder="Learning Objectives" 
                 value={objectives} 
                 onChange={e => setObjectives(e.target.value)} 
                 className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
@@ -639,7 +643,7 @@ export default function InstructorModuleDashboard() {
                 disabled={selectedCourseId === 'new'}
                 className="py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed"
               >
-                ➕ {typeof selectedCourseId === 'number' ? '为选中的班级添加模块' : '创建孤立模块'}
+                ➕ {typeof selectedCourseId === 'number' ? 'Add Module to Selected Class' : 'Create Orphan Module'}
               </button>
             </form>
           </section>
@@ -647,11 +651,11 @@ export default function InstructorModuleDashboard() {
           <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
             <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
               <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">3</span>
-              模块列表与资料展示 (Modules in Selection)
+              Module List & Materials
             </h2>
             {displayModules.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
-                <p className="text-slate-500">当前视图暂无模块</p>
+                <p className="text-slate-500">No modules in current view</p>
               </div>
             ) : (
               <ul className="space-y-6">
@@ -665,19 +669,19 @@ export default function InstructorModuleDashboard() {
                           <input 
                             value={editForm.title || ''} 
                             onChange={e => setEditForm({...editForm, title: e.target.value})} 
-                            placeholder="标题" 
+                            placeholder="Title" 
                             className="px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500/50 outline-none"
                           />
                           <textarea 
                             value={editForm.description || ''} 
                             onChange={e => setEditForm({...editForm, description: e.target.value})} 
-                            placeholder="描述" 
+                            placeholder="Description" 
                             className="px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500/50 outline-none"
                           />
                           <textarea 
                             value={editForm.learning_objectives || ''} 
                             onChange={e => setEditForm({...editForm, learning_objectives: e.target.value})} 
-                            placeholder="学习目标" 
+                            placeholder="Learning Objectives" 
                             className="px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500/50 outline-none"
                           />
                           <select 
@@ -685,12 +689,12 @@ export default function InstructorModuleDashboard() {
                             onChange={e => setEditForm({...editForm, course_id: e.target.value === 'none' ? null : Number(e.target.value)})}
                             className="px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500/50 outline-none w-full max-w-sm"
                           >
-                            <option value="none">-- 无班级关联 --</option>
+                            <option value="none">-- No Class Association --</option>
                             {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                           </select>
                           <div className="flex gap-3 mt-2">
-                            <button onClick={saveEdit} className="px-5 py-2 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg">保存 (Save)</button>
-                            <button onClick={() => setEditingModuleId(null)} className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg">取消 (Cancel)</button>
+                            <button onClick={saveEdit} className="px-5 py-2 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg">Save</button>
+                            <button onClick={() => setEditingModuleId(null)} className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg">Cancel</button>
                           </div>
                         </div>
                       ) : (
@@ -699,15 +703,15 @@ export default function InstructorModuleDashboard() {
                             <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
                               <span className="text-brand-500">📄</span> {mod.title}
                               <span className="text-xs font-medium bg-slate-100 text-slate-500 px-2 py-1 rounded-full whitespace-nowrap">
-                                {mod.course_id ? '已绑定班级' : '孤立模块'}
+                                {mod.course_id ? 'Associated' : 'Orphaned'}
                               </span>
                             </h3>
                             <div className="flex gap-2 shrink-0">
                               <button onClick={() => startEditing(mod)} className="px-3 py-1.5 text-sm border border-slate-300 rounded hover:bg-slate-50 text-slate-600 transition-colors">
-                                编辑
+                                Edit
                               </button>
                               <button onClick={() => handleDeleteModule(mod.id)} className="px-3 py-1.5 text-sm border border-red-200 bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors">
-                                删除
+                                Delete
                               </button>
                             </div>
                           </div>
@@ -719,9 +723,9 @@ export default function InstructorModuleDashboard() {
                           )}
                           
                           <div className="mt-6 border-t border-slate-100 pt-4">
-                            <h4 className="font-semibold text-slate-800 mb-3">已上传资料 (Materials):</h4>
+                            <h4 className="font-semibold text-slate-800 mb-3">Uploaded Materials:</h4>
                             {(materialsByModule[mod.id] || []).length === 0 ? (
-                              <p className="text-slate-400 text-sm italic">暂无上传的内容</p>
+                              <p className="text-slate-400 text-sm italic">No materials uploaded yet</p>
                             ) : (
                               <ul className="space-y-2">
                                 {materialsByModule[mod.id].map(mat => (
@@ -736,11 +740,11 @@ export default function InstructorModuleDashboard() {
                                           type="text"
                                           value={materialEditAnnotation}
                                           onChange={e => setMaterialEditAnnotation(e.target.value)}
-                                          placeholder="修改批注"
+                                          placeholder="Edit Annotation"
                                           className="px-2 py-1 text-sm border border-brand-300 rounded focus:outline-none focus:ring-1 focus:ring-brand-500"
                                         />
-                                        <button onClick={() => handleSaveMaterialAnnotation(mat.id, mod.id)} className="px-3 py-1 text-xs bg-brand-500 text-white rounded hover:bg-brand-600">保存</button>
-                                        <button onClick={() => setEditingMaterialId(null)} className="px-3 py-1 text-xs bg-slate-200 text-slate-700 rounded hover:bg-slate-300">取消</button>
+                                        <button onClick={() => handleSaveMaterialAnnotation(mat.id, mod.id)} className="px-3 py-1 text-xs bg-brand-500 text-white rounded hover:bg-brand-600">Save</button>
+                                        <button onClick={() => setEditingMaterialId(null)} className="px-3 py-1 text-xs bg-slate-200 text-slate-700 rounded hover:bg-slate-300">Cancel</button>
                                       </div>
                                     ) : (
                                       <div className="flex items-center gap-3 ml-auto">
@@ -764,7 +768,7 @@ export default function InstructorModuleDashboard() {
       
                           <div className="mt-6 bg-brand-50/30 p-5 rounded-xl border border-brand-100">
                             <h4 className="font-semibold text-brand-800 mb-4 flex items-center gap-2">
-                              <span>⬆️</span> 暂存/准备上传课程资料
+                              <span>⬆️</span> Pending / Ready to Upload Materials
                             </h4>
                             <div className="flex flex-col gap-4">
                               <input 
@@ -783,7 +787,7 @@ export default function InstructorModuleDashboard() {
                                 <div className="flex flex-col sm:flex-row gap-3">
                                   <input 
                                     type="text" 
-                                    placeholder="添加资料批注 (可选)" 
+                                    placeholder="Add material annotation (optional)" 
                                     value={uploadAnnotations[mod.id] || ''}
                                     onChange={(e) => setUploadAnnotations(prev => ({ ...prev, [mod.id]: e.target.value }))}
                                     className="px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500/50 outline-none flex-1 bg-white"
@@ -792,7 +796,7 @@ export default function InstructorModuleDashboard() {
                                     onClick={() => handleUploadMaterial(mod.id)}
                                     className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-all shadow-sm shrink-0"
                                   >
-                                    确认上传 (Upload)
+                                    Upload
                                   </button>
                                 </div>
                               )}

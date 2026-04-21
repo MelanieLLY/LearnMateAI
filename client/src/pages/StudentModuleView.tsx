@@ -39,6 +39,10 @@ const MODULE_TABS: TabConfig[] = [
 ];
 
 export default function StudentModuleView() {
+  useEffect(() => {
+    document.title = 'Student Dashboard | LearnMateAI';
+  }, []);
+
   const [modules, setModules] = useState<Module[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<number>>(new Set());
@@ -147,7 +151,7 @@ export default function StudentModuleView() {
         credentials: 'include',
       });
       if (!response.ok) throw new Error('Enrollment failed');
-      alert('选课成功！');
+      alert('Enrollment successful!');
       fetchData();
     } catch (error) {
       const err = error as Error;
@@ -160,15 +164,15 @@ export default function StudentModuleView() {
   return (
     <div className="max-w-[90rem] mx-auto space-y-8 pb-12 px-4 xl:px-8">
       <header className="mb-8 pl-2">
-        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨🎓 学生端：模块浏览与学习</h1>
+        <h1 className="text-3xl font-extrabold text-slate-800 mb-2">👨🎓 Student Module View</h1>
         <p className="text-slate-500">
-          在这里，你可以浏览课程模块，下载学习材料，并记录学习笔记。
+          Here you can browse course modules, download materials, and take notes.
         </p>
       </header>
 
       {error && (
         <div className="bg-red-50 text-red-600 px-4 py-3 rounded-xl mb-6 text-sm flex items-center shadow-sm border border-red-100">
-          <span className="mr-2">⚠️</span> 错误: {error}
+          <span className="mr-2">⚠️</span> Error: {error}
         </div>
       )}
 
@@ -185,22 +189,22 @@ export default function StudentModuleView() {
           {/* Left Sidebar */}
           <aside className="w-full lg:w-1/4 xl:w-1/5 shrink-0 glass-panel p-5 rounded-2xl sticky top-6 z-10 hidden md:block">
             <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <span className="text-brand-500">📚</span> 课程导航
+              <span className="text-brand-500">📚</span> Course Navigation
             </h2>
             <div className="space-y-2">
               <button
                 onClick={() => setSelectedCourseId('discover')}
                 className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${selectedCourseId === 'discover' ? 'bg-brand-600 text-white shadow-md' : 'text-brand-600 hover:bg-brand-50 border border-brand-100 border-dashed'}`}
               >
-                 🔍 选课大厅 (Discover)
+                 🔍 Course Discovery
               </button>
               <div className="pt-3 mt-3 border-t border-slate-100">
-                <p className="text-xs font-semibold text-slate-400 mb-2 px-2">我的课程</p>
+                <p className="text-xs font-semibold text-slate-400 mb-2 px-2">My Courses</p>
                 <button
                   onClick={() => setSelectedCourseId('all')}
                   className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all ${selectedCourseId === 'all' ? 'bg-brand-100 text-brand-700 bg-opacity-70 shadow-sm' : 'text-slate-600 hover:bg-slate-50'}`}
                 >
-                  🌍 显示所有模组
+                  🌍 Show All Modules
                 </button>
                 {Array.from(enrolledCourseIds).map(cId => {
                   const c = courses.find(course => course.id === cId);
@@ -221,7 +225,7 @@ export default function StudentModuleView() {
 
           {/* Mobile Course Selector */}
           <div className="md:hidden w-full glass-panel p-4 rounded-xl mb-4">
-            <h2 className="text-sm font-bold text-slate-700 mb-2">课程导航</h2>
+            <h2 className="text-sm font-bold text-slate-700 mb-2">Course Navigation</h2>
             <select 
               value={selectedCourseId} 
               onChange={(e) => {
@@ -231,8 +235,8 @@ export default function StudentModuleView() {
               }}
               className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500/50 bg-white"
             >
-              <option value="discover">🔍 选课大厅 (Discover)</option>
-              <option value="all">🌍 显示所有模组</option>
+              <option value="discover">🔍 Course Discovery</option>
+              <option value="all">🌍 Show All Modules</option>
               {Array.from(enrolledCourseIds).map(cId => {
                 const c = courses.find(course => course.id === cId);
                 return c ? <option key={c.id} value={c.id}>🎓 {c.title}</option> : null;
@@ -244,9 +248,9 @@ export default function StudentModuleView() {
           <main className="w-full lg:flex-1 space-y-8 min-w-0">
             {selectedCourseId === 'discover' && (
               <section className="animate-fade-in-up">
-                <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">📚 选课大厅 (Available Courses)</h2>
+                <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">📚 Available Courses</h2>
                 {courses.length === 0 ? (
-                  <p className="text-slate-500 px-2">目前没有可供选择的课程</p>
+                  <p className="text-slate-500 px-2">No courses available for selection right now.</p>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {courses.map(course => {
@@ -255,14 +259,14 @@ export default function StudentModuleView() {
                         <div key={course.id} className="glass-panel p-5 rounded-2xl flex flex-col justify-between border border-emerald-100 hover:shadow-lg transition-all">
                           <div>
                             <h3 className="font-bold text-lg text-emerald-800">{course.title}</h3>
-                            <p className="text-sm text-slate-600 mt-1 mb-4 line-clamp-2">{course.description || "暂无简介"}</p>
+                            <p className="text-sm text-slate-600 mt-1 mb-4 line-clamp-2">{course.description || "No description available"}</p>
                           </div>
                           <button
                             onClick={() => handleEnroll(course.id)}
                             disabled={enrolled || isEnrolling[course.id]}
                             className={`py-2 rounded-xl text-sm font-semibold transition-all ${enrolled ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm hover:shadow-md active:scale-95'}`}
                           >
-                            {enrolled ? '已选课' : isEnrolling[course.id] ? '选课中...' : '加入课程'}
+                            {enrolled ? 'Enrolled' : isEnrolling[course.id] ? 'Enrolling...' : 'Enroll'}
                           </button>
                         </div>
                       );
@@ -274,11 +278,11 @@ export default function StudentModuleView() {
 
             {selectedCourseId !== 'discover' && (
               <section className="animate-fade-in-up">
-                <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">📖 我的学习模块 (My Modules)</h2>
+                <h2 className="text-xl font-bold text-slate-800 mb-4 px-2">📖 My Modules</h2>
                 {modules.length === 0 ? (
                   <div className="text-center py-16 glass-panel rounded-2xl">
                     <div className="text-4xl mb-4">📭</div>
-                    <p className="text-slate-500 text-lg">暂无可用模块</p>
+                    <p className="text-slate-500 text-lg">No modules available</p>
                   </div>
                 ) : (
                   <div className="space-y-10">
@@ -293,14 +297,14 @@ export default function StudentModuleView() {
                       const courseList = Array.from(new Set(modules.map(m => m.course_id ?? 0)))
                         .filter(cId => selectedCourseId === 'all' || cId === selectedCourseId)
                         .map(cId => {
-                          if (cId === 0) return { id: 0, title: "未分类模块" };
-                          return courses.find(c => c.id === cId) || { id: cId, title: "未知课程" };
+                          if (cId === 0) return { id: 0, title: "Uncategorized Modules" };
+                          return courses.find(c => c.id === cId) || { id: cId, title: "Unknown Course" };
                         }).sort((a, b) => a.title.localeCompare(b.title));
                         
                       if (courseList.length === 0) {
                           return (
                             <div className="text-center py-12 glass-panel rounded-2xl bg-slate-50/50 border-dashed">
-                              <p className="text-slate-500">本课程下暂无模块</p>
+                              <p className="text-slate-500">No modules under this course</p>
                             </div>
                           );
                       }
@@ -327,7 +331,7 @@ export default function StudentModuleView() {
 
                                     {mod.learning_objectives && (
                                       <div className="bg-blue-50/50 rounded-xl p-4 mb-5 border border-blue-100/50 text-sm">
-                                        <strong className="text-blue-800 block mb-1">重点目标 (Objectives)</strong>
+                                        <strong className="text-blue-800 block mb-1">Learning Objectives</strong>
                                         <span className="text-blue-700/80">{mod.learning_objectives}</span>
                                       </div>
                                     )}
@@ -362,11 +366,11 @@ export default function StudentModuleView() {
                                         {/* Note input */}
                                         <div className="bg-brand-50/50 rounded-xl p-5 border border-brand-100 shadow-sm">
                                           <h4 className="font-semibold text-brand-800 mb-3 flex items-center gap-2">
-                                            <span>📝</span> 提交学习笔记
+                                            <span>📝</span> Submit Study Note
                                           </h4>
                                           <textarea
                                             className="w-full min-h-[100px] p-4 bg-white border border-brand-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all placeholder:text-slate-400 resize-y mb-4 shadow-sm"
-                                            placeholder="在这里输入你的学习笔记、问题或心得..."
+                                            placeholder="Type your study notes, questions, or insights here..."
                                             value={notes[mod.id] || ''}
                                             onChange={(e) => handleNoteChange(mod.id, e.target.value)}
                                           />
@@ -376,7 +380,7 @@ export default function StudentModuleView() {
                                               disabled={submitting[mod.id] || !notes[mod.id]?.trim()}
                                               className="px-6 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-[0.98]"
                                             >
-                                              {submitting[mod.id] ? '提交中...' : '提交笔记'}
+                                              {submitting[mod.id] ? 'Submitting...' : 'Submit Note'}
                                             </button>
                                           </div>
                                         </div>
@@ -385,9 +389,9 @@ export default function StudentModuleView() {
                                         {pastNotes[mod.id] && pastNotes[mod.id].length > 0 && (
                                           <div>
                                             <h4 className="font-semibold text-slate-700 mb-4 px-1 flex items-center gap-2">
-                                              <span>📚</span> 我的历史笔记
+                                              <span>📚</span> My Past Notes
                                               <span className="bg-slate-100 text-slate-500 text-xs py-0.5 px-2 rounded-full font-medium">
-                                                {pastNotes[mod.id].length} 篇
+                                                {pastNotes[mod.id].length} notes
                                               </span>
                                             </h4>
                                             <div className="space-y-3">
