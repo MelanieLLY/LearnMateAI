@@ -442,7 +442,7 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 📸 截图这段 Github 评论，确保截出 AI Disclosure 声明 (证据 #10)。<br>
 </details>
 
-**🎯 Step 16: 部署 (Issue #8)** （未开始）
+**🎯 Step 16: 部署 (Issue #8)** ✅ 已完成
 - **操作**: Render 部署 PostgreSQL 数据库，Vercel 部署前端应用。
 
 <details>
@@ -460,7 +460,7 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 
 ### 【Phase 6：交付打包材料】
 
-**🎯 Step 17: Readme 与架构图** （未开始）
+**🎯 Step 17: Readme 与架构图** ✅ 已完成
 - **操作**: 补全所有的门面文档。
 
 <details>
