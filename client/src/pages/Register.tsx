@@ -34,15 +34,28 @@ export default function Register() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Registration failed');
+        if (response.status === 502 || response.status === 504 || response.status === 503) {
+          throw new Error('☁️ 云端服务器正在从休眠中苏醒 (Cold Start)。此过程在免费套餐中极易发生，请耐心等待约 50 秒后再试！');
+        }
+        let errorMsg = 'Registration failed';
+        try {
+          const errorData = await response.json();
+          errorMsg = errorData.detail || errorMsg;
+        } catch {
+          errorMsg = `Server error: ${response.status} ${response.statusText}`;
+        }
+        throw new Error(errorMsg);
       }
 
       // Automatically redirect to login page upon success
       navigate('/login');
     } catch (error) {
-      const err = error as Error;
-      setError(err.message);
+      if (error instanceof TypeError) {
+        setError('🚨 网络请求失败！如果这发生在首次访问，可能是免费版后端的 Cold Start (冷启动) 超时导致。请给服务器 50 秒苏醒时间，并再试一次！');
+      } else {
+        const err = error as Error;
+        setError(err.message);
+      }
     } finally {
       setIsLoading(false);
     }
