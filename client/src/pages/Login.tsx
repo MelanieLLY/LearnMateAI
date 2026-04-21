@@ -22,7 +22,7 @@ export default function Login() {
     setIsLoading(true);
 
     const slowQueryTimeout = setTimeout(() => {
-      setError('☁️ The cloud server is waking up from hibernation (Cold Start). This is common on the free tier. Please wait about 50 seconds...');
+      setError('☁️ The backend server is waking up (Cold Start). Free tier servers sleep after 15 mins of inactivity and take 2-3 mins to wake up. Please wait 3 minutes, then try again!');
     }, 4000);
 
     try {
@@ -39,7 +39,7 @@ export default function Login() {
 
       if (!response.ok) {
         if (response.status === 502 || response.status === 504 || response.status === 503) {
-          throw new Error('☁️ The cloud server is waking up from hibernation (Cold Start). This is common on the free tier. Please wait about 50 seconds and try again!');
+          throw new Error('☁️ The backend server is waking up (Cold Start). Free tier servers sleep after 15 mins of inactivity and take 2-3 mins to wake up. Please wait 3 minutes and try again!');
         }
         let errorMsg = 'Login failed';
         try {
@@ -63,7 +63,7 @@ export default function Login() {
       }
     } catch (error) {
       if (error instanceof TypeError) {
-        setError('🚨 Network request failed! If this happens on your first visit, it might be due to a Cold Start timeout on the free backend tier. Please give the server 50 seconds to wake up and try again!');
+        setError('🚨 Network request failed! This is likely due to a Cold Start timeout. Free tier servers sleep after 15 mins of inactivity and take 2-3 mins to wake up. Please wait 3 minutes and try again!');
       } else {
         const err = error as Error;
         setError(err.message);
