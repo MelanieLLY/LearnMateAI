@@ -21,6 +21,10 @@ export default function Login() {
     setError('');
     setIsLoading(true);
 
+    const slowQueryTimeout = setTimeout(() => {
+      setError('☁️ The cloud server is waking up from hibernation (Cold Start). This is common on the free tier. Please wait about 50 seconds...');
+    }, 4000);
+
     try {
       const response = await fetch('/api/v1/auth/login', {
         method: 'POST',
@@ -30,6 +34,8 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
         credentials: 'include'
       });
+      
+      clearTimeout(slowQueryTimeout);
 
       if (!response.ok) {
         if (response.status === 502 || response.status === 504 || response.status === 503) {
@@ -63,6 +69,7 @@ export default function Login() {
         setError(err.message);
       }
     } finally {
+      clearTimeout(slowQueryTimeout);
       setIsLoading(false);
     }
   };
