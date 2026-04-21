@@ -185,7 +185,7 @@ export default function StudentModuleView() {
           {/* Left Sidebar */}
           <aside className="w-full lg:w-1/4 xl:w-1/5 shrink-0 glass-panel p-5 rounded-2xl sticky top-6 z-10 hidden md:block">
             <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <span className="text-brand-500">📚</span> 课程导航
+              <span className="text-brand-500">📚</span> Course Navigation
             </h2>
             <div className="space-y-2">
               <button
@@ -221,7 +221,7 @@ export default function StudentModuleView() {
 
           {/* Mobile Course Selector */}
           <div className="md:hidden w-full glass-panel p-4 rounded-xl mb-4">
-            <h2 className="text-sm font-bold text-slate-700 mb-2">课程导航</h2>
+            <h2 className="text-sm font-bold text-slate-700 mb-2">Course Navigation</h2>
             <select 
               value={selectedCourseId} 
               onChange={(e) => {
@@ -362,7 +362,7 @@ export default function StudentModuleView() {
                                         {/* Note input */}
                                         <div className="bg-brand-50/50 rounded-xl p-5 border border-brand-100 shadow-sm">
                                           <h4 className="font-semibold text-brand-800 mb-3 flex items-center gap-2">
-                                            <span>📝</span> 提交学习笔记
+                                            <span>📝</span> Submit Study Note
                                           </h4>
                                           <textarea
                                             className="w-full min-h-[100px] p-4 bg-white border border-brand-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all placeholder:text-slate-400 resize-y mb-4 shadow-sm"
@@ -385,7 +385,7 @@ export default function StudentModuleView() {
                                         {pastNotes[mod.id] && pastNotes[mod.id].length > 0 && (
                                           <div>
                                             <h4 className="font-semibold text-slate-700 mb-4 px-1 flex items-center gap-2">
-                                              <span>📚</span> 我的历史笔记
+                                              <span>📚</span> My Past Notes
                                               <span className="bg-slate-100 text-slate-500 text-xs py-0.5 px-2 rounded-full font-medium">
                                                 {pastNotes[mod.id].length} notes
                                               </span>

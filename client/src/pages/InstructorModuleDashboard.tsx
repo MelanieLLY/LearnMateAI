@@ -386,7 +386,7 @@ export default function InstructorModuleDashboard() {
           {/* Left Sidebar */}
           <aside className="w-full lg:w-1/4 xl:w-1/5 shrink-0 glass-panel p-5 rounded-2xl sticky top-6 z-10 hidden md:block">
             <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <span className="text-brand-500">📚</span> 班级切换
+              <span className="text-brand-500">📚</span> Class Switcher
             </h2>
             <div className="space-y-2">
               <button
@@ -435,7 +435,7 @@ export default function InstructorModuleDashboard() {
               <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
                 <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
                   <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span>
-                  班级上下文 (Class Context)
+                  Class Context
                 </h2>
 
             {selectedCourseId === 'new' && (
@@ -505,10 +505,10 @@ export default function InstructorModuleDashboard() {
                       <h3 className="text-xl font-bold text-slate-800 mb-3">📘 {activeCourse.title}</h3>
                       <div className="space-y-2 mb-6">
                         <p className="text-slate-600"><strong className="text-slate-800">Description:</strong> {activeCourse.description || 'None'}</p>
-                        <p className="text-slate-600"><strong className="text-slate-800">Audience/背景:</strong> {activeCourse.audience_context || 'None'}</p>
+                        <p className="text-slate-600"><strong className="text-slate-800">Audience/Context:</strong> {activeCourse.audience_context || 'None'}</p>
                         <div className="text-slate-600">
                           <strong className="text-slate-800 block mb-1 mt-2">Students enrolled in this class:</strong>
-                          {courseStudents.length === 0 ? <span className="text-sm italic">暂None学生选修此课</span> : (
+                          {courseStudents.length === 0 ? <span className="text-sm italic">No students enrolled yet</span> : (
                             <div className="flex flex-wrap gap-2 mt-1">
                               {courseStudents.map(s => (
                                 <span key={s.id} className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md text-sm font-medium">
@@ -570,14 +570,14 @@ export default function InstructorModuleDashboard() {
                   
                   {/* Common Gaps */}
                   <div>
-                    <h3 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">⚠️ 高频易错点 (Common Gaps)</h3>
+                    <h3 className="text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">⚠️ Common Gaps</h3>
                     <div className="flex flex-wrap gap-2">
                       {courseReport.common_gaps.length > 0 ? courseReport.common_gaps.map((gap, idx) => (
                         <span key={idx} className="bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-lg text-sm font-semibold shadow-sm">
                           {gap}
                         </span>
                       )) : (
-                        <span className="text-slate-400 text-sm italic">暂None足够数据分析易错点</span>
+                        <span className="text-slate-400 text-sm italic">Insufficient data to analyze common gaps</span>
                       )}
                     </div>
                   </div>
@@ -590,7 +590,7 @@ export default function InstructorModuleDashboard() {
                         <div key={idx} className="flex flex-col gap-1.5">
                           <div className="flex justify-between items-end text-sm">
                             <span className="font-medium text-slate-700">{mod.module_name}</span>
-                            <span className="font-bold text-slate-600">{mod.average_score} 分</span>
+                            <span className="font-bold text-slate-600">{mod.average_score} pts</span>
                           </div>
                           <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                             <div 
@@ -600,7 +600,7 @@ export default function InstructorModuleDashboard() {
                           </div>
                         </div>
                       )) : (
-                        <span className="text-slate-400 text-sm italic">暂None模块进度数据</span>
+                        <span className="text-slate-400 text-sm italic">No module progress data available</span>
                       )}
                     </div>
                   </div>
@@ -647,11 +647,11 @@ export default function InstructorModuleDashboard() {
           <section className="glass-panel p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-shadow">
             <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
               <span className="bg-brand-100 text-brand-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">3</span>
-              模块列表and资料展示 (Modules in Selection)
+              Module List & Materials
             </h2>
             {displayModules.length === 0 ? (
               <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
-                <p className="text-slate-500">当前视图暂None模块</p>
+                <p className="text-slate-500">No modules in current view</p>
               </div>
             ) : (
               <ul className="space-y-6">
@@ -685,7 +685,7 @@ export default function InstructorModuleDashboard() {
                             onChange={e => setEditForm({...editForm, course_id: e.target.value === 'none' ? null : Number(e.target.value)})}
                             className="px-4 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500/50 outline-none w-full max-w-sm"
                           >
-                            <option value="none">-- None班级关联 --</option>
+                            <option value="none">-- No Class Association --</option>
                             {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
                           </select>
                           <div className="flex gap-3 mt-2">
@@ -721,7 +721,7 @@ export default function InstructorModuleDashboard() {
                           <div className="mt-6 border-t border-slate-100 pt-4">
                             <h4 className="font-semibold text-slate-800 mb-3">Uploaded Materials:</h4>
                             {(materialsByModule[mod.id] || []).length === 0 ? (
-                              <p className="text-slate-400 text-sm italic">暂None上传的内容</p>
+                              <p className="text-slate-400 text-sm italic">No materials uploaded yet</p>
                             ) : (
                               <ul className="space-y-2">
                                 {materialsByModule[mod.id].map(mat => (
