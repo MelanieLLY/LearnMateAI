@@ -172,7 +172,7 @@ python -m uvicorn main:app --reload --port 8200
 | **Team Process** | 严格实行 Scrum 的 Branch-per-issue 标准流程，并且整理了完善的 Sprint Plans 作为团队协作证明。 | [learnmate-sprint-plan.md](planning_files/learnmate-sprint-plan.md) |
 | **Application Quality (应用质量与部署)** | 落地了具有极高完成度与前沿设计质感的 SaaS 应用，打通了教与学的双角色动态权限，并已稳定部署在 Vercel 和 Render 上供公开访问。 | [在线环境 (Vercel)](https://learn-mate-ai-zeta.vercel.app) <br> [后端 API (Render)](https://learnmate-api.onrender.com) |
 | **Technical Blog (技术博客)** | 在外部平台发布了深度技术博客，复盘了项目的架构设计、核心业务流以及 Claude Code 是如何大幅加速敏捷迭代的。 | [技术博客 (Melanie)](https://www.melanieyang.info/post/building-learnmate-ai-engineering-practices-for-a-full-stack-educational-platform-with-claude-code) <br> [技术博客 (Jing)](https://dev.to/jing_2026/learnmateai-building-an-intelligent-teaching-assistant-platform-48pb) |
-| **Individual Reflections (个人反思)** | 整理了超过 500 字的深度反思文档，总结了在项目中落地 TDD、Hooks 与 MCP 的个人体验和爬坑经验。 | [个人总结 (Liuyi)](docs/P3_Reflection_Liuyi_zh.md) <br> [个人总结 (Jing)](docs/REFLECTION.md) |
+| **Individual Reflections (个人反思)** | 整理了超过 500 字的深度反思文档，总结了在项目中落地 TDD、Hooks 与 MCP 的个人体验和爬坑经验。 | [个人总结 (Liuyi)](docs/P3_Reflection_Liuyi_zh.md) <br> [个人总结 (Jing)](docs/REFLECTION_byJing.md) |
 | **Peer Review (互评)** | 撰写了针对团队成员 Jing 的专业互评文档，总结了其在项目生命周期中的突出贡献与无缝协作经历。 | [互评档案 (Jing)](docs/Peer_Review_Liuyi_to_Jing.md) |
 | **Video Demonstration (视频演示)** | 制作了一段项目演示短片，不仅展示了应用的核心功能流，也直观呈现了背后的 AI 自动化流水线操作。 | *(待录制)* |
 | **Showcase Submission (最终提交)** | 将所有的项目链接、封面缩略图、演示视频等核心成果打包汇总，并通过课程规定的 Google 表单顺利上交。 | `已通过 Google Form 提交` |
