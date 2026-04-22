@@ -1,9 +1,6 @@
 # LearnMate AI
 
 LearnMate AI is a smart teaching assistant platform made for modern schools. It has different parts for instructors and students. We built this to show how to quickly create a production-ready SaaS app using advanced AI coding tools (Claude Code), Agent workflows, and full-stack automatic deployments.
-## Architecture Diagram
-
-<img width="557" height="539" alt="Screenshot 2026-04-20 at 11 01 32 PM" src="https://github.com/user-attachments/assets/45ff7555-95a6-45f3-b1df-ec1d5fa6b91f" />
 
 ## Blog Post
 
@@ -60,32 +57,45 @@ We did not want to make a simple CRUD app. Instead, we created special features 
 
 The app is built to handle many users, keep data safe, and connect securely with APIs:
 
+<img alt="System Architecture Diagram" src="https://github.com/user-attachments/assets/45ff7555-95a6-45f3-b1df-ec1d5fa6b91f" />
+
+<br/>
+
+<details>
+<summary>👉 <strong>Click to expand Mermaid Source Code</strong></summary>
+
 ```mermaid
 graph TD
     %% Client and UI Layer
     subgraph Client [Frontend: Vite / React]
-        UI[UI Components<br/>Tailwind CSS] --> Router[React Router]
-        Router --> APIStore[API Queries & State]
+        direction LR
+        UI[UI Components<br/>Tailwind CSS] --- Router[React Router<br/>Navigation]
+        Router --- APIStore[State & API<br/>Data Fetching]
     end
 
     %% Backend and API Layer
     subgraph Server [Backend: FastAPI / Python]
-        Security[JWT Auth] --> API[FastAPI Endpoints]
-        API --> Handlers[Business Logic]
-        Handlers --> Prompt[Local Prompt Engine]
+        direction LR
+        Security[JWT Auth<br/>Security] --- API[FastAPI<br/>Endpoints]
+        API --- Handlers[Business<br/>Logic / Handlers]
+        Handlers --- Prompt[Prompt<br/>Engine / LLM]
     end
 
     %% Infrastructure & LLM Integration
     subgraph Infrastructure [Cloud Infrastructure]
-        DB[(PostgreSQL Cloud)]
-        LLM[OpenAI / Anthropic APIs]
+        direction LR
+        DB[(PostgreSQL<br/>Cloud Database)]
+        LLM[OpenAI /<br/>Anthropic APIs]
     end
 
     %% Relations
-    Client -- "Axios HTTP Request" --> Security
+    APIStore -- "Axios HTTP Request" --> API
+    API -. "JSON Response" .-> APIStore
     Handlers -- "SQLAlchemy ORM" --> DB
-    Prompt -- "LLM Reasoning / Tool calls" --> LLM
+    Prompt -- "LLM Reasoning & Tool Calls" --> LLM
 ```
+
+</details>
 
 ---
 
