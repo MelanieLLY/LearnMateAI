@@ -74,11 +74,11 @@
 | Person A | Person B |
 |---|---|
 | **Feature (Issue #6): Instructor report** | **Feature: System Eval & MLOps** |
-| Aggregated class report API (anonymous stats) (In Progress) | Eval metrics dashboard (For dev/testing view) |
-| Report dashboard UI (common gaps, avg scores) (In Progress) | LLM quality trend charts & LLM-as-judge reports |
+| Aggregated class report API (anonymous stats) (Completed) | Eval metrics dashboard (For dev/testing view) |
+| Report dashboard UI (common gaps, avg scores) (Completed) | LLM quality trend charts & LLM-as-judge reports |
 | | |
 | **Feature: Production & Polish** | |
-| Feature (Issue #58): Cloud Database Fallback & psycopg2 | CI/CD Deploy configuration for Render / Vercel |
+| Feature (Issue #58): Cloud Database Fallback & psycopg2 (Completed) | CI/CD Deploy configuration for Render / Vercel (Completed) |
 | Sentry + Grafana setup | UI polish (loading states, responsive) |
 | Security (rate limiting, OWASP, secrets) | Documentation (README, API docs, blog post) |
 | CI/CD: canary/blue-green deploy to prod | Presentation slides |
@@ -100,9 +100,9 @@
 - Individual reflections + peer evaluations
 - Bug fixes only, no new features
 - Bugfix (Issue #53): Fix student flashcard generation model and Load Existing student filtering (Completed)
-- Feature (Issue #56): Implement split-screen UI layout for course/module browsing (In Progress)
+- Feature (Issue #56): Implement split-screen UI layout for course/module browsing (Completed)
 - Refactor (Issue #64): Translate all UI and seed data to English (Completed)
-- Docs (Issue #65): README (In Progress)
+- Docs (Issue #65): README (Completed)
 
 ---
 
