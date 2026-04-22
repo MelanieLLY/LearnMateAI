@@ -62,7 +62,9 @@ The app is built to handle many users, keep data safe, and connect securely with
 <br/>
 
 <details>
-<summary>👉 <strong>Click to expand Mermaid Source Code</strong></summary>
+<summary><kbd>&nbsp; 👉 <strong>Click here to expand Mermaid Source Code</strong> &nbsp;</kbd></summary>
+
+<br/>
 
 ```mermaid
 graph TD

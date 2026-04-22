@@ -11,14 +11,12 @@
             "id": "6d3359859bbb95d2",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
+                "file": "docs/screenshot/23_student_ui_experience_trimmed.gif"
               },
-              "icon": "lucide-file",
-              "title": "README"
+              "icon": "lucide-image",
+              "title": "23_student_ui_experience_trimmed"
             }
           }
         ]
@@ -156,13 +154,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md",
+                "file": "docs/screenshot/23_student_ui_experience_trimmed.gif",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "README 的大纲"
+              "title": "23_student_ui_experience_trimmed 的大纲"
             }
           }
         ],
@@ -185,6 +183,8 @@
   },
   "active": "6d3359859bbb95d2",
   "lastOpenFiles": [
+    "README.md",
+    "docs/screenshot/23_student_ui_experience_trimmed.gif",
     "docs/P3_Blog_Post_Liuyi.md",
     "docs/P3_Blog_Post_Liuyi_zh.md",
     "docs/P3_Blog_Post.md",
@@ -196,14 +196,12 @@
     "学生端主页.png",
     "docs/P3_Reflection_Liuyi_zh.md",
     "docs/P3_Blog_Post_zh.md",
-    "README.md",
     "LearnMateAI 视频与演示文档 (Video & Presentation Script).md",
     "architecture.png",
     "docs/screenshot/23_student_ui_experience.gif",
     "docs/screenshot/22_evidence_12_github_actions_pr.gif",
     "docs/screenshot/21_instructor_dashboard.gif",
     "讲师端仪表板数据和图表.gif",
-    "近期PR GitHub Actions Workflow 全绿截图.gif",
     "Usability_Study_Report.md",
     "test_investigate.py",
     "docs/REFLECTION.md",
@@ -229,7 +227,6 @@
     "planning_files/learnmate-sprint-plan.md",
     "planning_files/Apr8_project3_requirment.md",
     "草稿2.md",
-    "草稿.md",
-    "client/test-results/student-Student-Flow-login-and-browse-modules-chromium/error-context.md"
+    "草稿.md"
   ]
 }
