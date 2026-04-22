@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LearnMateAI Demo Video & Presentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.min.css" id="theme">
+    
+    <style>
+        /* Custom Styles for Light Tech Premium Feel */
+        .reveal {
+            background-color: #fafdfa;
+            background-image: linear-gradient(#e8f5e9 1px, transparent 1px), linear-gradient(90deg, #e8f5e9 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .reveal section img {
+            max-height: 380px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin: 10px 0;
+            background-color: transparent;
+        }
+        .reveal h2 {
+            font-size: 1.8em;
+            color: #2E7D32; /* Deep modern green */
+            text-transform: none;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .reveal p, .reveal ul, .reveal strong {
+            color: #333;
+        }
+        .reveal ul {
+            font-size: 0.8em;
+            text-align: left;
+            display: inline-block;
+        }
+        .reveal li {
+            margin-bottom: 10px;
+        }
+        .two-col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .two-col img {
+            max-width: 45%;
+            max-height: 250px;
+        }
+        .highlight {
+            color: #2E7D32;
+        }
+        /* Shields formatting */
+        .shields-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .shields-container img {
+            height: 28px;
+            margin: 0;
+            box-shadow: none;
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Introduction -->
+            <section>
+                <h2>1. Introduction</h2>
+                <p><strong>Project Name:</strong> LearnMateAI</p>
+                <p><strong>Team Members:</strong> Liuyi & Jing</p>
+                
+                <img src="../docs/screenshot/26_student_dashboard_home.png" alt="Student Dashboard Home">
+            </section>
+
+            <!-- Slide 2: Project Overview & The Problem -->
+            <section>
+                <h2>2. Project Overview & The Problem</h2>
+                <ul>
+                    <li><strong>Problem:</strong> Scattered learning resources, lack of automated study tools.</li>
+                    <li><strong>Solution:</strong> AI-generated flashcards, summaries, and quizzes; dynamic instructor dashboard.</li>
+                    <li><strong>Deployed Link:</strong> Show public Vercel URL.</li>
+                </ul>
+                <div class="two-col">
+                    <img src="../docs/screenshot/25_evidence_16_vercel_frontend_deploy.png" alt="Vercel Frontend Deploy">
+                    <img src="../docs/screenshot/24_evidence_15_render_backend_deploy.png" alt="Render Backend Deploy">
+                </div>
+            </section>
+
+            <!-- Slide 3: System Architecture -->
+            <section>
+                <h2>3. System Architecture</h2>
+                <ul>
+                    <li>Separated Frontend and Backend design.</li>
+                    <li><strong>Tech Stack:</strong> React, Vite, FastAPI, PostgreSQL, GitHub Actions, Vercel, Render.</li>
+                </ul>
+                
+                <div style="margin-top: 10px;">
+                    <img alt="System Architecture Diagram" src="https://github.com/user-attachments/assets/45ff7555-95a6-45f3-b1df-ec1d5fa6b91f" style="max-height: 250px; width: auto; background: white; padding: 10px;">
+                </div>
+                <div class="shields-container">
+                    <img src="https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB" alt="React">
+                    <img src="https://img.shields.io/badge/Vite-B73BFE?style=flat&logo=vite&logoColor=FFD62E" alt="Vite">
+                    <img src="https://img.shields.io/badge/fastapi-109989?style=flat&logo=FASTAPI&logoColor=white" alt="FastAPI">
+                    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL">
+                    <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=github-actions&logoColor=white" alt="GitHub Actions">
+                    <img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white" alt="Vercel">
+                    <img src="https://img.shields.io/badge/Render-46E3B7?style=flat&logo=render&logoColor=white" alt="Render">
+                </div>
+            </section>
+
+            <!-- Slide 4: Backend AI Agents & TDD -->
+            <section>
+                <h2>4. Backend AI Agents & TDD</h2>
+                <ul>
+                    <li>Test-Driven Development (TDD) workflow demonstration (Failing RED tests -> Passing GREEN tests).</li>
+                    <li>Agent SDK code implementation.</li>
+                </ul>
+                <div class="two-col">
+                    <img src="../docs/screenshot/01_RED_phase_failing_tests.png" alt="Terminal TDD Test Screenshot">
+                    <img src="https://github.com/user-attachments/assets/e6a8983e-13e3-437e-a25f-5233e896c3b6" alt="Agent SDK Code Snippet" style="background: white;">
+                </div>
+            </section>
+
+            <!-- Slide 5: Frontend UI & Parallel Development -->
+            <section>
+                <h2>5. Frontend UI & Parallel Development</h2>
+                <ul>
+                    <li>Parallel development of UI components using <code style="color: #FF5252;">git worktree</code>.</li>
+                    <li>Interactive quiz and 3D flashcards.</li>
+                </ul>
+                <img src="../docs/screenshot/17_evidence_7b_parallel_terminals.png" alt="Parallel Git Worktree Terminals">
+            </section>
+
+            <!-- Slide 6: Live Demo: Instructor Dashboard -->
+            <section>
+                <h2>6. Live Demo: Instructor Dashboard</h2>
+                <p style="font-size: 0.7em;">Instructor Login -> View Class Average and Module Trends.</p>
+                
+                <!-- GIF Image -->
+                <img src="../docs/screenshot/21_instructor_dashboard.gif" alt="Instructor Dashboard">
+            </section>
+
+            <!-- Slide 7: Live Demo: Student Experience -->
+            <section>
+                <h2>7. Live Demo: Student Experience</h2>
+                <p style="font-size: 0.7em;">Student Login -> Browse Modules -> Flip 3D Flashcards -> Complete Quiz & AI Feedback.</p>
+                
+                <!-- GIF Image -->
+                <img src="../docs/screenshot/23_student_ui_experience.gif" alt="Student UI Experience">
+            </section>
+
+            <!-- Slide 8: Playwright E2E Testing -->
+            <section>
+                <h2>8. Playwright E2E Testing</h2>
+                <p style="font-size: 0.7em;">Automated end-to-end browser test run results.</p>
+                <img src="../docs/screenshot/18_evidence_11_playwright_e2e_report.png" alt="Playwright E2E Test All Green">
+            </section>
+
+            <!-- Slide 9: CI/CD Pipeline & Security Gates -->
+            <section>
+                <h2>9. CI/CD Pipeline & Security Gates</h2>
+                <ul style="font-size: 0.7em;">
+                    <li>9-stage GitHub Actions workflow.</li>
+                    <li>Security Checks: Gitleaks, npm audit, Bandit.</li>
+                </ul>
+                <div class="two-col">
+                    <img src="../docs/screenshot/19_evidence_9_github_actions_all_green.png" alt="GitHub Actions Workflow All Green">
+                    <!-- GIF Image -->
+                    <img src="../docs/screenshot/22_evidence_12_github_actions_pr.gif" alt="GitHub PR Checks All Green">
+                </div>
+            </section>
+
+            <!-- Slide 10: Claude Code Mastery -->
+            <section>
+                <h2>10. Claude Code Mastery</h2>
+                <ul style="font-size: 0.7em;">
+                    <li>Custom Skills for accelerated workflows.</li>
+                    <li>PreToolUse Stop hook (blocking unqualified commits).</li>
+                    <li>GitHub MCP server connection.</li>
+                    <li>AI Code Reviewer Agent based on the C.L.E.A.R. framework.</li>
+                </ul>
+                <div class="two-col">
+                    <img src="../docs/screenshot/13_evidence_2_stop_hook.png" alt="Stop Hook Blocking Commit">
+                    <img src="../docs/screenshot/20_evidence_10_clear_pr_comment.png" alt="AI Code Review PR Screenshot">
+                </div>
+            </section>
+
+            <!-- Slide 11: Conclusion -->
+            <section>
+                <h2>11. Conclusion</h2>
+                <p><strong>Core Highlights:</strong></p>
+                <ul>
+                    <li>Production Ready</li>
+                    <li>Robust AI Workflow</li>
+                    <li>Automated Security</li>
+                </ul>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,          // Add slide number to URL hash
+            slideNumber: true,   // Show slide numbers
+            controls: true,      // Display controls in the bottom right corner
+            progress: true,      // Display a presentation progress bar
+            center: true,        // Vertical centering of slides
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Add keyboard shortcuts for easier navigation
+            keyboard: {
+                39: 'next', // Right Arrow
+                37: 'prev', // Left Arrow
+                32: 'next', // Space
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,6 +3,8 @@
 > 2 sprints · 2 developers · ~2 weeks each
 > Deadline: Apr 19
 
+> **the required Retrospectives are at the end of this document**
+
 ---
 
 ## Sprint 1: Foundation + Module System (Mar 24 – Mar 30)

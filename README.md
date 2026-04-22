@@ -173,3 +173,25 @@ This repository is an academic project for grading in Project 3. You may not cop
 > **Visual Drafts:**
 > Early design screenshots from the `/init` sprint:
 > [Draft 1](https://github.com/user-attachments/assets/cd358470-668c-4226-8a37-af7739b2b528) | [Draft 2](https://github.com/user-attachments/assets/502f65f4-c737-4121-a22c-42fa8c3fd00e)
+
+---
+
+## 📑 Project 3 Evidence & Requirement Mapping
+
+| Requirement Category | Implementation & Completion Details | Evidence File / Link |
+|----------------------|-------------------------------------|----------------------|
+| **CLAUDE.md & Memory** | Created a comprehensive `CLAUDE.md` with modular `@imports`. Auto-memory is tracked in `chathistory_P3.md` and project Git logs show iterative evolution. | [chathistory_P3.md](planning_files/chathistory_P3.md) <br> [CLAUDE.md](CLAUDE.md) |
+| **Custom Skills** | Integrated `everything-claude-code` plugin, establishing minimum 2 custom skills (`tdd-workflow`, `add-feature-skill` etc.). | [Evidence 1 (Screenshot)](docs/screenshot/12_evidence_1_successfully_add_marketplace_proof.png) |
+| **Hooks** | Configured automated Pre/Post hooks. Specifically implemented a Stop hook that runs tests and blocks `git commit` if the Pytest suite fails. | [Evidence 2 (Screenshot)](docs/screenshot/13_evidence_2_stop_hook.png) |
+| **MCP Servers** | Added and configured the GitHub MCP server to securely fetch issues and interact with the repository, stored in `.mcp.json`. | [Evidence 4 (Screenshot)](docs/screenshot/15_evidence_4_mcp_open_issues.png) |
+| **Agents** | Applied the Agent SDK and implemented specialized agents like the Doc-Reviewer agent to actively assist in professional workflows. | [Evidence 3 (Screenshot)](docs/screenshot/14_evidence_3_doc_reviewer_agent.png) <br> [project3-agents.md](docs/project3-agents.md) |
+| **Parallel Development** | Split our repository into separate Git worktrees (`quiz-ui` and `flashcard-ui`), building distinct features simultaneously across two terminals. | [Evidence 5 (Screenshot)](docs/screenshot/16_evidence_5_worktree_list.png) <br> [Evidence 7b (Screenshot)](docs/screenshot/17_evidence_7b_parallel_terminals.png) |
+| **Writer/Reviewer + C.L.E.A.R.** | AI acted as writer, while the autonomous Code-Reviewer agent performed PR evaluations following the exact C.L.E.A.R framework guidelines. | [Evidence 8: PR 36 Review](docs/screenshot/21_clear_pr_36_review.png) <br> [Evidence 8: PR 37 Review](docs/screenshot/22_clear_pr_37_review.png) <br> [Evidence 10: PR 20 Review](docs/screenshot/20_evidence_10_clear_pr_comment.png) |
+| **Test-Driven Development** | Fully integrated the Red-Green-Refactor loop. We committed failing tests first, followed by passing solutions, achieving >70% coverage. | [Evidence 6 (RED phase)](docs/screenshot/01_RED_phase_failing_tests.png) <br> [Evidence 7 (GREEN phase)](docs/screenshot/02_01_GREEN_phase_passed.png) <br> [Evidence 11 (E2E)](docs/screenshot/18_evidence_11_playwright_e2e_report.png) |
+| **CI/CD Pipeline & Security** | Automated a 9-stage GitHub Actions workflow encompassing linting, testing, security scans (npm audit, Gitleaks, Bandit), and Vercel deployments. | [Evidence 9 (CI Green)](docs/screenshot/19_evidence_9_github_actions_all_green.png) <br> [Evidence 12 (PR checks)](docs/screenshot/22_evidence_12_github_actions_pr.gif) |
+| **Team Process** | Documented sprint plans natively. Adopted a strict branch-per-issue workflow managed via GitHub issues and asynchronous standups. | [learnmate-sprint-plan.md](planning_files/learnmate-sprint-plan.md) |
+| **Application Quality & Deployment** | A polished, production-ready SaaS application featuring dynamic dual-role dashboards, fully deployed with the frontend on Vercel and backend on Render. | [Vercel App](https://learn-mate-ai-zeta.vercel.app) <br> [Render API](https://learnmate-api.onrender.com) |
+| **Technical Blog Post** | Published comprehensive technical blogs on external platforms, unpacking the architectural decisions and how Claude Code accelerated the agile sprints. | [Blog (Melanie)](https://www.melanieyang.info/post/building-learnmate-ai-engineering-practices-for-a-full-stack-educational-platform-with-claude-code) <br> [Blog (Jing)](https://dev.to/jing_2026/learnmateai-building-an-intelligent-teaching-assistant-platform-48pb) |
+| **Individual Reflections** | Prepared in-depth 500+ word reflections summarizing personal takeaways, challenges overcome, and experiences with Claude Code's Hooks, MCP, and Agent workflows. | [Reflection (Liuyi)](docs/P3_Reflection_Liuyi.md) <br> [Reflection (Jing)](docs/REFLECTION.md) |
+| **Video Demonstration** | A comprehensive screencast walkthrough demonstrating the app's core functionalities alongside the AI-assisted workflows (TDD, Hooks, etc.). | *(Pending Recording)* |
+| **Showcase Submission** | Compiled all final project assets including URLs, thumbnails, and documentation into the course's official Google Form. | `Submitted via Google Form` |

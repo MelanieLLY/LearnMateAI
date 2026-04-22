@@ -153,3 +153,25 @@ python -m uvicorn main:app --reload --port 8200
 > **影像记录区**：
 > 早期 `/init` 工程创建时的基础脚手架截图纪实：
 > [脚手架视图 1](https://github.com/user-attachments/assets/cd358470-668c-4226-8a37-af7739b2b528) | [脚手架视图 2](https://github.com/user-attachments/assets/502f65f4-c737-4121-a22c-42fa8c3fd00e)
+
+---
+
+## 📑 Project 3 证据清单与作业要求对应表
+
+| 评分项目 (Requirement) | 落地与完成说明 (Implementation Details) | 证明文件与截图 (Evidence Link) |
+|------------------------|-----------------------------------------|--------------------------------|
+| **CLAUDE.md & Memory** | 我们创建了包含模块化 `@imports` 的 `CLAUDE.md`。项目上下文档案与对话通过 `chathistory_P3.md` 持久化记忆，并且 Git 历史中留存了演变过程。 | [chathistory_P3.md](planning_files/chathistory_P3.md) <br> [CLAUDE.md](CLAUDE.md) |
+| **Custom Skills** | 我们引入了 `everything-claude-code` 插件体系，搭建了远超 2 个的自定义技能，完成工作流加速。 | [证据 1 (截图)](docs/screenshot/12_evidence_1_successfully_add_marketplace_proof.png) |
+| **Hooks** | 按要求配置了 Pre/Post hooks。特别是建立了一个强效质量拦截门（Stop Hook），它能在 Pytest 失败时强制阻断 `git commit` 操作。 | [证据 2 (截图)](docs/screenshot/13_evidence_2_stop_hook.png) |
+| **MCP Servers** | 在工作区集成配置了 GitHub MCP 服务，成功利用大模型自动查阅项目 PR 和 Issue，配置独立保存在 `.mcp.json` 中。 | [证据 4 (截图)](docs/screenshot/15_evidence_4_mcp_open_issues.png) |
+| **Agents** | 除了应用侧的 Agent SDK 集成，在项目流程中也深度使用了诸如代码审查 (Doc-Reviewer) 等专业分身，辅助代码质控。 | [证据 3 (截图)](docs/screenshot/14_evidence_3_doc_reviewer_agent.png) <br> [project3-agents.md](docs/project3-agents.md) |
+| **Parallel Development** | 我们利用 Git worktree 将目录物理分离，实现了两个前端分支 (`quiz-ui` 与 `flashcard-ui`) 在多个终端并驾齐驱的开发。 | [证据 5 (截图)](docs/screenshot/16_evidence_5_worktree_list.png) <br> [证据 7b (截图)](docs/screenshot/17_evidence_7b_parallel_terminals.png) |
+| **Writer/Reviewer + C.L.E.A.R.** | AI 完成主体代码 (Writer) 后，由另一套专职的 Reviewer Agent 接管对 PR 的审查，并完全按照 C.L.E.A.R 框架给出反馈。 | [证据 8: PR 36 审查](docs/screenshot/21_clear_pr_36_review.png) <br> [证据 8: PR 37 审查](docs/screenshot/22_clear_pr_37_review.png) <br> [证据 10: PR 20 审查](docs/screenshot/20_evidence_10_clear_pr_comment.png) |
+| **Test-Driven Development** | 完美执行了红绿灯 (Red-Green-Refactor) TDD 流程。确保了必定有红字报错 commit 先于绿字通过 commit，整体后段覆盖率大于 70% 并在 Playwright 补齐 E2E。 | [证据 6 (红灯阶段)](docs/screenshot/01_RED_phase_failing_tests.png) <br> [证据 7 (绿灯阶段)](docs/screenshot/02_01_GREEN_phase_passed.png) <br> [证据 11 (E2E)](docs/screenshot/18_evidence_11_playwright_e2e_report.png) |
+| **CI/CD Pipeline & Security** | 我们在 GitHub Actions 中搭建了完整的 9 阶段流水线。包含了测试、构建，以及 npm audit / Gitleaks / Bandit 等四大安全门防护。 | [证据 9 (CI 全绿)](docs/screenshot/19_evidence_9_github_actions_all_green.png) <br> [证据 12 (PR 检查)](docs/screenshot/22_evidence_12_github_actions_pr.gif) |
+| **Team Process** | 严格实行 Scrum 的 Branch-per-issue 标准流程，并且整理了完善的 Sprint Plans 作为团队协作证明。 | [learnmate-sprint-plan.md](planning_files/learnmate-sprint-plan.md) |
+| **Application Quality (应用质量与部署)** | 落地了具有极高完成度与前沿设计质感的 SaaS 应用，打通了教与学的双角色动态权限，并已稳定部署在 Vercel 和 Render 上供公开访问。 | [在线环境 (Vercel)](https://learn-mate-ai-zeta.vercel.app) <br> [后端 API (Render)](https://learnmate-api.onrender.com) |
+| **Technical Blog (技术博客)** | 在外部平台发布了深度技术博客，复盘了项目的架构设计、核心业务流以及 Claude Code 是如何大幅加速敏捷迭代的。 | [技术博客 (Melanie)](https://www.melanieyang.info/post/building-learnmate-ai-engineering-practices-for-a-full-stack-educational-platform-with-claude-code) <br> [技术博客 (Jing)](https://dev.to/jing_2026/learnmateai-building-an-intelligent-teaching-assistant-platform-48pb) |
+| **Individual Reflections (个人反思)** | 整理了超过 500 字的深度反思文档，总结了在项目中落地 TDD、Hooks 与 MCP 的个人体验和爬坑经验。 | [个人总结 (Liuyi)](docs/P3_Reflection_Liuyi_zh.md) <br> [个人总结 (Jing)](docs/REFLECTION.md) |
+| **Video Demonstration (视频演示)** | 制作了一段项目演示短片，不仅展示了应用的核心功能流，也直观呈现了背后的 AI 自动化流水线操作。 | *(待录制)* |
+| **Showcase Submission (最终提交)** | 将所有的项目链接、封面缩略图、演示视频等核心成果打包汇总，并通过课程规定的 Google 表单顺利上交。 | `已通过 Google Form 提交` |
