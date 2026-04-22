@@ -62,8 +62,6 @@
 
 ### Student 1 - Sophomore Computer Science Major
 
-**Video:** https://youtu.be/g4xopW8tMpQ?si=_v2qU1syU1__ll9z
-
 **Main Points:**
 - Quickly understood the app (it looks like Notion)
 - Liked the split-screen layout
@@ -99,6 +97,8 @@
 ---
 
 ### Student 3 - Senior Student (Heavy AI Tool User)
+
+**Video:** https://youtu.be/g4xopW8tMpQ?si=_v2qU1syU1__ll9z
 
 **Main Points:**
 - Understood the AI learning idea right away
