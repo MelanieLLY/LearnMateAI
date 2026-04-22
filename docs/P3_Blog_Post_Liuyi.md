@@ -4,7 +4,6 @@ Over the past development cycle, our team built the **LearnMate AI** platform. T
 
 This article reviews how we utilized AI to improve our development efficiency while building defensive mechanisms to address underlying technical challenges and model instability during the development process.
 
----
 
 ## 🎯 Architectural Refactoring and Storage Optimization
 
