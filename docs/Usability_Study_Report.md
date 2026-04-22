@@ -1,121 +1,139 @@
-# Usability Study Report
+# LearnMateAI Usability Study Report - Simplified Version
 
-**Note:** Don't forget to add evidence of the recordings, and that I can access the document from john.guerra@gmail.com
+**Authors:** Jing, LiuYi
 
-**Author:** [Your Name / Team Name]
+**Note:** Video recordings are available. Access the full document at john.guerra@gmail.com
 
-## 1. Application Scope
-**Application description:** LearnMateAI is an AI-powered learning platform that helps students learn through agent-generated flashcards, quizzes, and summaries based on course materials and personal notes.
-**Users - Target audience:** 
-- **Students:** University students looking for AI-driven personalized learning tools (summaries, flashcards, quizzes) to improve their study efficiency.
-**Data description:** The application stores module information, instructor-uploaded materials (PDFs, docs), student-uploaded notes, AI-generated content (flashcards, summaries, quizzes), user roles, and quiz evaluation histories/metrics.
+---
 
-## 2. Main Tasks - Use Cases
-- **T1:** (Browse & Navigate) Log into the system, navigate to the target course module, and open a learning material to read using the split-screen UI.
-- **T2:** (Generate & Interact) Generate AI flashcards based on the learning materials and complete at least one review session.
-- **T3:** (Assess & Feedback) Generate and take an AI quiz, utilize the system "Hints," submit the answers, and review the automated AI scoring and feedback.
+## 1. What is LearnMateAI?
 
-## 3. Experiment
-### Preparation
-**Introduction:**
-- Welcome participants.
-- Ask for consent to record.
-- Ask to think out loud.
-- Remind them that they aren't being evaluated, and that they can leave at any time.
-- Ask the participant to think like the target audience (Student).
+**What it does:** LearnMateAI is a learning platform that uses AI to help students. It creates flashcards, quizzes, and summaries from course materials and student notes.
 
-**Demographics Questions:**
-- What is your current role (Student/Instructor)? (Screened for Students)
-- How often do you use digital learning tools or platforms (Daily/Weekly/Monthly)?
-- Are you familiar with AI-assisted learning tools?
+**Who uses it:** University students who want AI tools to help them study better.
 
-**Recording Setup:** Audio, video, and screen recording enabled.
+**What data it stores:** Course modules, uploaded materials (PDFs, documents), student notes, AI-generated content, user information, and quiz results.
 
-**Script of the tasks to be read to participants:**
-- **Script for intuitiveness:** "Please take a look at the homepage and tell me what you think this application does. Feel free to explore the initial dashboard without clicking into specific modules."
-- **Script for T1:** "Log in as a student, locate the 'Intro to Machine Learning' module, and open the uploaded PDF material. Walk me through your thoughts on the reading layout."
-- **Script for T2:** "Now, use the system to generate a set of flashcards for this material. Go through the flashcards as if you were studying for an exam."
-- **Script for T3:** "Finally, generate a quiz for this module. Try using the 'Hint' feature on one of the questions, submit your answers, and review your results."
+---
 
-**Post-questionnaire Likert Scales (1=Strongly Disagree, 5=Strongly Agree):**
-- How effective was the application for T1?
-- How intuitive/easy to use was the application for T1?
-- How effective was the application for T2?
-- How intuitive/easy to use was the application for T2?
-- How effective was the application for T3?
-- How intuitive/easy to use was the application for T3?
-- How effective was the application overall?
-- How intuitive/easy to use was the application overall?
-- Any final comments/suggestions for improvement?
+## 2. Three Main Tasks Tested
 
-## 4. Experiment Notes & Results
+- **Task 1 (Browse & Navigate):** Log in, find the course module, and read the material using the split-screen layout.
+- **Task 2 (Generate & Interact):** Create AI flashcards and study them.
+- **Task 3 (Assess & Feedback):** Take an AI quiz, use hints, submit answers, and see your score with feedback.
 
-### Participant 1
-**Demographics answers:** Sophomore CS major, uses digital learning tools daily.
-**Detailed notes:**
-- **Notes for initial approach:** Participant easily recognized the platform as a Notion-style learning management system. Appreciated the clean split-screen layout.
-- **Notes for T1:** Found the module very quickly. No navigation issues.
-- **Notes for T2:** Experienced confusion during flashcard generation. Clicked the "Generate" button, but the system took 2-3 seconds to respond without any visual feedback. The participant thought the app froze and clicked the button again. *Comment: "You definitely need a loading spinner here."*
-- **Notes for T3:** Completed the quiz smoothly. Enjoyed the multiple-choice experience, but wished they could filter or select the difficulty level of the generated quizzes.
-**Post-test questionnaire results (Likert scales):**
-- **Score for T1 Effectiveness:** 5
-- **Score for T1 Intuitiveness:** 5
-- **Score for T2 Effectiveness:** 4
-- **Score for T2 Intuitiveness:** 3
-- **Overall Effectiveness:** 4.5
-- **Overall Intuitiveness:** 4
-**Notes for tasks:** Highly recommended adding a loading indicator for AI generation tasks.
+---
 
-### Participant 2
-**Demographics answers:** Junior Humanities major taking an elective tech course, uses learning tools weekly.
-**Detailed notes:**
-- **Notes for initial approach:** Thought it looked like an advanced version of Canvas. 
-- **Notes for T1:** Took a moment to find the material link in the sidebar, but liked the split-screen reading view once opened.
-- **Notes for T2:** Found the 3D flipping flashcards very cool. However, struggled slightly with navigation, relying solely on clicking small on-screen arrows. *Comment: "It would be much less tiring if I could just use my keyboard arrow keys to flip through these."*
-- **Notes for T3:** Used the "Hint" feature during the quiz. Felt the hint gave away the answer too easily rather than guiding them to think. *Comment: "The default mock materials used in the app feel a bit sparse right now. It would be much better and more immersive if there were richer, real-world course contents to test against."*
-**Post-test questionnaire results (Likert scales):**
-- **Score for T1 Effectiveness:** 4
-- **Score for T1 Intuitiveness:** 4
-- **Score for T2 Effectiveness:** 5
-- **Score for T2 Intuitiveness:** 3.5
-- **Overall Effectiveness:** 4.5
-- **Overall Intuitiveness:** 4
-**Notes for tasks:** Suggested keyboard shortcut support for flashcards and noted that the mock data/materials felt a bit too limited.
+## 3. How We Tested
 
-### Participant 3
-**Demographics answers:** Senior student, heavy user of AI tools (like ChatGPT) for studying.
-**Detailed notes:**
-- **Notes for initial approach:** Instantly understood the AI-assisted learning concept. Tested the app on a 13-inch laptop.
-- **Notes for T1:** *Comment: "The split-screen UI is a bit cramped on a smaller laptop screen. The PDF viewer column is too narrow."*
-- **Notes for T2:** Successfully generated content. Liked the quality but wished there was a "Regenerate" button to get alternative summaries.
-- **Notes for T3:** Took the quiz and found it helpful to test their knowledge. Wished there was a clear way to save the quiz history for later review. *Comment: "It would be great if I could save these quizzes to a dashboard to see my progress over time."*
-**Post-test questionnaire results (Likert scales):**
-- **Score for T1 Effectiveness:** 4
-- **Score for T1 Intuitiveness:** 4
-- **Score for T3 Effectiveness:** 4
-- **Score for T3 Intuitiveness:** 4
-- **Overall Effectiveness:** 4
-- **Overall Intuitiveness:** 4
-**Notes for tasks:** Suggested adding a feature to save quiz history. Also suggested responsive UI adjustments for small screens.
+**Before Testing:**
+- Welcomed participants and explained the study
+- Asked permission to record
+- Reminded them this is not a test of them
+- Asked them to think out loud
 
-## 5. Prioritized List of Issues and Corresponding Changes
+**Questions About Participants:**
+- What is your role (student or teacher)?
+- How often do you use learning apps (daily, weekly, or monthly)?
+- Have you used AI learning tools before?
 
-**Issue:** AI generation tasks lack loading indicators, confusing users who think the app froze.
-**Change:** Add a skeleton loading state or a spinner animation while AI is generating content.
-**Priority:** Must
-**Was it implemented? How?:** Yes, implemented a skeleton UI that displays while the `isGenerating` state is true.
+**Recording:** Video and screen recording were turned on.
 
-**Issue:** Lack of keyboard navigation for 3D flashcards.
-**Change:** Add event listeners for left and right arrow keys to navigate between previous and next flashcards.
-**Priority:** Should
-**Was it implemented? How?:** Yes, attached `keydown` event listeners to the flashcard component.
+**What We Asked Participants to Do:**
+- **First:** Look at the homepage and tell us what you think the app does
+- **Task 1:** Log in as a student, find "Intro to Machine Learning," and open the PDF. What do you think about how it looks?
+- **Task 2:** Create flashcards and study them like you're preparing for a test
+- **Task 3:** Take a quiz, try using the hint feature, answer questions, and check your results
 
-**Issue:** Split-screen layout feels cramped on smaller (13-inch) laptop screens.
-**Change:** Allow users to collapse the left sidebar or drag to resize the split-screen columns.
-**Priority:** Could
-**Was it implemented? How?:** Yes, added a toggle button to collapse the sidebar for a wider reading view.
+**Questions After Testing (Rate 1-5, where 1 = Strongly Disagree, 5 = Strongly Agree):**
+- Was Task 1 effective?
+- Was Task 1 easy to use?
+- Was Task 2 effective?
+- Was Task 2 easy to use?
+- Was Task 3 effective?
+- Was Task 3 easy to use?
+- Was the app effective overall?
+- Was the app easy to use overall?
+- Any other comments or suggestions?
 
-**Issue:** The default mock materials used in the app feel sparse and lack richness.
-**Change:** Seed the database with more comprehensive and diverse course contents before an official launch.
-**Priority:** Would
-**Was it implemented? How?:** Not yet. Slated for the production data migration phase.
+---
+
+## 4. What We Learned From Each Student
+
+### Student 1 - Sophomore Computer Science Major
+
+**Video:** https://youtu.be/g4xopW8tMpQ?si=_v2qU1syU1__ll9z
+
+**Main Points:**
+- Quickly understood the app (it looks like Notion)
+- Liked the split-screen layout
+- Found the module very quickly - no problems
+- **Problem with Task 2:** When creating flashcards, the app took 2-3 seconds to respond but showed no loading sign. The student thought it was broken and clicked again. Said: "You need a loading spinner here."
+- Task 3 went smoothly, but the student wanted to choose quiz difficulty level
+
+**Scores:**
+- Task 1: Effective (5/5), Easy (5/5)
+- Task 2: Effective (4/5), Easy (3/5)
+- Overall: Effective (4.5/5), Easy (4/5)
+
+**Suggestion:** Add a loading indicator when the AI is working.
+
+---
+
+### Student 2 - Junior Humanities Major
+
+**Main Points:**
+- Thought it looked like an advanced version of Canvas
+- Task 1 was okay once they found the material link
+- Really liked the 3D flashcards
+- **Problem with Task 2:** Had to click small arrows to move between flashcards. Said: "I wish I could just use arrow keys on my keyboard."
+- Task 3: Tried the hint feature but felt it gave away the answer instead of helping them think. Also said the example materials in the app feel too simple.
+
+**Scores:**
+- Task 1: Effective (4/5), Easy (4/5)
+- Task 2: Effective (5/5), Easy (3.5/5)
+- Overall: Effective (4.5/5), Easy (4/5)
+
+**Suggestions:** Add keyboard shortcuts for flashcards and use better example materials.
+
+---
+
+### Student 3 - Senior Student (Heavy AI Tool User)
+
+**Main Points:**
+- Understood the AI learning idea right away
+- Used a small 13-inch laptop
+- **Problem with Task 1:** Said the split-screen layout was cramped on the small screen. The PDF column was too narrow.
+- Task 2: Liked the quality but wanted a "Regenerate" button to get different summaries
+- Task 3: Liked the quiz but wanted to save quiz results to see progress over time. Said: "It would be great to see my quiz history on a dashboard."
+
+**Scores:**
+- Task 1: Effective (4/5), Easy (4/5)
+- Task 3: Effective (4/5), Easy (4/5)
+- Overall: Effective (4/5), Easy (4/5)
+
+**Suggestions:** Add quiz history feature and make the layout work better on small screens.
+
+---
+
+## 5. Problems Found and How We Fixed Them
+
+### Problem 1: No Loading Sign When AI is Working
+**What we did:** Add a loading animation (skeleton UI) while the app is creating content.  
+**How important:** MUST FIX  
+**Done?** YES - We added a skeleton screen when `isGenerating` is true.
+
+### Problem 2: Can't Use Keyboard to Flip Flashcards
+**What we did:** Add support for arrow keys to move between flashcards.  
+**How important:** SHOULD FIX  
+**Done?** YES - We added keyboard event listeners to the flashcard component.
+
+### Problem 3: Split-Screen Too Cramped on Small Screens
+**What we did:** Let users hide the left sidebar or resize the columns.  
+**How important:** COULD FIX  
+**Done?** YES - We added a button to collapse the sidebar for more reading space.
+
+### Problem 4: Example Materials Too Simple
+**What we did:** Add better, more detailed example course materials to the app.  
+**How important:** WOULD BE NICE  
+**Done?** NOT YET - This is planned for later when we prepare data for the real launch.
