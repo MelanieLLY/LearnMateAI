@@ -7,7 +7,7 @@
 
 LearnMateAI is a learning app that uses AI to help students study. It makes quizzes for testing knowledge based on course materials and student notes.
 
-**Users:** University students who want to test their knowledge and track learning progress.
+**Users:** University students who want to test their knowledge and track learning progress, and instructors who manage course content and monitor student performance.
 
 **Data:** The app stores user accounts, modules, course materials, AI-generated quizzes, quiz scores, and answers.
 
@@ -15,13 +15,20 @@ LearnMateAI is a learning app that uses AI to help students study. It makes quiz
 
 ## 2. What Feature Was Tested?
 
-The user tested the **Quiz Feature** - the complete flow from account creation to quiz review:
+The users tested the **Quiz Feature** and **Flashcard Feature** from the student side, as well as the **Instructor Dashboard and Module Management** from the instructor side:
+
+**Student Flow:**
 1. Register a new account
 2. Log in
-3. Generate a quiz for a module
-4. Take the quiz
-5. Check the score
-6. See why answers were wrong to learn
+3. Generate a quiz or flashcards for a module
+4. Take the quiz / Review flashcards
+5. Check the score and see why answers were wrong
+
+**Instructor Flow:**
+1. Log in as an instructor
+2. View the instructor dashboard and course data
+3. Create a new module
+4. Generate a quiz for the newly created module
 
 ---
 
@@ -30,7 +37,8 @@ The user tested the **Quiz Feature** - the complete flow from account creation t
 ### Before It Started
 
 The user was asked:
-- What year of study are you in?
+- What is your role (Student/Instructor)?
+- What year of study are you in or what courses do you teach?
 - How often do you use study apps? (Daily/Weekly/Monthly)
 - Do you know AI learning tools?
 
@@ -38,8 +46,11 @@ Video and screen were recorded.
 
 ### What The User Did
 
-**Flow:**
-"Create a new account. Log in. Go to the 'Intro to Machine Learning' module. Generate a quiz. Take the quiz and answer the questions. Submit and look at your score. Check which answers were wrong and see the explanations. Tell me what you think as you do it."
+**Student Flow:**
+"Create a new account. Log in. Go to the 'Intro to Machine Learning' module. Generate a quiz or flashcards. Take the quiz and answer the questions. Submit and look at your score. Check which answers were wrong and see the explanations. Tell me what you think as you do it."
+
+**Instructor Flow:**
+"Log in as an instructor. Review your dashboard and overall course data. Create a new module for the course, and then generate an AI quiz for this new module. Tell me what you think as you do it."
 
 ### Questions After (1=Strongly Disagree, 5=Strongly Agree)
 
@@ -109,6 +120,30 @@ Video and screen were recorded.
 
 ---
 
+### User 3: [instructor general usability video.mov](./instructor%20general%20usability%20video.mov) & [instructor create quiz usability video.mov](./instructor%20create%20quiz%20usability%20video.mov)
+
+**Background:** Course Instructor, very familiar with existing learning management systems.
+
+**What Happened:**
+- Logged in directly and immediately understood the dashboard layout.
+- Browsed the instructor dashboard and viewed course data smoothly. Found the data visualizations clear and helpful for identifying class progress.
+- Created a new module and generated a quiz for it. 
+- The entire process of creating a module and generating a quiz was incredibly smooth. Everything just worked exactly as expected.
+
+**Quote:**
+"The entire process of creating a module and generating a quiz was incredibly smooth. If I look away for a second, I might miss the success confirmation, though. The toast notification disappears a bit fast."
+
+**Scores:**
+- Dashboard Easy to Understand: 5
+- Create Module Easy: 5
+- Generate Quiz Easy: 5
+- Overall Easy to Use: 5
+- Overall Helpful: 5
+
+**Main Feedback:** The experience was highly seamless. Minor suggestion: slightly longer duration for success notifications.
+
+---
+
 ## 5. Main Findings
 
 **Positive from User 1:** The quiz feature works smoothly. Users can easily create an account, generate quizzes, take them, and learn from wrong answers.
@@ -121,6 +156,10 @@ Video and screen were recorded.
 **Positive from User 2:** The flashcard feature is fun and easy to use. Playing with flashcards works great.
 
 **What's Slow from User 2:** Flashcard generation takes 8-10 seconds. Users want it to be faster.
+
+**Positive from User 3:** The instructor dashboard and module management tools are intuitive and smooth. Creating modules and generating quizzes works exactly as expected without friction.
+
+**What's Fast from User 3:** The success toast notifications dismiss slightly too quickly, making it easy to miss the confirmation message.
 
 ---
 
@@ -137,3 +176,5 @@ Video and screen were recorded.
    - Use caching for similar content
    - Show progress indicator while generating
    
+3. **For Instructor Dashboard:** Improve notification UX. Consider:
+   - Increasing the duration of the success toast notifications (e.g., from 3 seconds to 5 seconds) to ensure instructors have enough time to read confirmations.
