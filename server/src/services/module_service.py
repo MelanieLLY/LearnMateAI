@@ -86,6 +86,7 @@ def create_module(db: Session, instructor_id: int, payload: ModuleCreate) -> Mod
         description=payload.description,
         learning_objectives=payload.learning_objectives,
         audience_context=payload.audience_context,
+        course_id=payload.course_id,
         instructor_id=instructor_id,
     )
     db.add(module)

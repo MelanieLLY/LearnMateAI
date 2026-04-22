@@ -69,6 +69,15 @@ export default function InstructorModuleDashboard() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [objectives, setObjectives] = useState('');
+  const [createModuleCourseId, setCreateModuleCourseId] = useState<number | 'none'>('none');
+
+  useEffect(() => {
+    if (typeof selectedCourseId === 'number') {
+      setCreateModuleCourseId(selectedCourseId);
+    } else {
+      setCreateModuleCourseId('none');
+    }
+  }, [selectedCourseId]);
 
   // Edit Course State
   const [editingCourseId, setEditingCourseId] = useState<number | null>(null);
@@ -237,7 +246,7 @@ export default function InstructorModuleDashboard() {
           title,
           description,
           learning_objectives: objectives,
-          course_id: selectedCourseId === 'none' || selectedCourseId === 'new' ? null : selectedCourseId,
+          course_id: createModuleCourseId === 'none' ? null : createModuleCourseId,
         })
       });
       if (!response.ok) throw new Error('Create module failed');
@@ -638,12 +647,24 @@ export default function InstructorModuleDashboard() {
                 onChange={e => setObjectives(e.target.value)} 
                 className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
               />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-semibold text-slate-700">Associated Class (Optional)</label>
+                <select 
+                  value={createModuleCourseId} 
+                  onChange={e => setCreateModuleCourseId(e.target.value === 'none' ? 'none' : Number(e.target.value))}
+                  className="px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50"
+                  disabled={selectedCourseId === 'new'}
+                >
+                  <option value="none">-- Orphan Module (No Class) --</option>
+                  {courses.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                </select>
+              </div>
               <button 
                 type="submit" 
                 disabled={selectedCourseId === 'new'}
                 className="py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-md disabled:bg-slate-300 disabled:cursor-not-allowed"
               >
-                ➕ {typeof selectedCourseId === 'number' ? 'Add Module to Selected Class' : 'Create Orphan Module'}
+                ➕ {createModuleCourseId === 'none' ? 'Create Orphan Module' : 'Create Associated Module'}
               </button>
             </form>
           </section>
