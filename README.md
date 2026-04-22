@@ -24,7 +24,7 @@ https://www.melanieyang.info/post/building-learnmate-ai-engineering-practices-fo
 
 ## 📍 Online Demo
 
-> [!IMPORTANT]
+> https://youtu.be/LnycwzdsHaU?si=KXOfvtXoiGWtFFuN
 > **Network Latency (Cold Start) Note**  
 > We use Render's free tier for our backend. If nobody uses the app for a while, the server goes to sleep to save money. So, **your first login might take about 3 minutes to load**. This is normal. Please wait while it wakes up. After that, it will be fast!
 
