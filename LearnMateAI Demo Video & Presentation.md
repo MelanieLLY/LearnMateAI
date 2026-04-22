@@ -4,7 +4,7 @@
   - Project Name: LearnMateAI
   - Team Members: Liuyi & Jing
 
-  - [Placeholder: Project Logo & App Home Screen Mockup]
+  - ![Student Dashboard Home](docs/screenshot/26_student_dashboard_home.png)
 
 ### 2. Project Overview & The Problem
 
@@ -12,7 +12,8 @@
   - Solution: AI-generated flashcards, summaries, and quizzes; dynamic instructor dashboard.
   - Deployed Link: Show public Vercel URL.
 
-  - [Placeholder: Screenshot or short video of Vercel deployed environment]
+  - ![Vercel Frontend Deploy](docs/screenshot/25_evidence_16_vercel_frontend_deploy.png)
+  - ![Render Backend Deploy](docs/screenshot/24_evidence_15_render_backend_deploy.png)
 
 ### 3. System Architecture
 

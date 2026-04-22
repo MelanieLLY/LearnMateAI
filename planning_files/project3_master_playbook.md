@@ -573,3 +573,6 @@ Push 代码后，去 GitHub Actions 页面抓取 All Green 截图。<br>
 | #9 | GitHub Actions All Green 截图 (`19_evidence_9_github_actions_all_green.png`) | Step 15 |
 | #10 | C.L.E.A.R. PR #2 的 GitHub comment 截图 - 这是项目流水线的 AI Review 证据 (`20_evidence_10_clear_pr_comment.png`) | Step 15.5 |
 | #11 | Playwright E2E 测试全绿截图 (`18_evidence_11_playwright_e2e_report.png`) | Step 12.1 |
+| #12 | GitHub Actions Workflow PR 级全绿截图 (`22_evidence_12_github_actions_pr.gif`) | Step 15 |
+| #15 | Render 后端部署成功截图 (`24_evidence_15_render_backend_deploy.png`) | Step 16 |
+| #16 | Vercel 前端部署成功截图 (`25_evidence_16_vercel_frontend_deploy.png`) | Step 16 |
