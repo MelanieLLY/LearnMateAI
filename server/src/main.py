@@ -7,7 +7,7 @@ registers all API routers under the ``/api/v1`` prefix.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.database import Base, engine
+from src.database import init_db
 from src.models import flashcard  # noqa: F401 — registers ORM model
 from src.models import student_note  # noqa: F401 — registers ORM model
 from src.models import quiz  # noqa: F401 — registers ORM model
@@ -27,7 +27,7 @@ from src.routers.summaries import router as summaries_router
 import os
 from fastapi.staticfiles import StaticFiles
 
-Base.metadata.create_all(bind=engine)
+init_db()
 
 app = FastAPI(title="LearnMateAI API", version="0.1.0")
 
