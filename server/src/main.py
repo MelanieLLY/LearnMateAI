@@ -53,6 +53,12 @@ app.add_middleware(
 os.makedirs("uploads/materials", exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
+@app.get("/", include_in_schema=False)
+def root() -> dict[str, str]:
+    """Landing response so visiting the bare API URL doesn't show 'Not Found'."""
+    return {"name": "LearnMateAI API", "status": "ok", "docs": "/docs"}
+
+
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(courses_router, prefix="/api/v1")
 

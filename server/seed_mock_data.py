@@ -6,6 +6,8 @@ import sys
 # Set up to run from the root of server directory
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+from sqlalchemy import text
+
 from src.database import SessionLocal, engine, Base
 from src.models.user import User
 from src.models.course import Course
@@ -78,6 +80,14 @@ def run_seed():
             instructors_by_email[inst_email] = inst
 
         db.flush()
+
+        # Instructors are inserted with fixed ids, which doesn't advance Postgres's
+        # serial sequence; bump it so auto-generated student ids don't collide.
+        if engine.dialect.name == "postgresql":
+            db.execute(text(
+                "SELECT setval(pg_get_serial_sequence('users', 'id'), "
+                "(SELECT MAX(id) FROM users))"
+            ))
 
         # 2. Add/Update Students
         for stu_data in mock_data["students"]:
