@@ -5,6 +5,8 @@ These tests are intentionally written BEFORE any implementation exists.
 All tests must FAIL at this stage — that is the expected outcome of the RED phase.
 """
 
+import os
+
 from fastapi.testclient import TestClient
 
 BASE_URL = "/api/v1/modules"
@@ -37,6 +39,11 @@ class TestUploadMaterial:
         assert "url" in data
         assert data["filename"] == "test.pdf"
         assert "id" in data
+
+        # Files must land in the configured UPLOAD_DIR (a temp dir under test),
+        # never in the repo's uploads/ folder.
+        stored_name = data["url"].rsplit("/", 1)[-1]
+        assert os.path.isfile(os.path.join(os.environ["UPLOAD_DIR"], "materials", stored_name))
 
     def test_upload_material_not_found(self, client: TestClient, instructor_token: str) -> None:
         """Uploading to a non-existent module returns 404."""

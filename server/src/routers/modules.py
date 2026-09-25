@@ -129,6 +129,10 @@ import uuid
 import shutil
 from src.models.material import Material
 
+# Root folder for locally stored uploads (served at /uploads); tests point this at a temp dir.
+UPLOAD_DIR = os.environ.get("UPLOAD_DIR", "uploads")
+
+
 def _upload_material(file: UploadFile) -> str:
     """Storage Abstraction: Saves to S3 if AWS config is present, otherwise falls back to local storage."""
     file_extension = file.filename.split(".")[-1] if "." in file.filename else ""
@@ -142,7 +146,7 @@ def _upload_material(file: UploadFile) -> str:
         return f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
     
     # Fallback: Save to local disk for development & affordability
-    local_path = os.path.join("uploads", "materials", unique_name)
+    local_path = os.path.join(UPLOAD_DIR, "materials", unique_name)
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
     with open(local_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)

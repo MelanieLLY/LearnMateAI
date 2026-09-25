@@ -6,6 +6,7 @@ and pre-built JWT tokens for different user roles.
 """
 
 import os
+import tempfile
 
 import pytest
 from fastapi.testclient import TestClient
@@ -18,6 +19,8 @@ ALGORITHM = "HS256"
 
 os.environ["SECRET_KEY"] = TEST_SECRET_KEY
 os.environ.setdefault("DATABASE_URL", "sqlite://")  # in-memory DB for tests
+# Keep uploaded test files out of the repo's uploads/ folder.
+os.environ["UPLOAD_DIR"] = tempfile.mkdtemp(prefix="learnmate-test-uploads-")
 
 
 from src.main import app  # noqa: E402  (must come after env vars are set)

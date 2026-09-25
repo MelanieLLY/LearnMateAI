@@ -19,7 +19,7 @@ from src.models import quiz_submission  # noqa: F401
 from src.routers.auth import router as auth_router
 from src.routers.courses import router as courses_router
 from src.routers.flashcards import router as flashcards_router
-from src.routers.modules import router as modules_router
+from src.routers.modules import UPLOAD_DIR, router as modules_router
 from src.routers.student_notes import router as student_notes_router
 from src.routers.quizzes import router as quizzes_router
 from src.routers.summaries import router as summaries_router
@@ -50,8 +50,8 @@ app.add_middleware(
 )
 
 # Ensure uploads directory exists
-os.makedirs("uploads/materials", exist_ok=True)
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+os.makedirs(os.path.join(UPLOAD_DIR, "materials"), exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
 @app.get("/", include_in_schema=False)
 def root() -> dict[str, str]:
