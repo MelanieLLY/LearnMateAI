@@ -26,13 +26,14 @@ env_db_url = os.environ.get("DATABASE_URL")
 
 if env_db_url and env_db_url.startswith("postgres"):
     DATABASE_URL = env_db_url
-    # Render's Postgres requires SSL and drops idle connections, so force SSL,
-    # enable TCP keepalives, and recycle pooled connections well before they go stale.
+    # Render's external URL enforces SSL server-side; "prefer" also works with the
+    # internal URL. Render drops idle connections, so enable TCP keepalives and
+    # recycle pooled connections well before they go stale.
     engine_kwargs = {
         "pool_pre_ping": True,
         "pool_recycle": 300,
         "connect_args": {
-            "sslmode": "require",
+            "sslmode": "prefer",
             "connect_timeout": 10,
             "keepalives": 1,
             "keepalives_idle": 30,
