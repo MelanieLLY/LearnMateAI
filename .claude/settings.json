@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "INPUT=$(cat); if echo \"$INPUT\" | grep -q 'git commit'; then echo '🛑 [STOP HOOK] Tests must pass before commit! Run: cd server && pytest' >&2; exit 2; else exit 0; fi"
+            "command": "INPUT=$(cat); if echo \"$INPUT\" | grep -q 'git commit'; then PY=python3; for c in server/.venv/bin/python server/venv/bin/python .venv/bin/python venv/bin/python; do if [ -x \"$c\" ]; then PY=\"$PWD/$c\"; break; fi; done; echo \"[TDD GATE] Running backend tests before commit: cd server && $PY -m pytest -q\" >&2; if (cd server && \"$PY\" -m pytest -q) >&2; then exit 0; else echo '[TDD GATE] Tests failed or pytest is not installed. Commit blocked.' >&2; exit 2; fi; else exit 0; fi"
           }
         ]
       }
