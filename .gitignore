@@ -46,7 +46,8 @@ htmlcov/
 .claude/.DS_Store
 
 # Others
-planning_files/chathistory_P3.md*.db
+planning_files/chathistory_P3.md
+*.db
 *.db-journal
 secrets.txt
 test_accounts.md
