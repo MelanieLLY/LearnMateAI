@@ -4,6 +4,42 @@
 
 ---
 
+## 📅 2026-09-28: 关键前端流程的组件测试补齐 (Issue #72, PR #73)
+
+> 本人独立完成（MelanieLLY，AI 协作编写）。commit `9d55326`，分支 `test/72-frontend-critical-flow-tests`。
+
+### 1. 业务背景与问题挑战 (Context & Problem)
+- 前端此前只有 `StudentModuleView`、`QuizTakingView` 两个测试文件（20 个用例），路由守卫、注册、登录、教师仪表盘这四个每个用户都会走到的流程都没有测试。
+- 登录和注册的冷启动提示靠一个 4 秒的 `setTimeout` 实现，要验证"慢请求才提示、快请求不提示、慢请求失败后提示被真实错误替换"，靠手动点击基本测不到。
+
+### 2. 核心架构与数据结构设计 (Data Structure & Architecture)
+- **按路由隔离测试守卫**：用 `vi.mock` 替换 `useAuth`，在 `MemoryRouter` 里挂上 `/login`、`/404` 两个桩页面，断言最终渲染的是哪一页，而不是断言内部调用。覆盖未登录、`isAuthenticated` 为真但 `user` 为空、角色不符、角色符合、不限角色 5 种状态，外加加载中状态。
+- **按 URL 分发的 fetch 桩**：仪表盘挂载时会并发请求 modules、courses，再对每个模块请求 materials 和 quizzes；测试用一个按 URL 返回不同数据的 `mockImplementation`，一份配置就能组合出空数据、空班级、请求失败等场景。
+- **可访问性小改动**：仪表盘的加载骨架屏原来只是几个没有文字的 `div`，测试和屏幕阅读器都找不到。加上 `role="status"` 与 `aria-label="Loading dashboard"`，测试改用 `getByRole('status')` 查询。
+
+### 3. 领域算法与性能/成本优化 (Domain Algorithm & Cost/Performance Optimization)
+- 本次不涉及算法改动。测试全部用桩替代网络请求，0 次真实 API 调用，61 个前端用例本地约 1.4 秒跑完。
+
+### 4. AI 系统工程与结构化输出 (LLM Engineering & Structured Outputs)
+- 本次不涉及 LLM 调用。
+
+### 5. 深度根因排查与健壮性边界设计 (Root-Cause Debugging & Defensive Architecture)
+- **假时钟测试冷启动计时器**：用 `vi.useFakeTimers()` 精确推进时间，断言 3999ms 时没有提示、4000ms 时出现提示；快请求在计时器触发前返回时提示不会出现；慢请求最后返回 401 时，冷启动提示会被真实错误替换，按钮也恢复可点击。
+- **错误分支全覆盖**：登录和注册都覆盖了后端 `detail` 错误、没有 detail 时的通用提示、返回 HTML（非 JSON）的 500、502/503/504 网关错误、`TypeError` 网络错误 5 类情况；注册还覆盖了密码长度边界（5 位拦截且不发请求，6 位放行）。
+- **变异验证测试有效性**：分别把角色不符的跳转改成 `/login`、慢请求阈值 4 秒改成 8 秒、密码最短长度 6 改成 5、仪表盘加载状态永不结束，每次都有对应测试失败（1/2/1/5 个），确认测试真的在检查行为，而不是只把代码跑一遍。
+
+### 6. 简历技术描述素材 (Ready-to-Use Resume Bullet Points)
+- **English**:
+  - Added 41 Vitest + React Testing Library tests covering route guarding, registration validation, login cold-start handling, and instructor dashboard loading/empty/error states, tripling frontend test count from 20 to 61.
+  - Tested a 4-second cold-start warning timer with fake timers, asserting no hint at 3,999 ms, a hint at 4,000 ms, and replacement by the real error when a slow request fails.
+  - Checked the tests with manual mutations (wrong-role redirect, timer threshold, password minimum, stuck loading state); each broken behavior failed its tests.
+- **中文**:
+  - 用 Vitest + React Testing Library 新增 41 个组件测试，覆盖路由守卫、注册校验、登录冷启动提示与教师仪表盘的加载/空/错误状态，前端用例从 20 个增加到 61 个。
+  - 用假时钟测试 4 秒冷启动提示计时器，精确断言 3999ms 无提示、4000ms 出现提示、慢请求失败后提示被真实错误替换。
+  - 通过手动变异（改错跳转目标、计时阈值、密码下限、加载状态）检验测试有效性，每处改坏都有对应用例失败。
+
+---
+
 ## 📅 2026-03-17 ~ 2026-04-21: 结构化输出加固、云端部署冷启动提示与班级报告 (Sprint 1–2 & Post-HW Hardening)
 
 > 本条目于 2026-09-24 依据 git 记录（repo commit b72460e）事后整理，日期区间为首个与最后一个 commit 的日期。两人团队项目：闪卡、摘要、测验三个生成 Agent 的初版、双源 Prompt 与布鲁姆分级、Gitleaks、前端 CI 与 AI PR Review 工作流由队友 Jing 实现；其余标注"本人"的内容为 MelanieLLY 的提交。
