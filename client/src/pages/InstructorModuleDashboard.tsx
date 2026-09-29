@@ -389,7 +389,7 @@ export default function InstructorModuleDashboard() {
       )}
 
       {isLoading ? (
-        <div className="space-y-6">
+        <div className="space-y-6" role="status" aria-label="Loading dashboard">
           <div className="glass-panel p-6 rounded-2xl animate-pulse h-48 bg-slate-100"></div>
           <div className="glass-panel p-6 rounded-2xl animate-pulse h-48 bg-slate-100"></div>
           <div className="glass-panel p-6 rounded-2xl animate-pulse h-64 bg-slate-100"></div>
