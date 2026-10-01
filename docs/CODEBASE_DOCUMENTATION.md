@@ -1,5 +1,9 @@
 # LearnMateAI Codebase Documentation
 
+> **Historical snapshot (March 2026).** The directory layout below predates the move to
+> `client/` + `server/`. For the current structure, see the "Repository Structure" section in the
+> [README](../README.md).
+
 **Last Updated:** March 28, 2026  
 **Team:** Liuyi, Jing Ng  
 **Repository:** https://github.com/MelanieLLY/LearnMateAI  

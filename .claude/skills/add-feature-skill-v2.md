@@ -296,7 +296,7 @@ Update project documentation so other developers understand your feature.
 
 Update these files in this order:
 
-**1. CODEBASE_DOCUMENTATION.md**
+**1. docs/CODEBASE_DOCUMENTATION.md**
 ```markdown
 ## Feature Name
 
@@ -480,7 +480,7 @@ Your feature is ready when:
 ✅ **GREEN:** All files created in order, 6/6 tests passing, no regressions  
 ✅ **REFACTOR:** Code is clean (skip if already clean)  
 ✅ **COMMIT:** 2+ atomic commits (RED + GREEN minimum)  
-✅ **DOCUMENT:** Updated CODEBASE_DOCUMENTATION.md, README.md  
+✅ **DOCUMENT:** Updated docs/CODEBASE_DOCUMENTATION.md, README.md  
 
 ---
 
