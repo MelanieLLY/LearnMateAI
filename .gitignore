@@ -1,7 +1,5 @@
 # macOS
 .DS_Store
-**/.DS_Store
-*.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -11,7 +9,10 @@ dist/
 dist-ssr/
 *.local
 .npm/
-package-lock.json
+
+# Playwright output
+playwright-report/
+test-results/
 
 # Python & Backend (FastAPI)
 __pycache__/
@@ -21,7 +22,6 @@ __pycache__/
 .Python
 env/
 venv/
-.env
 .venv/
 pip-log.txt
 pip-delete-this-directory.txt
@@ -32,31 +32,34 @@ pip-delete-this-directory.txt
 coverage.xml
 htmlcov/
 
-# Environments
+# Environments (example files are committed)
+.env
 .env.*
+!.env.example
+
+# Local uploads (demo materials already in server/uploads/materials/ stay tracked;
+# use `git add -f` to commit a new demo file)
+/uploads/
+server/uploads/materials/*
 
 # IDEs & Editor
 .vscode/
 .idea/
 *.swp
 *.swo
+/.obsidian
 
-# Claude Code
+# Claude Code (personal settings)
 .claude/mcp/
-.claude/.DS_Store
+.claude/settings.local.json
 
 # Others
-planning_files/chathistory_P3.md
 *.db
 *.db-journal
 secrets.txt
 test_accounts.md
 _archive_(Internal_Only)/
 planning_files/_archive_(Internal_Only)/
-草稿2.md
-草稿3.md
-/.obsidian
 
 # User drafts
 *草稿*
-/.obsidian

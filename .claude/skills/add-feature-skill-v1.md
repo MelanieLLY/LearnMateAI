@@ -414,7 +414,7 @@ git commit -m "refactor(#issue): improve form accessibility and error handling"
 
 Update project documentation:
 
-**Update `CODEBASE_DOCUMENTATION.md`:**
+**Update `docs/CODEBASE_DOCUMENTATION.md`:**
 ```markdown
 ## Student Notes Feature
 
@@ -467,7 +467,7 @@ Response (201 Created):
 
 **Commit documentation:**
 ```bash
-git add CODEBASE_DOCUMENTATION.md README.md
+git add docs/CODEBASE_DOCUMENTATION.md README.md
 git commit -m "docs(#issue): add student notes feature documentation"
 ```
 
@@ -682,7 +682,7 @@ Claude Code:
 ## DOCUMENT Phase
 
 Updating documentation:
-✓ CODEBASE_DOCUMENTATION.md - Added Student Notes section
+✓ docs/CODEBASE_DOCUMENTATION.md - Added Student Notes section
 ✓ README.md - Updated features list
 ✓ docs(#issue): add student notes feature documentation
 

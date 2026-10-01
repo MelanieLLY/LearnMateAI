@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
       - name: ESLint
         working-directory: ./client
         run: npm run lint || true
@@ -36,7 +36,7 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
       - name: TypeScript type-check
         working-directory: ./client
         run: npx tsc --noEmit || true
@@ -53,7 +53,7 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
       - name: Run frontend unit tests (Vitest)
         working-directory: ./client
         run: npm test -- --run || true
@@ -90,7 +90,7 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
       - name: Install Playwright Browsers
         working-directory: ./client
         run: npx playwright install --with-deps || true

@@ -17,7 +17,7 @@ Instead of just asking the AI to "write the endpoint," we took a step back and m
 ### Implementation Driven by Testing (TDD)
 This was the biggest change for me. We followed a strict Test-Driven Development (Red-Green-Refactor) loop. Before writing any actual business logic, Claude wrote out the Pytest files based on our plan (the RED phase). We ended up writing 17 tests across the three modules. We ran them in the terminal to watch them fail, which proved that the tests were working correctly.
 
-![RED Phase Failing Tests](/Users/melaniey/Github/LearnMateAI/docs/screenshot/01_RED_phase_failing_tests.png)
+![RED Phase Failing Tests](screenshot/01_RED_phase_failing_tests.png)
 *Caption: The RED phase, demonstrating failing tests for the Create Module API before any routing logic was implemented.*
 
 Only after confirming the failing tests did we write the minimum code needed to make them pass (the GREEN phase). Once Pytest showed a 100% pass rate, we went back to refactor the code (the REFACTOR phase) to make sure it followed PEP 8 style guidelines and had good docstrings. TDD basically forced us to prove our code worked instead of just running the server and hoping for the best.
@@ -25,7 +25,7 @@ Only after confirming the failing tests did we write the minimum code needed to 
 ### Step-by-Step Commits
 Because we developed in small, verified steps, our Git history turned out really clean. We made simple, step-by-step commits (like `test(#2): RED - add failing tests for create module API`, followed by `feat(#2): GREEN...`). This left us with a git log that actually tells the story of how we built the feature, which is a lot better than the massive, messy "initial commit" dumps I used to do.
 
-![Final TDD Commits History](/Users/melaniey/Github/LearnMateAI/docs/screenshot/08_Final_TDD_commits_history.png)
+![Final TDD Commits History](screenshot/08_Final_TDD_commits_history.png)
 *Caption: A segment of our final Git log, clearly showing the Red-Green-Refactor commit history for the Instructor Module endpoints.*
 
 Overall, this loop broke my habit of constant context-switching and made testing the main focus of the project.

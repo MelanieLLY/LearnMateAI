@@ -6,8 +6,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 <!-- Context Imports -->
-@import planning_files/project3_proposal.md
-@import planning_files/learnmate-sprint-plan.md
+@import docs/learnmate-sprint-plan.md
 @import .claude/rules/common/testing.md
 
 ---
@@ -16,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Before responding to any `/exit`, `/quit`, or end-of-session signal, Claude MUST:
 
-1. Read `planning files/chathistory_P3.md` to identify the current session number and the active Issue.
+1. Read `planning_files/chathistory_P3.md` to identify the current session number and the active Issue.
 2. Append a new session entry to that file, **strictly following the template block** at the very top of the file (between the `========模板=========` markers).
 3. Only after the file is written may Claude proceed with the exit.
 
@@ -37,23 +36,22 @@ LearnMateAI is an AI-powered collaborative learning platform. Instructors upload
 ## Commands
 
 ```bash
-# --- Frontend (React + Vite, http://localhost:5173) ---
-npm run dev              # Start Vite dev server
-npm test                 # Run vitest (all frontend tests)
-npm test -- --watch      # Watch mode during TDD
-npm test -- generateQuiz.test.ts  # Single test file
-npm test -- --coverage   # Coverage report
-npm run test:e2e         # E2E tests
-npm run lint             # ESLint
-npx tsc --noEmit         # TypeScript type-check only
+# --- Both at once (repo root) ---
+npm run dev              # dev.mjs: frontend on 5200+, backend on 8200+ (first free port)
 
-# --- Backend (FastAPI + Python) ---
-cd server && uvicorn src.main:app --reload  # Start FastAPI dev server (http://localhost:8000)
-cd server && pytest                   # Run all backend tests
-cd server && pytest tests/            # Run backend tests only
+# --- Frontend (client/, React + Vite) ---
+cd client && npm run dev              # Start Vite dev server
+cd client && npm test                 # Run vitest (all frontend tests)
+cd client && npm test -- --watch      # Watch mode
+cd client && npm run test:e2e         # Playwright E2E tests
+cd client && npm run lint             # ESLint
+cd client && npx tsc --noEmit         # TypeScript type-check only
+
+# --- Backend (server/, FastAPI + Python) ---
+cd server && uvicorn src.main:app --reload --port 8200  # Start FastAPI dev server
+cd server && pytest                   # Run backend tests (tests/ only, see pytest.ini)
 cd server && pytest --cov=src --cov-report=term-missing  # Coverage
-cd server && alembic upgrade head     # Run DB migrations
-cd server && alembic revision --autogenerate -m "<migration_name>"  # Generate migration
+cd server && python seed_mock_data.py # Seed demo data from mock_data.json
 cd server && pip install -r requirements.txt  # Install Python dependencies
 ```
 
@@ -64,15 +62,19 @@ cd server && pip install -r requirements.txt  # Install Python dependencies
 **Tech Stack:** Node.js / React with Vite (Frontend) + Python / FastAPI (Backend API), kept within a single Monorepo.
 
 ```
-frontend/       # React Frontend (Vite, TypeScript, Tailwind) - To be created
-server/         # FastAPI Backend (Python)
-├── src/        # Backend application code
-└── tests/      # Backend testing suite
+client/         # React frontend (Vite, TypeScript, Tailwind) + Playwright e2e/
+server/         # FastAPI backend (Python)
+├── src/        # App code: routers/, models/, schemas/, services/, agents/
+├── tests/      # pytest suite
+├── scripts/    # Manual debug scripts (not collected by pytest)
+└── uploads/    # Served at /uploads (committed demo materials)
+docs/           # Reports, reflections, screenshots, presentation deck
+planning_files/ # Chat history log and planning diagrams
 ```
 
 ### Key Decisions
 
-- **Monorepo Structure:** Frontend and Backend are in the same repository but in explicitly separated root directories (`/frontend` and `/server`) to avoid IDE conflicts and red squiggles.
+- **Monorepo Structure:** Frontend and Backend are in the same repository but in explicitly separated root directories (`/client` and `/server`) to avoid IDE conflicts and red squiggles.
 - **LLM Engine:** All Claude API calls handled by dedicated AI agent modules in the Python backend.
 - **Testing:** We use `vitest` for frontend testing and `pytest` for backend testing (minimum 80% coverage).
 - **Authentication:** JWT with bcrypt. No OAuth for MVP.
@@ -98,7 +100,7 @@ Tests MUST be written BEFORE implementation code. Mock external API calls.
 ### Feature Development Workflow (ALWAYS DO THIS)
 Whenever you start adding or modifying a feature, you MUST process the following:
 1. **GitHub Issue**: Create or update the relevant GitHub Issue, adding appropriate labels and milestones.
-2. **Update Sprint Plan**: Modify `planning files/learnmate-sprint-plan.md` to reflect the new feature mapping.
+2. **Update Sprint Plan**: Modify `docs/learnmate-sprint-plan.md` to reflect the new feature mapping.
 3. **Branching**: Checkout a new Git branch utilizing the issue ID (e.g., `feat/42-description` or `fix/15-bug`).
 
 ### Do's
@@ -115,13 +117,11 @@ Whenever you start adding or modifying a feature, you MUST process the following
 
 ---
 
----
-
 ## TypeScript Conventions
 
 - `strict: true` — no `any`, explicit return types on all functions
 - Components: `PascalCase`; functions/variables: `camelCase`; constants: `UPPER_SNAKE_CASE`; DB tables: `snake_case`
-- Use `logger` utility (from `src/frontend/utils/logger.ts`), never `console.log`
+- No `console.log` left in committed code
 - Prettier `printWidth: 100`
 
 ---
@@ -132,8 +132,8 @@ Whenever you start adding or modifying a feature, you MUST process the following
 - Type hints required on all function signatures (Python 3.10+)
 - Write Google-style docstrings on all AI agent modules and public functions
 - Use Python `logging` module — never `print()`
-- FastAPI routers live in `src/backend/routers/`; DB models in `src/backend/models/`; AI agents in `src/backend/agents/`
-- SQLAlchemy for ORM; Alembic for migrations; Pydantic for request/response schemas
+- FastAPI routers live in `server/src/routers/`; DB models in `server/src/models/`; AI agents in `server/src/agents/`
+- SQLAlchemy for ORM (tables created via `Base.metadata.create_all`); Pydantic for request/response schemas
 - Mock external API calls (Claude API) in all pytest tests
 
 ---

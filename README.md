@@ -107,11 +107,12 @@ graph TD
 
 ## 🛠 Tech Stack
 
-* **Frontend**: React.js 18, Vite, React Router DOM, Tailwind CSS (with Skeleton loading)
-* **Backend**: Python 3.10+, FastAPI, Pydantic, SQLAlchemy ORM
+* **Frontend**: React 19, Vite 8, TypeScript, React Router DOM, Tailwind CSS (with Skeleton loading)
+* **Backend**: Python 3.10+ (CI uses 3.12), FastAPI, Pydantic, SQLAlchemy ORM, Anthropic Claude API
 * **Database**: PostgreSQL Cloud (Neon/Render DB)
 * **CI/CD Pipeline**: GitHub Actions
-* **Quality & Security**: ESLint, Flake8, Gitleaks, Bandit, NPM Audit
+* **Testing**: Pytest, Vitest, Playwright
+* **Quality & Security**: ESLint, Gitleaks, Bandit, CodeQL, npm audit
 
 ---
 
@@ -130,24 +131,66 @@ A big highlight of this project is how we used AI to build it:
 
 ## 💻 Local Development Setup
 
-To run this app on your computer:
+To run this app on your computer (Node 20+, Python 3.10+):
 
 ```bash
-# 1. Download the code (Look at .env.example for variables)
+# 1. Download the code
 git clone <repository-url>
 cd LearnMateAI
 
-# 2. Start the frontend (Port: 5200)
-cd client
-npm install
-npm run dev
+# 2. Configure the backend: copy the template and fill in your own values
+cp .env.example server/.env
 
-# 3. Start the backend API (Port: 8200)
-cd server
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 8200
+# 3. Install dependencies
+npm install                        # root: dev runner
+(cd client && npm install)
+(cd server && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt)
+
+# 4. (Optional) seed demo courses and accounts
+(cd server && source .venv/bin/activate && python seed_mock_data.py)
+
+# 5. Start frontend + backend together (uvicorn must be on PATH, so activate the venv)
+source server/.venv/bin/activate
+npm run dev
+```
+
+`npm run dev` runs [dev.mjs](dev.mjs), which picks the first free ports starting at **5200**
+(frontend) and **8200** (backend) and wires the frontend to the backend automatically
+(override the base ports in `server/.env`, see [server/.env.example](server/.env.example)).
+To run them separately, point the frontend proxy at the backend port first:
+
+```bash
+echo "VITE_BACKEND_PORT=8200" > client/.env.local
+cd server && uvicorn src.main:app --reload --port 8200  # backend
+cd client && npm run dev                                # frontend (second terminal)
+```
+
+### Running tests
+
+```bash
+cd server && pytest              # backend
+cd client && npm test            # frontend unit tests
+cd client && npm run test:e2e    # Playwright end-to-end tests
+```
+
+---
+
+## 📁 Repository Structure
+
+```
+LearnMateAI/
+├── client/            # React + Vite frontend (src/, e2e/ Playwright tests)
+├── server/            # FastAPI backend
+│   ├── src/           # routers/, models/, schemas/, services/, agents/
+│   ├── tests/         # pytest suite
+│   ├── scripts/       # manual debug scripts
+│   └── uploads/       # demo course materials served at /uploads
+├── docs/              # reports, reflections, screenshots, demo videos, presentation deck
+├── planning_files/    # session log and planning diagrams
+├── .github/workflows/ # CI, security gates and deployment
+├── .claude/           # Claude Code agents, commands, rules and skills
+├── dev.mjs            # starts frontend + backend together
+└── .env.example       # environment variable template
 ```
 
 ---

@@ -1,5 +1,9 @@
 # LearnMateAI Codebase Documentation
 
+> **Historical snapshot (March 2026).** The directory layout below predates the move to
+> `client/` + `server/`. For the current structure, see the "Repository Structure" section in the
+> [README](../README.md).
+
 **Last Updated:** March 28, 2026  
 **Team:** Liuyi, Jing Ng  
 **Repository:** https://github.com/MelanieLLY/LearnMateAI  
@@ -1005,7 +1009,7 @@ Frontend will be available at: **http://localhost:5173**
 
 - **Sprint Plan:** [learnmate-sprint-plan.md](learnmate-sprint-plan.md)
 - **Project Proposal:** [project3_proposal.md](project3_proposal.md)
-- **Development Guide:** [CLAUDE.md](CLAUDE.md)
+- **Development Guide:** [CLAUDE.md](../CLAUDE.md)
 - **API Documentation:** http://localhost:8000/docs (run backend first)
 - **GitHub Repository:** https://github.com/MelanieLLY/LearnMateAI
 

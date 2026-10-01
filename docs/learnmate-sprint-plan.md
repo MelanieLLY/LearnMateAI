@@ -109,6 +109,13 @@
 
 ---
 
+## Post-P3 Maintenance
+
+- Test (Issue #72): Frontend critical-flow tests (Completed)
+- Docs (Issue #74): Update README and file storage structure, commit npm lockfiles, refresh CLAUDE.md
+
+---
+
 ## Sprint 1 Retrospective (Mar 24 – Mar 30)
 **What went well:** 
 * Successfully laid down the Next.js and FastAPI foundations, establishing early CI/CD integration and deployment workflows.
