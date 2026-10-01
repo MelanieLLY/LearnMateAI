@@ -1009,7 +1009,7 @@ Frontend will be available at: **http://localhost:5173**
 
 - **Sprint Plan:** [learnmate-sprint-plan.md](learnmate-sprint-plan.md)
 - **Project Proposal:** [project3_proposal.md](project3_proposal.md)
-- **Development Guide:** [CLAUDE.md](CLAUDE.md)
+- **Development Guide:** [CLAUDE.md](../CLAUDE.md)
 - **API Documentation:** http://localhost:8000/docs (run backend first)
 - **GitHub Repository:** https://github.com/MelanieLLY/LearnMateAI
 

@@ -4,7 +4,7 @@
   - Project Name: LearnMateAI
   - Team Members: Liuyi & Jing
 
-  - ![Student Dashboard Home](docs/screenshot/26_student_dashboard_home.png)
+  - ![Student Dashboard Home](screenshot/26_student_dashboard_home.png)
 
 ### 2. Project Overview & The Problem
 
@@ -12,8 +12,8 @@
   - Solution: AI-generated flashcards, summaries, and quizzes; dynamic instructor dashboard.
   - Deployed Link: Show public Vercel URL.
 
-  - ![Vercel Frontend Deploy](docs/screenshot/25_evidence_16_vercel_frontend_deploy.png)
-  - ![Render Backend Deploy](docs/screenshot/24_evidence_15_render_backend_deploy.png)
+  - ![Vercel Frontend Deploy](screenshot/25_evidence_16_vercel_frontend_deploy.png)
+  - ![Render Backend Deploy](screenshot/24_evidence_15_render_backend_deploy.png)
 
 ### 3. System Architecture
 
@@ -28,40 +28,40 @@
   - Test-Driven Development (TDD) workflow demonstration (Failing RED tests -> Passing GREEN tests).
   - Agent SDK code implementation.
 
-  - ![Terminal TDD Test Screenshot](docs/screenshot/01_RED_phase_failing_tests.png)
+  - ![Terminal TDD Test Screenshot](screenshot/01_RED_phase_failing_tests.png)
   - ![Agent SDK Code Snippet](https://github.com/user-attachments/assets/e6a8983e-13e3-437e-a25f-5233e896c3b6)
 
 ### 5. Frontend UI & Parallel Development
 
   - Parallel development of UI components using `git worktree`.
   - Interactive quiz and 3D flashcards.
- ![Parallel Git Worktree Terminals](docs/screenshot/17_evidence_7b_parallel_terminals.png)
+ ![Parallel Git Worktree Terminals](screenshot/17_evidence_7b_parallel_terminals.png)
 
 ### 6. Live Demo: Instructor Dashboard
 
   - Instructor Login -> View Class Average and Module Trends.
 
-  - ![Instructor Dashboard](docs/screenshot/21_instructor_dashboard.gif)
+  - ![Instructor Dashboard](screenshot/21_instructor_dashboard.gif)
 ### 7. Live Demo: Student Experience
 
   - Student Login -> Browse Modules -> Flip 3D Flashcards -> Complete Quiz & AI Feedback.
 
-  - ![Student UI Experience](docs/screenshot/23_student_ui_experience.gif)
+  - ![Student UI Experience](screenshot/23_student_ui_experience.gif)
 
 
 ### 8. Playwright E2E Testing
 
   - Automated end-to-end browser test run results.
 
-  - ![Playwright E2E Test All Green](docs/screenshot/18_evidence_11_playwright_e2e_report.png)
+  - ![Playwright E2E Test All Green](screenshot/18_evidence_11_playwright_e2e_report.png)
 
 ### 9. CI/CD Pipeline & Security Gates
 
   - 9-stage GitHub Actions workflow.
   - Security Checks: Gitleaks, npm audit, Bandit.
 
-  - ![GitHub Actions Workflow All Green](docs/screenshot/19_evidence_9_github_actions_all_green.png)
-  - ![GitHub PR Checks All Green](docs/screenshot/22_evidence_12_github_actions_pr.gif)
+  - ![GitHub Actions Workflow All Green](screenshot/19_evidence_9_github_actions_all_green.png)
+  - ![GitHub PR Checks All Green](screenshot/22_evidence_12_github_actions_pr.gif)
 
 ### 10. Claude Code Mastery
 
@@ -70,8 +70,8 @@
   - GitHub MCP server connection.
   - AI Code Reviewer Agent based on the C.L.E.A.R. framework.
 
-  - ![Stop Hook Blocking Commit](docs/screenshot/13_evidence_2_stop_hook.png)
-  - ![AI Code Review PR Screenshot](docs/screenshot/20_evidence_10_clear_pr_comment.png)
+  - ![Stop Hook Blocking Commit](screenshot/13_evidence_2_stop_hook.png)
+  - ![AI Code Review PR Screenshot](screenshot/20_evidence_10_clear_pr_comment.png)
 
 ### 11. Conclusion
 

@@ -99,11 +99,12 @@ graph TD
 
 ## 🛠 技术栈 (Tech Stack)
 
-* **Frontend**: React.js 18, Vite, React Router DOM, Tailwind CSS (全套 A11y 骨架屏降级支持)
-* **Backend**: Python 3.10+, FastAPI (ASGI), Pydantic, SQLAlchemy ORM
+* **Frontend**: React 19, Vite 8, TypeScript, React Router DOM, Tailwind CSS (全套 A11y 骨架屏降级支持)
+* **Backend**: Python 3.10+ (CI 使用 3.12), FastAPI (ASGI), Pydantic, SQLAlchemy ORM, Anthropic Claude API
 * **Database**: PostgreSQL Cloud (Neon/Render DB)
 * **CI/CD Pipeline**: GitHub Actions
-* **Quality Gates**: ESLint, Flake8, Gitleaks, NPM Audit, Bandit
+* **Testing**: Pytest, Vitest, Playwright
+* **Quality Gates**: ESLint, Gitleaks, Bandit, CodeQL, npm audit
 
 ---
 
@@ -122,24 +123,65 @@ graph TD
 
 ## 💻 快速本地部署 (Local Development Setup)
 
-如果需要在本地运行或体验：
+如果需要在本地运行或体验（需要 Node 20+、Python 3.10+）：
 
 ```bash
-# 1. 获取代码库 (环境配置文件可参考根目录 .env.example)
+# 1. 获取代码库
 git clone <repository-url>
 cd LearnMateAI
 
-# 2. 启动客户端 (端口 5200)
-cd client
-npm install
-npm run dev
+# 2. 配置后端环境变量：复制模板后填入自己的值
+cp .env.example server/.env
 
-# 3. 启动服务端环境 (端口 8200)
-cd server
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 8200
+# 3. 安装依赖
+npm install                        # 根目录：前后端联合启动器
+(cd client && npm install)
+(cd server && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt)
+
+# 4. （可选）写入演示课程与测试账号
+(cd server && source .venv/bin/activate && python seed_mock_data.py)
+
+# 5. 一键启动前后端（uvicorn 需要在 PATH 中，所以先激活 venv）
+source server/.venv/bin/activate
+npm run dev
+```
+
+`npm run dev` 会运行 [dev.mjs](dev.mjs)：前端从 **5200**、后端从 **8200** 开始找第一个空闲端口，
+并自动把前端代理指向后端（基础端口可在 `server/.env` 中覆盖，见 [server/.env.example](server/.env.example)）。
+如果要分开启动，先把前端代理指向后端端口：
+
+```bash
+echo "VITE_BACKEND_PORT=8200" > client/.env.local
+cd server && uvicorn src.main:app --reload --port 8200  # 后端
+cd client && npm run dev                                # 前端（另开一个终端）
+```
+
+### 运行测试
+
+```bash
+cd server && pytest              # 后端
+cd client && npm test            # 前端单元测试
+cd client && npm run test:e2e    # Playwright 端到端测试
+```
+
+---
+
+## 📁 仓库结构 (Repository Structure)
+
+```
+LearnMateAI/
+├── client/            # React + Vite 前端（src/、e2e/ Playwright 测试）
+├── server/            # FastAPI 后端
+│   ├── src/           # routers/、models/、schemas/、services/、agents/
+│   ├── tests/         # pytest 测试
+│   ├── scripts/       # 手动调试脚本
+│   └── uploads/       # 演示课件，通过 /uploads 提供访问
+├── docs/              # 报告、反思、截图、演示视频、展示幻灯片
+├── planning_files/    # 会话记录与规划图
+├── .github/workflows/ # CI、安全门禁与部署
+├── .claude/           # Claude Code 的 agents、commands、rules、skills
+├── dev.mjs            # 前后端联合启动脚本
+└── .env.example       # 环境变量模板
 ```
 
 ---
