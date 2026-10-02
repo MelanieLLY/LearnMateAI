@@ -114,6 +114,7 @@
 - Test (Issue #72): Frontend critical-flow tests (Completed)
 - Docs (Issue #74): Update README and file storage structure, commit npm lockfiles, refresh CLAUDE.md
 - Chore (Issue #76): Enforced agent guardrails: lint PostToolUse hook, real Stop hook, AI PR review comment + blocking verdict, eval harness in CI, deny rules, writing-style rule, project memory file
+- Feature (Issue #78): send instructor audience guidelines (course + module `audience_context`) to the summary, flashcard and quiz agents' system prompts; labelled field with three example guidelines on the instructor dashboard (Completed)
 
 ---
 

@@ -82,3 +82,16 @@ the LLM judge (`claude-opus-5-5`, override with `EVAL_JUDGE_MODEL`) and costs AP
 **Where**: `server/src/evals/`, `server/tests/test_evals.py`, `.github/workflows/backend-ci.yml`.
 When a prompt or agent rule changes, update `data/golden_set.json` / `data/mock_outputs.json` and
 the thresholds in `quiz_agent.py` (the checks import them).
+
+### 2026-10-02 (Issue #78): instructor audience guidelines go into the agents' system prompts
+**Decision**: `generate_quiz`, `generate_flashcards` and `generate_summary` take
+`audience_context` and append it to `SYSTEM_PROMPT` through
+`with_audience_guidelines` (`server/src/agents/prompts/audience.py`). The services build it from
+the course's and the module's `audience_context` (`services/audience_service.py`), course first,
+each level capped at 1000 characters. Empty guidelines send the base prompt unchanged.
+**Why**: since #15 the field was saved on courses and modules but no agent read it, while the
+README said the prompt engine used it. It goes in the system prompt, not the user turn, so it reads
+as an instruction from the instructor rather than course material. The header tells the model the
+guidelines shape content and tone only, so they can't loosen the output-format rules.
+**Where**: `server/src/agents/prompts/audience.py`, `server/tests/test_audience_guidelines.py`,
+`client/src/components/AudienceContextField.tsx` (example guidelines in `audienceExamples.ts`).

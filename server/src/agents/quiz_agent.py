@@ -18,6 +18,7 @@ import os
 
 import anthropic
 
+from src.agents.prompts.audience import with_audience_guidelines
 from src.agents.prompts.quiz_prompt import (
     DIFFICULTY_LEVELS,
     QUESTION_TYPES,
@@ -44,6 +45,7 @@ def generate_quiz(
     student_notes: str,
     difficulty_level: str = "Medium",
     num_questions: int = 5,
+    audience_context: str = "",
 ) -> dict:
     """Call the Claude API to generate a structured quiz from module content and student notes.
 
@@ -59,6 +61,9 @@ def generate_quiz(
         difficulty_level: Desired difficulty — one of ``DIFFICULTY_LEVELS``
             (``"Easy"``, ``"Medium"``, ``"Hard"``).  Defaults to ``"Medium"``.
         num_questions: Exact number of questions to generate. Defaults to 5.
+        audience_context: Instructor guidelines about the class, from
+            ``combine_audience_context``. Appended to the system prompt;
+            an empty string sends the base prompt unchanged.
 
     Returns:
         A dict containing:
@@ -100,7 +105,7 @@ def generate_quiz(
         message = client.messages.create(
             model="claude-sonnet-4-6",
             max_tokens=4096,
-            system=SYSTEM_PROMPT,
+            system=with_audience_guidelines(SYSTEM_PROMPT, audience_context),
             messages=[
                 {
                     "role": "user",

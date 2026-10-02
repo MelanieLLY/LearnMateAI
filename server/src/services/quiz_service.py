@@ -9,6 +9,7 @@ from src.agents.quiz_agent import generate_quiz
 from src.models.module import Module
 from src.models.quiz import Quiz
 from src.models.student_note import StudentNote
+from src.services.audience_service import get_audience_context
 
 logger = logging.getLogger(__name__)
 
@@ -76,6 +77,7 @@ def generate_and_store_quiz(
         student_notes=student_notes,
         difficulty_level=difficulty_level,
         num_questions=num_questions,
+        audience_context=get_audience_context(db, module),
     )
 
     quiz = Quiz(

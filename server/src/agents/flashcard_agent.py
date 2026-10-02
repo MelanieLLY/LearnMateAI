@@ -16,6 +16,7 @@ import os
 
 import anthropic
 
+from src.agents.prompts.audience import with_audience_guidelines
 from src.agents.prompts.flashcard_prompt import BLOOM_LEVELS, SYSTEM_PROMPT, build_user_message
 
 logger = logging.getLogger(__name__)
@@ -26,6 +27,7 @@ MAX_INPUT_CHARS: int = 10_000
 def generate_flashcards(
     module_content: str,
     student_notes: str,
+    audience_context: str = "",
 ) -> list[dict]:
     """Call the Claude API to generate rich flashcards from module content and student notes.
 
@@ -37,6 +39,9 @@ def generate_flashcards(
         module_content: Instructor-provided course material or module description.
         student_notes: The student's personal notes for the module.  May be an
             empty string if the student has not yet uploaded notes.
+        audience_context: Instructor guidelines about the class, from
+            ``combine_audience_context``. Appended to the system prompt;
+            an empty string sends the base prompt unchanged.
 
     Returns:
         A list of dicts, each containing:
@@ -66,7 +71,7 @@ def generate_flashcards(
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=2048,
-        system=SYSTEM_PROMPT,
+        system=with_audience_guidelines(SYSTEM_PROMPT, audience_context),
         messages=[
             {
                 "role": "user",

@@ -9,6 +9,7 @@ from src.agents.flashcard_agent import generate_flashcards
 from src.models.flashcard import Flashcard
 from src.models.module import Module
 from src.models.student_note import StudentNote
+from src.services.audience_service import get_audience_context
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +64,7 @@ def generate_and_store_flashcards(
     raw_flashcards = generate_flashcards(
         module_content=module_content,
         student_notes=student_notes,
+        audience_context=get_audience_context(db, module),
     )
 
     flashcards = [
