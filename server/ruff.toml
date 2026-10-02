@@ -1,0 +1,9 @@
+# Ruff config for the FastAPI backend. The Claude Code PostToolUse hook
+# (.claude/hooks/lint_edited_file.py) runs `ruff check` and `ruff format --check` with it.
+line-length = 100
+target-version = "py312"
+extend-exclude = ["uploads", "scripts"]
+
+[lint]
+# pycodestyle errors/warnings, pyflakes, import order, pyupgrade, bugbear.
+select = ["E", "W", "F", "I", "UP", "B"]
