@@ -4,6 +4,140 @@
 
 ---
 
+## 📅 2026-10-01: Agent 护栏从"提醒"改为可验证的强制执行 (Issue #76)
+
+> 本人独立完成（MelanieLLY，AI 协作编写）。分支 `feat/76-enforced-agent-guardrails`，commit `65ea59e`、`ded48ae`、`319706c`、`61333cf`、`df08b71`。`.claude/agents`、`.claude/commands`、`.claude/rules/**`、`.claude/skills/*/SKILL.md` 来自第三方 everything-claude-code 插件（`3ab92d5`），本次未改动；下面的 hook、脚本、规则文件都是新写的。
+
+### 1. 业务背景与问题挑战 (Context & Problem)
+- 2026-10-01 的只读审计发现护栏大多只是提醒：PostToolUse hook 匹配的是 `WriteFile`（Claude Code 没有这个工具名，所以从未触发），而且只 echo 一句"记得跑 linter"；文档把 PreToolUse 提交守卫叫作 "Stop hook"，实际并没有 Stop hook。
+- AI PR Review 工作流只把 Claude 的回复打印到日志，不发评论、不影响检查结果，还写死了模型 ID。
+- Sprint plan 列了 LLM-as-judge 评测引擎，但仓库里没有任何评测代码。
+- 权限放行了 `Bash(python:*)` 这类宽前缀，没有针对 force push、递归删除、部署 CLI、生产数据库的 deny 规则，也没有禁止读取 `.env`。
+
+### 2. 核心架构与数据结构设计 (Data Structure & Architecture)
+- **三类 hook 各管一个时机**（`.claude/settings.json`）：
+  - PostToolUse `Edit|Write|MultiEdit` → `.claude/hooks/lint_edited_file.py`：从 stdin 读 `tool_input.file_path`，只检查这一个文件。`server/**/*.py` 跑 `ruff check` + `ruff format --check`（新加 `server/ruff.toml`，优先用 `server/.venv` 里的 ruff）；`client/**/*.ts(x)` 跑 eslint，文件在 `client/src` 且不是测试文件时再跑 `tsc --noEmit -p tsconfig.app.json`。失败时错误写 stderr 并 exit 2。
+  - PreToolUse `Bash` 提交守卫：保留原样，命令含 `git commit` 时先跑 pytest，失败 exit 2。
+  - Stop → `.claude/hooks/stop_test_gate.py`：`git status --porcelain` 发现 `server/` 或 `client/` 有未提交改动时分别跑 pytest / vitest，失败 exit 2 让回合继续；`stop_hook_active` 为 true 时直接放行，避免死循环（每回合最多重试一次）。
+- **权限三层**：allow 收窄为 24 条具体命令（`python -m pytest *`、`npx tsc *` 等）；ask 覆盖 `.claude/settings.json` 和 `.claude/hooks/**`，agent 改护栏必须经过本人确认；deny 45 条，覆盖 force push（含 `+refspec`）、`git reset --hard`、`git clean`、递归 `rm`、vercel/render CLI、`psql`/`pg_dump`、Postgres 连接串、`DATABASE_URL=`，以及 `Read`/`Edit` 的 `.env`、`.env.*`（用 gitignore 取反 `Read(!.env.example)` 保留示例文件可读）。
+- **Eval harness**（`server/src/evals/`）：`golden_set.json` 放 3 个模块（神经网络、SQL JOIN、光合作用），每个带 key terms、forbidden terms 和要求的 quiz/summary 设置；`checks.py` 是确定性检查；`judge.py` 是 LLM-as-judge 与 stub judge；`run.py` 是 CLI，输出 `eval-report.md` / `eval-report.json`。
+
+### 3. 领域算法与性能/成本优化 (Domain Algorithm & Cost/Performance Optimization)
+- **只 lint 被改的文件**：实测 Python 文件 0.14–0.17 秒，TS 文件（eslint + 全项目 tsc）1.31 秒。Stop hook 在工作区干净时 0.13 秒返回，不跑任何测试。
+- **确定性检查与 agent 共用阈值**：把 `quiz_agent` 里写死的 `±1`、`0.6`、`1`、`4` 提成 `QUESTION_COUNT_TOLERANCE`、`MIN_MC_RATIO`、`MIN_SHORT_ANSWER`、`MC_OPTION_COUNT` 常量，`checks.py` 直接 import，改一处两边同步。另加了 agent 本身没有的检查：多选题正确答案必须在选项里、4 个选项不能重复、题目 id 唯一、摘要自报字数与实际字数误差 ≤15%、闪卡至少覆盖 3 个 Bloom 层级。每个模块 22 项检查（quiz 11、flashcards 6、summary 5），3 个模块共 66 项。
+- **CI 零 API 成本**：mock 模式把 agent 模块里的 `anthropic.Anthropic` 替换成回放录制 tool 输出的假客户端，真实的 agent 代码（prompt 拼装、tool 输出解析、校验与重试）照常执行，所以 CI 不需要 API key。
+
+### 4. AI 系统工程与结构化输出 (LLM Engineering & Structured Outputs)
+- **按当前文档选模型和输出方式**：查了 Anthropic 当前文档，默认用 `claude-opus-5-5`。这个模型对强制 `tool_choice`（`any`/`tool`）直接返回 400，所以 PR review 和 judge 都改用 `output_config.format` 的 JSON schema 结构化输出，并开启 `fallbacks: "default"`（beta `server-side-fallback-2026-07-01`）处理拒答。模型可通过仓库变量 `AI_REVIEW_MODEL` / 环境变量 `EVAL_JUDGE_MODEL` 覆盖。
+- **PR review 结构化判定**：schema 要求 `verdict`（`pass`/`block`）、`summary`、`findings[]`（severity 为 critical/high/medium/low）。`verdict` 为 block 或存在 critical 时 exit 1 让检查失败；用隐藏标记 `<!-- learnmate-ai-pr-review -->` 找到机器人已有评论并 PATCH，不会每次 push 堆一条新评论。权限只给 `contents: read` + `pull-requests: write`；fork PR 拿不到 secret 时输出 notice 后跳过。拒答、`max_tokens` 截断、输出不合法时也会更新评论说明原因并让检查失败。
+- **LLM-as-judge rubric**：relevance、accuracy（以源材料为准，列出 unsupported claims）、difficulty match 三维各打 1–5 分。structured outputs 不支持数值范围约束，所以分数范围在 `parse_judge_output` 里校验，任一维低于 3 判为不通过。judge 的 client 可注入，测试里用假 client 和 httpx MockTransport 替代网络。
+- **项目记忆与写作规范**：新增 `docs/agent-memory.md`（为什么强制 `tool_choice`、冷启动处理、英文 UI、上传文件不解析等决策，附"何时追加"的规则）和 `.agents/rules/writing-style.md`（commit、PR、注释格式与禁用填充词表），都从 CLAUDE.md 用 `@path` 导入。
+
+### 5. 深度根因排查与健壮性边界设计 (Root-Cause Debugging & Defensive Architecture)
+- **CLAUDE.md 的 import 一直没生效**：原文件写的是 `@import docs/learnmate-sprint-plan.md`，而文档规定的语法是 `@path`，这一行会被当成导入一个叫 `import` 的文件。已改成 `@docs/...`，并去掉了重复导入的 `testing.md`（`.claude/rules/` 本来就会自动加载）。
+- **`Write(path)` 权限规则从未生效**：用 Claude Code 2.1.286 CLI 启动时它报告 7 条 `Write(...)` 规则（3 条历史遗留的 allow、4 条 deny）"is not matched by file permission checks — only Edit(path) rules are"。全部删除（每条都已有对应的 `Edit(...)`）后 CLI 不再报警；再用 Write 工具写 `client/.env.denyprobe2`，仍被 `Edit(.env.*)` 拦下。
+- **hook 用自己检查自己**：写 `server/src/evals/run.py` 时 lint hook 当场报出 10 条 ruff 问题和格式 diff，按提示修完才继续，说明 hook 在真实会话里生效，不只是离线脚本能跑。
+- **deny 规则的边界**：官方文档说明 Bash 规则只匹配 Claude 写出的命令文本，`/bin/rm`、`bash -c '...'` 这类写法不在覆盖范围内，已写进 CLAUDE.md 和记忆文件。反方向也有误伤：写这份文档时，一条 heredoc 命令因为正文里出现了连接串字样就被 `Bash(*postgres://*)` 整条拒绝，只能改用 Edit 工具写文件。
+- **已知遗留**：按新 ruff 配置，`server/` 现有代码有 246 条问题、39 个文件未格式化（`quiz_agent.py` 因本次改动已修好）。hook 只查被编辑的文件，以后改到旧文件会先看到它原有的问题。
+
+### 6. 验证记录 (Evidence: commands + output)
+以下命令均在 2026-10-01 本地执行，输出为原样摘录（`<repo>` 代表仓库根目录）。
+
+**Lint hook（stdin 喂样例 JSON）**
+```text
+$ printf '{"hook_event_name":"PostToolUse","tool_name":"Edit","tool_input":{"file_path":"<repo>/server/src/_probe_bad.py"}}' | python3 .claude/hooks/lint_edited_file.py
+LINT server/src/_probe_bad.py -> exit 2 (0.17s)
+src/_probe_bad.py:1:8: F401 [*] `os` imported but unused
+LINT server/src/_probe_good.py -> exit 0 (0.14s)
+LINT client/src/_probeBad.ts -> exit 2 (1.31s)
+  1:15  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+LINT docs/learnmate-sprint-plan.md -> exit 0 (0.12s)
+LINT malformed stdin -> exit 0
+```
+首轮测试中同一类 TS 坏文件的 tsc 输出：`src/_hookProbeBad.ts(2,14): error TS2322: Type 'string' is not assignable to type 'number'.`
+真实会话：用 Edit 工具改坏文件后，Claude Code 显示 `PostToolUse:Edit hook blocking error ... [LINT HOOK] server/src/_hook_probe_bad.py has problems: ruff check failed ...`。
+
+**Stop hook 与 PreToolUse 提交守卫**
+```text
+STOP failing pytest -> exit 2
+  [STOP HOOK] Uncommitted changes break the tests. Fix them before ending the turn.
+  1 failed, 128 passed, 3 warnings in 0.60s
+STOP failing vitest -> exit 2
+  Tests  1 failed | 61 passed (62)
+STOP stop_hook_active=true -> exit 0
+STOP clean tree -> exit 0 (0.13s)
+GATE git commit, failing test -> exit 2
+  [TDD GATE] Tests failed or pytest is not installed. Commit blocked.
+GATE git commit, passing -> exit 0   (128 passed)
+GATE non-commit -> exit 0
+```
+
+**权限规则（本会话内实测，命令均无副作用）**
+```text
+psql --version                                                          -> denied
+vercel --version                                                        -> denied
+git push --force --dry-run origin HEAD:refs/heads/zz-nonexistent-probe  -> denied
+git push --dry-run origin +HEAD:refs/heads/zz-nonexistent-probe         -> denied
+echo <postgres URL pointing at a dpg-*.render.com host>                 -> denied
+recursive rm of a nonexistent scratchpad dir                            -> denied
+echo FAKE_PROBE=1 > client/.env.denyprobe                               -> denied (redirect target)
+Read / cat client/.env.denyprobe (fake file)                            -> denied
+Write client/.env.denyprobe2                                            -> denied
+Read server/.env.example                                                -> allowed (negation rule)
+对照：git push --dry-run origin HEAD:refs/heads/zz-nonexistent-probe  -> allowed
+      git ls-remote origin 'refs/heads/zz-*' | wc -l                   -> 0（dry run 没有推送）
+```
+
+**AI PR review**
+```text
+$ node --test .github/scripts/ai-pr-review.test.mjs
+ℹ tests 11
+ℹ pass 11
+ℹ fail 0
+$ npx --yes @action-validator/cli@0.6.0 .github/workflows/ai-pr-review.yml   -> OK
+# 用 @anthropic-ai/sdk@0.131.0 + 假 fetch 截获真实请求：
+url: https://api.anthropic.com/v1/messages?beta=true
+anthropic-beta: server-side-fallback-2026-07-01
+body keys: fallbacks,max_tokens,messages,model,output_config,system
+model: claude-opus-5-5 | fallbacks: default | effort: high | format: json_schema
+# 本地按顺序执行 workflow 的 shell 步骤（secret 为空）：
+::notice::ANTHROPIC_API_KEY is not available (fork PR or unset secret). Skipping AI review.
+ANTHROPIC_API_KEY is not set (fork PR or missing secret). Skipping AI review.   exit=0
+```
+
+**Eval harness**
+```text
+$ cd server && python -m src.evals.run
+Eval mock/stub: 9/9 artifacts, 66/66 checks passed. Report: eval_reports/eval-report.md (eval-report.json)
+$ python -m pytest -q tests/test_evals.py --cov=src/evals
+17 passed; src/evals TOTAL 93%
+变异 1（数量容差 <= 改成 <）           -> 1 failed, 16 passed
+变异 2（跳过"答案在选项中"检查）        -> 1 failed, 16 passed
+# 与 CI 相同的 python:3.12-slim 容器：
+128 passed, 3 warnings in 0.62s
+Eval mock/stub: 9/9 artifacts, 66/66 checks passed.   eval_exit=0
+```
+
+**没有验证的部分**
+- 本机没有 `act`，没有在 act 里跑完整 workflow；只用 action-validator 校验了 YAML，并在本地按顺序执行了各 shell 步骤。
+- 没有用真实 API key 跑过 PR review 和 `--live` 评测（会产生费用）；GitHub 上的评论发布与检查失败要等第一个 PR 触发才能看到。
+- 新的 `@path` import 是否加载，没有在新会话里确认（本机 headless CLI 未登录），需要在新会话里用 `/context` 查看。
+- `ask` 规则（编辑 `.claude/settings.json` / `.claude/hooks/**` 时弹确认）按文档配置，没有在会话里触发测试。
+
+### 7. 简历技术描述素材 (Ready-to-Use Resume Bullet Points)
+- **English**:
+  - Replaced reminder-only Claude Code hooks with enforced checks: a PostToolUse hook that lints only the edited file (ruff, or eslint + tsc) in 0.1–1.3 s and returns errors to the agent, plus a Stop hook that runs pytest/vitest before a turn ends with uncommitted changes.
+  - Rebuilt the AI PR review around a JSON-schema structured output with a pass/block verdict: it upserts one PR comment and fails the check on critical findings, runs with least-privilege `pull-requests: write`, and skips fork PRs; covered by 11 node:test cases.
+  - Built an LLM-as-judge eval harness for 3 generation agents: a 3-module golden set, 22 deterministic checks per module that share thresholds with the quiz agent, and a mockable judge, so the eval runs in CI with zero API calls.
+  - Added 45 deny rules (force push, hard reset, recursive rm, deploy CLIs, production Postgres, `.env` reads) and tested each class live; found and removed 7 `Write()` permission rules that Claude Code ignored.
+- **中文**:
+  - 把只会提醒的 Claude Code hook 改成强制检查：PostToolUse hook 只 lint 被编辑的文件（ruff 或 eslint + tsc），耗时 0.1–1.3 秒，错误直接回传给 agent；Stop hook 在回合结束且有未提交代码时跑 pytest/vitest，失败就不让结束。
+  - 重做 AI PR Review：用 JSON schema 结构化输出 pass/block 判定，只维护一条 PR 评论，有 critical 问题时让检查失败；权限只给 `pull-requests: write`，fork PR 自动跳过；11 个 node:test 用例覆盖。
+  - 为 3 个生成 agent 搭建 LLM-as-judge 评测：3 个模块的 golden set、每个模块 22 项与 quiz agent 共用阈值的确定性检查、可 mock 的 judge，CI 中零 API 调用即可运行。
+  - 新增 45 条 deny 规则（force push、hard reset、递归删除、部署 CLI、生产 Postgres、读取 `.env`）并逐类实测；排查出 7 条被 Claude Code 忽略的 `Write()` 权限规则并删除。
+
+---
+
 ## 📅 2026-09-28: 关键前端流程的组件测试补齐 (Issue #72, PR #73)
 
 > 本人独立完成（MelanieLLY，AI 协作编写）。commit `9d55326`，分支 `test/72-frontend-critical-flow-tests`。

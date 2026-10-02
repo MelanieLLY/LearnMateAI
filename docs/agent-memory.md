@@ -70,7 +70,9 @@ Uploaded files under `server/uploads/` are served for download only.
 **Why**: the 2026-10-01 audit found the old lint hook matched a tool name that doesn't exist
 (`WriteFile`) and the docs called the commit gate a Stop hook.
 **Constraint**: Bash deny rules match the command text Claude writes; they are not a sandbox
-(`bash -c '...'` or `/bin/rm` are not covered). The ruff baseline in `server/` had 246 findings
+(`bash -c '...'` or `/bin/rm` are not covered). The leading-wildcard rules also match text inside
+heredocs and `echo`, so write files that mention a Postgres URL or `DATABASE_URL=` with the
+Write/Edit tool instead of a shell heredoc. The ruff baseline in `server/` had 246 findings
 and 39 unformatted files on 2026-10-01, so editing an old file surfaces its existing issues.
 
 ### 2026-10-01 (Issue #76): eval harness
