@@ -16,6 +16,7 @@ import os
 
 import anthropic
 
+from src.agents.prompts.audience import with_audience_guidelines
 from src.agents.prompts.summary_prompt import (
     SUMMARY_LEVELS,
     SYSTEM_PROMPT,
@@ -31,6 +32,7 @@ def generate_summary(
     module_content: str,
     student_notes: str,
     summary_level: str = "Standard",
+    audience_context: str = "",
 ) -> dict:
     """Call the Claude API to generate a structured summary from module content and student notes.
 
@@ -46,6 +48,9 @@ def generate_summary(
         summary_level: Desired comprehension depth — one of ``SUMMARY_LEVELS``
             (``"Brief"``, ``"Standard"``, ``"Detailed"``).  Defaults to
             ``"Standard"``.
+        audience_context: Instructor guidelines about the class, from
+            ``combine_audience_context``. Appended to the system prompt;
+            an empty string sends the base prompt unchanged.
 
     Returns:
         A dict containing:
@@ -83,7 +88,7 @@ def generate_summary(
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=1024,
-        system=SYSTEM_PROMPT,
+        system=with_audience_guidelines(SYSTEM_PROMPT, audience_context),
         messages=[
             {
                 "role": "user",

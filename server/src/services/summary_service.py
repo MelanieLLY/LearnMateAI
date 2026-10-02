@@ -9,6 +9,7 @@ from src.agents.summary_agent import generate_summary
 from src.models.module import Module
 from src.models.student_note import StudentNote
 from src.models.summary import Summary
+from src.services.audience_service import get_audience_context
 
 logger = logging.getLogger(__name__)
 
@@ -71,6 +72,7 @@ def generate_and_store_summary(
         module_content=module_content,
         student_notes=student_notes,
         summary_level=summary_level,
+        audience_context=get_audience_context(db, module),
     )
 
     # Recompute word_count from the actual stored content for accuracy.
