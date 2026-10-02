@@ -68,11 +68,12 @@
       "Bash(pip install -r requirements-dev.txt)",
       "Bash(uvicorn src.main:app *)",
       "Edit(server/src/**)",
-      "Write(server/src/**)",
       "Edit(server/tests/**)",
-      "Write(server/tests/**)",
-      "Edit(CLAUDE.md)",
-      "Write(CLAUDE.md)"
+      "Edit(CLAUDE.md)"
+    ],
+    "ask": [
+      "Edit(.claude/settings.json)",
+      "Edit(.claude/hooks/**)"
     ],
     "deny": [
       "Read(.env)",
@@ -80,12 +81,8 @@
       "Read(!.env.example)",
       "Edit(.env)",
       "Edit(.env.*)",
-      "Write(.env)",
-      "Write(.env.*)",
       "Edit(node_modules/**)",
-      "Write(node_modules/**)",
       "Edit(.git/**)",
-      "Write(.git/**)",
       "Bash(git push --force *)",
       "Bash(git push --force-with-lease *)",
       "Bash(git push -f *)",
