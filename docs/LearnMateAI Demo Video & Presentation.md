@@ -66,11 +66,11 @@
 ### 10. Claude Code Mastery
 
   - Custom Skills for accelerated workflows.
-  - PreToolUse Stop hook (blocking unqualified commits).
+  - PreToolUse commit gate (blocking unqualified commits).
   - GitHub MCP server connection.
   - AI Code Reviewer Agent based on the C.L.E.A.R. framework.
 
-  - ![Stop Hook Blocking Commit](screenshot/13_evidence_2_stop_hook.png)
+  - ![PreToolUse Commit Gate Blocking Commit](screenshot/13_evidence_2_stop_hook.png)
   - ![AI Code Review PR Screenshot](screenshot/20_evidence_10_clear_pr_comment.png)
 
 ### 11. Conclusion

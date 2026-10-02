@@ -1,0 +1,366 @@
+{
+  "description": "Recorded-style agent tool outputs used in mock mode so the harness runs without an API key. Each entry is the tool_use input the agent would receive from Claude.",
+  "outputs": {
+    "neural-networks": {
+      "flashcards": {
+        "flashcards": [
+          {
+            "question": "What does an activation function add to a neural network?",
+            "answer": "Non-linearity, so the network can model more than a linear transform.",
+            "difficulty": 1,
+            "bloom_level": "Remember"
+          },
+          {
+            "question": "Why is ReLU often preferred over sigmoid in hidden layers?",
+            "answer": "ReLU is cheap to compute and does not saturate for positive inputs, while sigmoid saturates at extremes.",
+            "difficulty": 2,
+            "bloom_level": "Understand"
+          },
+          {
+            "question": "How does backprop use the chain rule?",
+            "answer": "It multiplies local derivatives layer by layer to get the gradient of the loss for each weight.",
+            "difficulty": 3,
+            "bloom_level": "Understand"
+          },
+          {
+            "question": "A model fits training data well but fails on new data. Which technique from the notes helps, and how?",
+            "answer": "Dropout: randomly zeroing neurons during training reduces overfitting.",
+            "difficulty": 3,
+            "bloom_level": "Apply"
+          },
+          {
+            "question": "Why are convolutional layers suited to image recognition?",
+            "answer": "They detect local patterns and reuse weights across the image, building hierarchical features.",
+            "difficulty": 4,
+            "bloom_level": "Analyze"
+          },
+          {
+            "question": "Compare a deep network with many hidden layers to a single-layer network.",
+            "answer": "Many layers learn hierarchical representations; one layer can only learn simpler mappings.",
+            "difficulty": 4,
+            "bloom_level": "Evaluate"
+          }
+        ]
+      },
+      "summary": {
+        "title": "Neural Networks: Layers, Activations and Training",
+        "content": "Neural networks are built from layers of interconnected nodes, and each layer transforms its input with learned weights followed by an activation function. Activation functions such as ReLU and sigmoid add the non-linearity that lets a network model more than a single linear transform; ReLU is cheap to compute, while sigmoid saturates at extreme inputs and can slow learning. Deep learning stacks many hidden layers so that early layers learn simple features and later layers combine them into hierarchical representations. Convolutional neural networks apply this idea to images and are the standard choice for image recognition. Training relies on backpropagation, which uses the chain rule to compute the gradient of the loss with respect to every weight, layer by layer from the output back to the input. To keep a large network from memorising the training data, dropout randomly zeroes a fraction of neurons on each training step, which forces the remaining neurons to learn more robust features and reduces overfitting. Together these pieces explain how a network turns raw input into predictions and how it improves from its errors.",
+        "word_count": 180,
+        "summary_level": "Standard"
+      },
+      "quiz": {
+        "title": "Neural Networks Quiz",
+        "difficulty_level": "Medium",
+        "questions": [
+          {
+            "id": 1,
+            "text": "What is the main role of an activation function?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Initialise weights",
+              "Introduce non-linearity",
+              "Normalise inputs",
+              "Shrink the model"
+            ],
+            "correct_answer": "Introduce non-linearity",
+            "explanation": "Without it the network collapses to a linear transform."
+          },
+          {
+            "id": 2,
+            "text": "Which activation function saturates at extreme inputs?",
+            "question_type": "multiple_choice",
+            "options": [
+              "ReLU",
+              "Sigmoid",
+              "Leaky ReLU",
+              "Identity"
+            ],
+            "correct_answer": "Sigmoid",
+            "explanation": "Sigmoid flattens near 0 and 1."
+          },
+          {
+            "id": 3,
+            "text": "What does backprop compute?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Gradients of the loss for each weight",
+              "The network's accuracy",
+              "The learning rate",
+              "The number of layers"
+            ],
+            "correct_answer": "Gradients of the loss for each weight",
+            "explanation": "It applies the chain rule layer by layer."
+          },
+          {
+            "id": 4,
+            "text": "Which architecture is most effective for image recognition?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Convolutional neural network",
+              "Linear regression",
+              "Decision stump",
+              "Naive Bayes"
+            ],
+            "correct_answer": "Convolutional neural network",
+            "explanation": "Convolutions capture local spatial patterns."
+          },
+          {
+            "id": 5,
+            "text": "Explain how dropout reduces overfitting.",
+            "question_type": "short_answer",
+            "options": null,
+            "correct_answer": "It randomly zeroes neurons during training so the network cannot rely on any single neuron.",
+            "explanation": "This forces redundant, more general features."
+          }
+        ]
+      }
+    },
+    "sql-joins": {
+      "flashcards": {
+        "flashcards": [
+          {
+            "question": "What does a JOIN do?",
+            "answer": "It combines rows from two tables using a related column.",
+            "difficulty": 1,
+            "bloom_level": "Remember"
+          },
+          {
+            "question": "What rows does an INNER JOIN return?",
+            "answer": "Only rows with matching keys in both tables.",
+            "difficulty": 1,
+            "bloom_level": "Remember"
+          },
+          {
+            "question": "What does a LEFT JOIN put in right-side columns with no match?",
+            "answer": "NULL.",
+            "difficulty": 2,
+            "bloom_level": "Understand"
+          },
+          {
+            "question": "What is a foreign key?",
+            "answer": "A column that references the primary key of another table.",
+            "difficulty": 2,
+            "bloom_level": "Understand"
+          },
+          {
+            "question": "You need every customer, including those with no orders. Which join do you use?",
+            "answer": "A LEFT JOIN from customers to orders.",
+            "difficulty": 3,
+            "bloom_level": "Apply"
+          },
+          {
+            "question": "Why add an index on a join column?",
+            "answer": "It speeds up lookups when joining large tables.",
+            "difficulty": 3,
+            "bloom_level": "Analyze"
+          }
+        ]
+      },
+      "summary": {
+        "title": "SQL Joins in Brief",
+        "content": "A JOIN combines rows from two tables through a related column, usually a foreign key that references another table's primary key. An INNER JOIN keeps only rows whose keys match in both tables, while a LEFT JOIN keeps every row from the left table and fills missing right-side columns with NULL. Adding an index on the join columns makes these lookups much faster on large tables.",
+        "word_count": 66,
+        "summary_level": "Brief"
+      },
+      "quiz": {
+        "title": "SQL Joins Basics",
+        "difficulty_level": "Easy",
+        "questions": [
+          {
+            "id": 1,
+            "text": "What does a JOIN combine?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Rows from two tables",
+              "Two databases",
+              "Columns into one value",
+              "Indexes"
+            ],
+            "correct_answer": "Rows from two tables",
+            "explanation": "A JOIN matches rows on a related column."
+          },
+          {
+            "id": 2,
+            "text": "Which join returns only matching rows from both tables?",
+            "question_type": "multiple_choice",
+            "options": [
+              "INNER JOIN",
+              "LEFT JOIN",
+              "FULL JOIN",
+              "CROSS JOIN"
+            ],
+            "correct_answer": "INNER JOIN",
+            "explanation": "INNER JOIN drops rows without a match."
+          },
+          {
+            "id": 3,
+            "text": "In a LEFT JOIN, what fills right-side columns with no match?",
+            "question_type": "multiple_choice",
+            "options": [
+              "NULL",
+              "0",
+              "An empty string",
+              "The left value"
+            ],
+            "correct_answer": "NULL",
+            "explanation": "Missing right-side values become NULL."
+          },
+          {
+            "id": 4,
+            "text": "A foreign key references which column of another table?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Its primary key",
+              "Its index",
+              "Its first column",
+              "Any text column"
+            ],
+            "correct_answer": "Its primary key",
+            "explanation": "That is the definition of a foreign key."
+          },
+          {
+            "id": 5,
+            "text": "What usually speeds up joins on large tables?",
+            "question_type": "multiple_choice",
+            "options": [
+              "An index on the join columns",
+              "More NULL values",
+              "Removing primary keys",
+              "Using SELECT *"
+            ],
+            "correct_answer": "An index on the join columns",
+            "explanation": "Indexes make key lookups fast."
+          },
+          {
+            "id": 6,
+            "text": "When would you choose a LEFT JOIN over an INNER JOIN?",
+            "question_type": "short_answer",
+            "options": null,
+            "correct_answer": "When you need every row from the left table even if it has no match.",
+            "explanation": "LEFT JOIN keeps unmatched left rows."
+          }
+        ]
+      }
+    },
+    "photosynthesis": {
+      "flashcards": {
+        "flashcards": [
+          {
+            "question": "Where in the cell does photosynthesis happen?",
+            "answer": "In chloroplasts, which contain chlorophyll.",
+            "difficulty": 1,
+            "bloom_level": "Remember"
+          },
+          {
+            "question": "What do the light-dependent reactions produce?",
+            "answer": "ATP, NADPH and oxygen, using light energy to split water.",
+            "difficulty": 2,
+            "bloom_level": "Understand"
+          },
+          {
+            "question": "Where does the oxygen released by photosynthesis come from?",
+            "answer": "From water split in the thylakoid membranes, not from CO2.",
+            "difficulty": 3,
+            "bloom_level": "Understand"
+          },
+          {
+            "question": "What does RuBisCO do?",
+            "answer": "It fixes carbon dioxide in the Calvin cycle.",
+            "difficulty": 3,
+            "bloom_level": "Remember"
+          },
+          {
+            "question": "A plant in bright light stops speeding up when light increases further. What might be limiting it?",
+            "answer": "CO2 concentration or temperature has become the limiting factor.",
+            "difficulty": 4,
+            "bloom_level": "Apply"
+          },
+          {
+            "question": "Explain why the Calvin cycle depends on the light-dependent reactions.",
+            "answer": "It needs the ATP and NADPH they produce to fix carbon into sugar.",
+            "difficulty": 4,
+            "bloom_level": "Analyze"
+          },
+          {
+            "question": "Evaluate the claim that photosynthesis can run at full speed in the dark if CO2 is high.",
+            "answer": "False: without light there is no new ATP and NADPH, so the Calvin cycle soon stops.",
+            "difficulty": 5,
+            "bloom_level": "Evaluate"
+          }
+        ]
+      },
+      "summary": {
+        "title": "Photosynthesis: Two Stages and Their Limits",
+        "content": "Photosynthesis is the process plants use to convert light energy into chemical energy that is stored in glucose. It takes place inside chloroplasts, organelles that contain the green pigment chlorophyll, which absorbs light most strongly in the red and blue parts of the spectrum. The process has two linked stages. The first stage is the light-dependent reactions, which happen in the thylakoid membranes. Absorbed light energy drives the splitting of water molecules. This releases oxygen as a by-product, and the energy captured is used to produce two energy carriers, ATP and NADPH. A common misconception is that the oxygen plants release comes from carbon dioxide; it actually comes from the water that is split in this stage. The second stage is the Calvin cycle, which runs in the stroma, the fluid that surrounds the thylakoids. The Calvin cycle uses the ATP and NADPH made in the first stage to fix carbon dioxide from the air into sugar. The enzyme RuBisCO catalyses the key carbon-fixing step by attaching carbon dioxide to a five-carbon acceptor molecule. The products are then reduced and rearranged, some leave the cycle to build glucose and other carbohydrates, and the rest regenerate the acceptor so the cycle can continue. Because the two stages depend on each other, the overall rate of photosynthesis is set by whichever input is in shortest supply. The main limiting factors are light intensity, which controls how fast ATP and NADPH are made; carbon dioxide concentration, which controls how fast RuBisCO can fix carbon; and temperature, which affects how quickly enzymes such as RuBisCO work. Raising one factor increases the rate only until another factor becomes the limit. Understanding these stages and limits explains why plants grow faster in bright, warm conditions with enough carbon dioxide, and why the light-dependent reactions and the Calvin cycle must stay balanced for a plant to keep producing sugar and releasing oxygen throughout the day.",
+        "word_count": 318,
+        "summary_level": "Detailed"
+      },
+      "quiz": {
+        "title": "Photosynthesis Challenge",
+        "difficulty_level": "Hard",
+        "questions": [
+          {
+            "id": 1,
+            "text": "Which molecule is the source of the oxygen released in photosynthesis?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Water",
+              "Carbon dioxide",
+              "Glucose",
+              "ATP"
+            ],
+            "correct_answer": "Water",
+            "explanation": "Water is split in the light-dependent reactions."
+          },
+          {
+            "id": 2,
+            "text": "Which products of the light-dependent reactions does the Calvin cycle consume?",
+            "question_type": "multiple_choice",
+            "options": [
+              "ATP and NADPH",
+              "Oxygen and water",
+              "Glucose and CO2",
+              "Chlorophyll and RuBisCO"
+            ],
+            "correct_answer": "ATP and NADPH",
+            "explanation": "They supply energy and reducing power for carbon fixation."
+          },
+          {
+            "id": 3,
+            "text": "A plant is in bright light at a warm temperature but its rate has plateaued. What is the most likely limit?",
+            "question_type": "multiple_choice",
+            "options": [
+              "CO2 concentration",
+              "Light intensity",
+              "Chlorophyll colour",
+              "Oxygen levels"
+            ],
+            "correct_answer": "CO2 concentration",
+            "explanation": "With light and temperature high, CO2 supply limits RuBisCO."
+          },
+          {
+            "id": 4,
+            "text": "Where do the light-dependent reactions take place?",
+            "question_type": "multiple_choice",
+            "options": [
+              "Thylakoid membranes",
+              "Stroma",
+              "Mitochondria",
+              "Cell wall"
+            ],
+            "correct_answer": "Thylakoid membranes",
+            "explanation": "The Calvin cycle runs in the stroma instead."
+          },
+          {
+            "id": 5,
+            "text": "Predict what happens to the Calvin cycle shortly after a plant is moved into darkness, and explain why.",
+            "question_type": "short_answer",
+            "options": null,
+            "correct_answer": "It slows and stops because ATP and NADPH from the light reactions run out.",
+            "explanation": "The Calvin cycle depends on products of the light-dependent stage."
+          }
+        ]
+      }
+    }
+  }
+}

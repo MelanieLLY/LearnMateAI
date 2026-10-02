@@ -1,0 +1,3 @@
+# Local development tooling. Not installed on Render.
+-r requirements.txt
+ruff==0.16.10

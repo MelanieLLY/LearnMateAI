@@ -3,16 +3,23 @@ name: AI PR Review (Anthropic API)
 on:
   pull_request:
     branches: [ "main" ]
-    types: [ "opened", "synchronize", "ready_for_review" ]
+    types: [ "opened", "synchronize", "reopened", "ready_for_review" ]
 
+# Read the code, write one PR comment. Nothing else.
 permissions:
   contents: read
+  pull-requests: write
+
+concurrency:
+  group: ai-pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   ai-review:
     name: AI-Powered Code Review via Claude API
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -20,98 +27,48 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get PR diff
-        id: diff
-        run: |
-          git diff origin/${{ github.base_ref }}...HEAD > pr.diff
-          DIFF_SIZE=$(wc -l < pr.diff)
-          echo "diff_size=$DIFF_SIZE" >> $GITHUB_OUTPUT
-          git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
-
       - name: Set up Node.js
-        if: steps.diff.outputs.diff_size > 0
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Run AI Code Review
-        if: steps.diff.outputs.diff_size > 0
+      - name: Unit-test the review script
+        run: node --test .github/scripts/ai-pr-review.test.mjs
+
+      # Secrets are not passed to workflows triggered from forks, so the key is empty there.
+      - name: Check for API key
+        id: key
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          cat > review.js << 'SCRIPT'
-          const fs = require('fs');
-          const https = require('https');
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::notice::ANTHROPIC_API_KEY is not available (fork PR or unset secret). Skipping AI review."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
 
-          const diff = fs.readFileSync('pr.diff', 'utf8');
-          const changedFiles = fs.readFileSync('changed_files.txt', 'utf8');
+      - name: Get PR diff
+        id: diff
+        if: steps.key.outputs.enabled == 'true'
+        run: |
+          BASE="origin/${{ github.base_ref }}"
+          EXCLUDES=(':(exclude)**/package-lock.json' ':(exclude)**/*.png' ':(exclude)**/*.pdf')
+          git diff "$BASE"...HEAD -- . "${EXCLUDES[@]}" > pr.diff
+          git diff --name-only "$BASE"...HEAD > changed_files.txt
+          echo "diff_size=$(wc -c < pr.diff | tr -d ' ')" >> "$GITHUB_OUTPUT"
 
-          const systemPrompt = `You are an expert code reviewer for LearnMateAI.
-          Review the PR diff focusing on:
-          1. Security (OWASP Top 10)
-          2. Code Quality
-          3. Test Coverage
-          4. Project Standards`;
+      - name: Install Anthropic SDK
+        if: steps.key.outputs.enabled == 'true' && steps.diff.outputs.diff_size != '0'
+        run: npm install --no-save --no-package-lock --prefix .github/scripts @anthropic-ai/sdk@0.131.0
 
-          const userPrompt = `Review this PR:
-          Changed files: ${changedFiles}
-          Diff:
-          \`\`\`diff
-          ${diff}
-          \`\`\``;
-
-          const payload = JSON.stringify({
-            model: "claude-opus-4-7",
-            max_tokens: 2048,
-            system: systemPrompt,
-            messages: [{ role: "user", content: userPrompt }]
-          });
-
-          const options = {
-            hostname: 'api.anthropic.com',
-            port: 443,
-            path: '/v1/messages',
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': Buffer.byteLength(payload),
-              'x-api-key': process.env.ANTHROPIC_API_KEY,
-              'anthropic-version': '2023-06-01'
-            }
-          };
-
-          const req = https.request(options, (res) => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-              try {
-                const response = JSON.parse(data);
-                if (response.error) {
-                  console.error('API Error:', response.error);
-                  process.exit(1);
-                }
-                if (!response.content || !response.content[0]) {
-                  console.error('Invalid response:', response);
-                  process.exit(1);
-                }
-                const reviewText = response.content[0].text;
-                console.log('\n========== 🤖 AI CODE REVIEW ==========');
-                console.log(reviewText);
-                console.log('========== END REVIEW ==========\n');
-              } catch (err) {
-                console.error('Parse error:', err.message);
-                process.exit(1);
-              }
-            });
-          });
-
-          req.on('error', err => {
-            console.error('Request error:', err);
-            process.exit(1);
-          });
-
-          req.write(payload);
-          req.end();
-          SCRIPT
-
-          node review.js
+      - name: Run AI review and post comment
+        if: steps.key.outputs.enabled == 'true' && steps.diff.outputs.diff_size != '0'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          # Set the repository variable AI_REVIEW_MODEL to change models without editing this file.
+          AI_REVIEW_MODEL: ${{ vars.AI_REVIEW_MODEL }}
+        run: node .github/scripts/ai-pr-review.mjs

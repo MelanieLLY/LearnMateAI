@@ -31,3 +31,15 @@ jobs:
     - name: Run Pytest
       run: |
         python -m pytest tests/ -v
+
+    # Deterministic eval: real agent code against recorded outputs, stub judge.
+    # No API key needed. The live LLM-judge run is manual: python -m src.evals.run --live
+    - name: Agent eval harness (mock)
+      run: python -m src.evals.run --report-dir eval_reports
+
+    - name: Upload eval report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: agent-eval-report
+        path: server/eval_reports/

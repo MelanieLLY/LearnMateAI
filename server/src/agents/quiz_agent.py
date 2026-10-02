@@ -13,7 +13,6 @@ one short-answer question.  Very long inputs are truncated before the API call
 to stay within a safe token budget.
 """
 
-import json
 import logging
 import os
 
@@ -30,6 +29,12 @@ logger = logging.getLogger(__name__)
 
 MAX_INPUT_CHARS: int = 10_000
 
+# Output rules enforced by _validate_and_coerce_quiz. src/evals/checks.py imports
+# these so the eval harness checks the same thresholds.
+QUESTION_COUNT_TOLERANCE: int = 1
+MIN_MC_RATIO: float = 0.6
+MIN_SHORT_ANSWER: int = 1
+MC_OPTION_COUNT: int = 4
 
 _MAX_RETRIES: int = 2
 
@@ -71,9 +76,7 @@ def generate_quiz(
         anthropic.APIError: If the Claude API call itself fails.
     """
     if not module_content.strip() and not student_notes.strip():
-        raise ValueError(
-            "At least one of module_content or student_notes must be non-empty."
-        )
+        raise ValueError("At least one of module_content or student_notes must be non-empty.")
 
     if difficulty_level not in DIFFICULTY_LEVELS:
         raise ValueError(
@@ -114,7 +117,10 @@ def generate_quiz(
                         "type": "object",
                         "properties": {
                             "title": {"type": "string"},
-                            "difficulty_level": {"type": "string", "enum": ["Easy", "Medium", "Hard"]},
+                            "difficulty_level": {
+                                "type": "string",
+                                "enum": ["Easy", "Medium", "Hard"],
+                            },
                             "questions": {
                                 "type": "array",
                                 "items": {
@@ -122,23 +128,32 @@ def generate_quiz(
                                     "properties": {
                                         "id": {"type": "integer"},
                                         "text": {"type": "string"},
-                                        "question_type": {"type": "string", "enum": ["multiple_choice", "short_answer"]},
+                                        "question_type": {
+                                            "type": "string",
+                                            "enum": ["multiple_choice", "short_answer"],
+                                        },
                                         "options": {
                                             "type": ["array", "null"],
-                                            "items": {"type": "string"}
+                                            "items": {"type": "string"},
                                         },
                                         "correct_answer": {"type": "string"},
-                                        "explanation": {"type": "string"}
+                                        "explanation": {"type": "string"},
                                     },
-                                    "required": ["id", "text", "question_type", "correct_answer", "explanation"]
-                                }
-                            }
+                                    "required": [
+                                        "id",
+                                        "text",
+                                        "question_type",
+                                        "correct_answer",
+                                        "explanation",
+                                    ],
+                                },
+                            },
                         },
-                        "required": ["title", "difficulty_level", "questions"]
-                    }
+                        "required": ["title", "difficulty_level", "questions"],
+                    },
                 }
             ],
-            tool_choice={"type": "tool", "name": "generate_quiz_output"}
+            tool_choice={"type": "tool", "name": "generate_quiz_output"},
         )
 
         tool_use = next((block for block in message.content if block.type == "tool_use"), None)
@@ -169,8 +184,7 @@ def generate_quiz(
             )
 
     raise ValueError(
-        f"Quiz generation failed after {_MAX_RETRIES} attempts. "
-        f"Last error: {last_error}"
+        f"Quiz generation failed after {_MAX_RETRIES} attempts. Last error: {last_error}"
     )
 
 
@@ -219,15 +233,11 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
             individual question is structurally invalid.
     """
     if not isinstance(quiz, dict):
-        raise ValueError(
-            f"Expected a JSON object from Claude, got: {type(quiz).__name__}"
-        )
+        raise ValueError(f"Expected a JSON object from Claude, got: {type(quiz).__name__}")
 
     for field in ("title", "questions", "difficulty_level"):
         if field not in quiz:
-            raise ValueError(
-                f"Quiz response missing required field '{field}': {quiz!r}"
-            )
+            raise ValueError(f"Quiz response missing required field '{field}': {quiz!r}")
 
     if not isinstance(quiz["title"], str) or not quiz["title"].strip():
         raise ValueError("Quiz 'title' must be a non-empty string")
@@ -243,6 +253,7 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
     if isinstance(questions, str):
         import json as _json
         import re
+
         clean_str = questions.strip()
         clean_str = re.sub(r"^```(?:json)?\s*", "", clean_str)
         clean_str = re.sub(r"\s*```$", "", clean_str)
@@ -261,6 +272,7 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
         if parsed is None:
             try:
                 from json_repair import repair_json  # type: ignore[import]
+
                 parsed = repair_json(clean_str, return_objects=True)
             except ImportError:
                 logger.warning(
@@ -274,25 +286,22 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
             quiz["questions"] = parsed
             questions = parsed
         else:
-            logger.error(
-                "Could not parse 'questions' string.\nRaw value:\n%s", questions
-            )
+            logger.error("Could not parse 'questions' string.\nRaw value:\n%s", questions)
             raise ValueError(
                 "Quiz 'questions' was returned as a JSON string but could not be parsed. "
                 "Install json-repair for additional recovery: pip install json-repair"
             )
 
     if not isinstance(questions, list):
-        raise ValueError(
-            f"Quiz 'questions' must be a list, got: {type(questions).__name__}"
-        )
+        raise ValueError(f"Quiz 'questions' must be a list, got: {type(questions).__name__}")
 
     # --- Tolerate ±1 question (Claude occasionally returns one extra/fewer) ---
-    min_acceptable = max(1, expected_count - 1)
-    max_acceptable = expected_count + 1
+    min_acceptable = max(1, expected_count - QUESTION_COUNT_TOLERANCE)
+    max_acceptable = expected_count + QUESTION_COUNT_TOLERANCE
     if not (min_acceptable <= len(questions) <= max_acceptable):
         raise ValueError(
-            f"Quiz must have {expected_count} (±1) questions, got: {len(questions)}"
+            f"Quiz must have {expected_count} (±{QUESTION_COUNT_TOLERANCE}) questions, "
+            f"got: {len(questions)}"
         )
     if len(questions) != expected_count:
         logger.warning(
@@ -307,13 +316,13 @@ def _validate_and_coerce_quiz(quiz: dict, expected_count: int) -> None:
     mc_count = sum(1 for q in questions if q["question_type"] == "multiple_choice")
     sa_count = sum(1 for q in questions if q["question_type"] == "short_answer")
 
-    if mc_count / len(questions) < 0.6:
+    if mc_count / len(questions) < MIN_MC_RATIO:
         raise ValueError(
-            f"At least 60% of questions must be multiple_choice; "
-            f"got {mc_count}/{len(questions)} ({mc_count/len(questions):.0%})"
+            f"At least {MIN_MC_RATIO:.0%} of questions must be multiple_choice; "
+            f"got {mc_count}/{len(questions)} ({mc_count / len(questions):.0%})"
         )
-    if sa_count < 1:
-        raise ValueError("At least 1 short_answer question is required")
+    if sa_count < MIN_SHORT_ANSWER:
+        raise ValueError(f"At least {MIN_SHORT_ANSWER} short_answer question is required")
 
 
 def _validate_question(index: int, q: dict) -> None:
@@ -329,9 +338,7 @@ def _validate_question(index: int, q: dict) -> None:
     """
     for field in ("id", "text", "question_type", "correct_answer", "explanation"):
         if field not in q:
-            raise ValueError(
-                f"Question {index} missing required field '{field}': {q!r}"
-            )
+            raise ValueError(f"Question {index} missing required field '{field}': {q!r}")
 
     if not isinstance(q["text"], str) or not q["text"].strip():
         raise ValueError(f"Question {index} 'text' must be a non-empty string")
@@ -348,23 +355,17 @@ def _validate_question(index: int, q: dict) -> None:
 
     if q["question_type"] == "multiple_choice":
         options = q.get("options")
-        if not isinstance(options, list) or len(options) != 4:
+        if not isinstance(options, list) or len(options) != MC_OPTION_COUNT:
             raise ValueError(
-                f"MC question {index} must have exactly 4 options, "
-                f"got: {options!r}"
+                f"MC question {index} must have exactly {MC_OPTION_COUNT} options, got: {options!r}"
             )
         for j, opt in enumerate(options):
             if not isinstance(opt, str) or not opt.strip():
-                raise ValueError(
-                    f"MC question {index} option {j} must be a non-empty string"
-                )
+                raise ValueError(f"MC question {index} option {j} must be a non-empty string")
     else:
         # short_answer: options should be None; coerce empty list [] to None
         raw_options = q.get("options")
         if raw_options == [] or raw_options is None:
             q["options"] = None  # normalise in-place
         elif raw_options is not None:
-            raise ValueError(
-                f"SA question {index} must have options=None, "
-                f"got: {raw_options!r}"
-            )
+            raise ValueError(f"SA question {index} must have options=None, got: {raw_options!r}")
