@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import InstructorQuizSection from '../components/InstructorQuizSection';
+import AudienceContextField from '../components/AudienceContextField';
 
 interface Course {
   id: number;
@@ -467,12 +468,7 @@ export default function InstructorModuleDashboard() {
                   onChange={e => setCourseDesc(e.target.value)} 
                   className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
                 />
-                <textarea 
-                  placeholder="Audience Context" 
-                  value={courseAudience} 
-                  onChange={e => setCourseAudience(e.target.value)} 
-                  className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500/50 min-h-[80px]"
-                />
+                <AudienceContextField value={courseAudience} onChange={setCourseAudience} />
                 <button type="submit" className="py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-xl transition-all shadow-sm">
                   Create and Select Class
                 </button>
@@ -496,11 +492,9 @@ export default function InstructorModuleDashboard() {
                       placeholder="Description" 
                       className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/50 outline-none"
                     />
-                    <textarea 
-                      value={editCourseForm.audience_context || ''} 
-                      onChange={e => setEditCourseForm({...editCourseForm, audience_context: e.target.value})} 
-                      placeholder="Audience" 
-                      className="px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/50 outline-none"
+                    <AudienceContextField
+                      value={editCourseForm.audience_context || ''}
+                      onChange={value => setEditCourseForm({...editCourseForm, audience_context: value})}
                     />
                     <div className="flex gap-3 mt-2">
                       <button onClick={handleEditCourse} className="px-5 py-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors">
@@ -518,7 +512,7 @@ export default function InstructorModuleDashboard() {
                       <h3 className="text-xl font-bold text-slate-800 mb-3">📘 {activeCourse.title}</h3>
                       <div className="space-y-2 mb-6">
                         <p className="text-slate-600"><strong className="text-slate-800">Description:</strong> {activeCourse.description || 'None'}</p>
-                        <p className="text-slate-600"><strong className="text-slate-800">Audience/Context:</strong> {activeCourse.audience_context || 'None'}</p>
+                        <p className="text-slate-600"><strong className="text-slate-800">Audience guidelines for AI:</strong> {activeCourse.audience_context || 'None'}</p>
                         <div className="text-slate-600">
                           <strong className="text-slate-800 block mb-1 mt-2">Students enrolled in this class:</strong>
                           {courseStudents.length === 0 ? <span className="text-sm italic">No students enrolled yet</span> : (
