@@ -63,3 +63,6 @@ planning_files/_archive_(Internal_Only)/
 
 # User drafts
 *草稿*
+
+# Eval harness reports (server/src/evals/run.py)
+server/eval_reports/

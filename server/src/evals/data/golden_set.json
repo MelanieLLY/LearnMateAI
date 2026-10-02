@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "description": "Golden module inputs for the flashcard, summary and quiz agents. 'expected' holds properties every good output should have; see src/evals/checks.py.",
+  "cases": [
+    {
+      "id": "neural-networks",
+      "module_content": "Neural networks are composed of layers of interconnected nodes. Each layer transforms its input using weights and activation functions. Deep learning uses many hidden layers to learn hierarchical representations. Convolutional neural networks are particularly effective for image recognition tasks.",
+      "student_notes": "Activation functions introduce non-linearity; without them the network is just a linear transform. ReLU is fast; sigmoid saturates at extremes. Backprop computes gradients layer by layer via the chain rule. Dropout randomly zeroes neurons during training to prevent overfitting.",
+      "quiz": {
+        "difficulty_level": "Medium",
+        "num_questions": 5
+      },
+      "summary": {
+        "summary_level": "Standard"
+      },
+      "expected": {
+        "key_terms": [
+          "activation",
+          "layer",
+          "backprop",
+          "dropout",
+          "relu",
+          "convolutional"
+        ],
+        "forbidden_terms": [
+          "decision tree",
+          "blockchain"
+        ],
+        "min_key_term_coverage": 0.5
+      }
+    },
+    {
+      "id": "sql-joins",
+      "module_content": "A JOIN combines rows from two tables using a related column. An INNER JOIN returns only rows with matching keys in both tables. A LEFT JOIN returns every row from the left table and fills missing right-side columns with NULL. A foreign key is a column that references the primary key of another table. Indexes on join columns speed up lookups on large tables.",
+      "student_notes": "",
+      "quiz": {
+        "difficulty_level": "Easy",
+        "num_questions": 6
+      },
+      "summary": {
+        "summary_level": "Brief"
+      },
+      "expected": {
+        "key_terms": [
+          "inner join",
+          "left join",
+          "null",
+          "foreign key",
+          "primary key",
+          "index"
+        ],
+        "forbidden_terms": [
+          "mongodb",
+          "neural"
+        ],
+        "min_key_term_coverage": 0.5
+      }
+    },
+    {
+      "id": "photosynthesis",
+      "module_content": "Photosynthesis converts light energy into chemical energy stored in glucose. It happens in chloroplasts, which contain the pigment chlorophyll. The light-dependent reactions in the thylakoid membranes split water, release oxygen, and produce ATP and NADPH. The Calvin cycle in the stroma uses ATP and NADPH to fix carbon dioxide into sugar.",
+      "student_notes": "Remember: oxygen comes from water, not from CO2. RuBisCO is the enzyme that fixes CO2 in the Calvin cycle. Limiting factors are light intensity, CO2 concentration and temperature.",
+      "quiz": {
+        "difficulty_level": "Hard",
+        "num_questions": 5
+      },
+      "summary": {
+        "summary_level": "Detailed"
+      },
+      "expected": {
+        "key_terms": [
+          "chlorophyll",
+          "thylakoid",
+          "calvin cycle",
+          "atp",
+          "nadph",
+          "rubisco",
+          "oxygen"
+        ],
+        "forbidden_terms": [
+          "mitochondria produce glucose",
+          "oxygen comes from co2"
+        ],
+        "min_key_term_coverage": 0.5
+      }
+    }
+  ]
+}
