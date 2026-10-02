@@ -58,8 +58,8 @@
 | Quiz submission API + answer storage (Completed) | |
 | Bugfix (Issue #38): Migrate AI agents to use tool structured outputs (Completed) | **Feature (Issue #42)**: Student enrollment system & auth hardening (Completed) |
 | Bugfix (Issue #40): Fix stringified tool output parsing and refine AI prompts (Completed) | **Feature (Issue #43)**: Simulate mock data to prepare for testing (Completed) |
-| Eval system for outputs | **Test (Issue #21)**: Set up Playwright for E2E tests (Completed) |
-| Store eval history in DB for reporting | **Feature (Issue #49)**: Improve mock data realism |
+| Eval system for outputs (Partial, Issue #76: offline harness with golden set, deterministic checks and LLM-as-judge; not run on every generation) | **Test (Issue #21)**: Set up Playwright for E2E tests (Completed) |
+| Store eval history in DB for reporting (Not started; #76 writes report files only) | **Feature (Issue #49)**: Improve mock data realism |
 | | **Feature (Issue #51)**: UX Improvements (Login Auto-Routing & Group Modules) (Completed) |
 
 **Sprint 2 deliverables:**
@@ -113,6 +113,7 @@
 
 - Test (Issue #72): Frontend critical-flow tests (Completed)
 - Docs (Issue #74): Update README and file storage structure, commit npm lockfiles, refresh CLAUDE.md
+- Chore (Issue #76): Enforced agent guardrails: lint PostToolUse hook, real Stop hook, AI PR review comment + blocking verdict, eval harness in CI, deny rules, writing-style rule, project memory file
 
 ---
 

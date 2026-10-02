@@ -204,7 +204,7 @@ LearnMateAI/
 |------------------------|-----------------------------------------|--------------------------------|
 | **CLAUDE.md & Memory** | 我们创建了包含模块化 `@imports` 的 `CLAUDE.md`。项目上下文档案与对话通过 `chathistory_P3.md` 持久化记忆，并且 Git 历史中留存了演变过程。 | [chathistory_P3.md](planning_files/chathistory_P3.md) <br> [CLAUDE.md](CLAUDE.md) |
 | **Custom Skills** | 我们引入了 `everything-claude-code` 插件体系，搭建了远超 2 个的自定义技能，完成工作流加速。 | [证据 1 (截图)](docs/screenshot/12_evidence_1_successfully_add_marketplace_proof.png) |
-| **Hooks** | 按要求配置了 Pre/Post hooks。特别是建立了一个强效质量拦截门（Stop Hook），它能在 Pytest 失败时强制阻断 `git commit` 操作。 | [证据 2 (截图)](docs/screenshot/13_evidence_2_stop_hook.png) |
+| **Hooks** | 按要求配置了 Pre/Post hooks。其中 PreToolUse 提交守卫会在 Agent 执行 `git commit` 前运行 Pytest，失败即阻断提交；2026-10 另加了真正的 Stop hook（回合结束时有未提交改动就跑测试）和编辑后自动 lint 的 PostToolUse hook（#76）。 | [证据 2 (截图)](docs/screenshot/13_evidence_2_stop_hook.png) |
 | **MCP Servers** | 在工作区集成配置了 GitHub MCP 服务，成功利用大模型自动查阅项目 PR 和 Issue，配置独立保存在 `.mcp.json` 中。 | [证据 4 (截图)](docs/screenshot/15_evidence_4_mcp_open_issues.png) |
 | **Agents** | 除了应用侧的 Agent SDK 集成，在项目流程中也深度使用了诸如代码审查 (Doc-Reviewer) 等专业分身，辅助代码质控。 | [证据 3 (截图)](docs/screenshot/14_evidence_3_doc_reviewer_agent.png) <br> [project3-agents.md](docs/project3-agents.md) |
 | **Parallel Development** | 我们利用 Git worktree 将目录物理分离，实现了两个前端分支 (`quiz-ui` 与 `flashcard-ui`) 在多个终端并驾齐驱的开发。 | [证据 5 (截图)](docs/screenshot/16_evidence_5_worktree_list.png) <br> [证据 7b (截图)](docs/screenshot/17_evidence_7b_parallel_terminals.png) |

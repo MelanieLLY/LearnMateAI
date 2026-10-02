@@ -5,9 +5,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-<!-- Context Imports -->
-@import docs/learnmate-sprint-plan.md
-@import .claude/rules/common/testing.md
+<!-- Context imports (one path per line, prefixed with the at-sign). .claude/rules/ loads automatically, so testing.md is not imported here. -->
+@docs/learnmate-sprint-plan.md
+@docs/agent-memory.md
+@.agents/rules/writing-style.md
+
+- **Project memory**: `docs/agent-memory.md` records durable decisions (why agents force
+  `tool_choice`, cold-start handling, English-only UI). Append to it as described at the top of
+  that file, in the same commit as the change.
+- **Writing style**: `.agents/rules/writing-style.md` covers commit messages, PR descriptions,
+  code comments and banned filler phrases.
 
 ---
 
@@ -53,6 +60,13 @@ cd server && pytest                   # Run backend tests (tests/ only, see pyte
 cd server && pytest --cov=src --cov-report=term-missing  # Coverage
 cd server && python seed_mock_data.py # Seed demo data from mock_data.json
 cd server && pip install -r requirements.txt  # Install Python dependencies
+cd server && pip install -r requirements-dev.txt  # + ruff (used by the lint hook)
+cd server && ruff check src tests && ruff format --check src tests  # Lint (config: ruff.toml)
+cd server && python -m src.evals.run  # Agent eval, mock outputs + stub judge (runs in CI)
+cd server && python -m src.evals.run --live  # Real agents + LLM judge (needs ANTHROPIC_API_KEY, costs credits)
+
+# --- CI scripts ---
+node --test .github/scripts/ai-pr-review.test.mjs  # AI PR review script tests
 ```
 
 ---
@@ -178,11 +192,30 @@ Before a PR may be merged, all of the following must be true:
 
 ---
 
-## Permissions (`.claude/settings.json`)
+## Agent Guardrails (`.claude/settings.json`)
 
-Write access is scoped to `server/src/**`, `server/tests/**`, `CLAUDE.md`.
-Disallowed: `.env`, `node_modules/**`, `.git/**`.
-Allowed commands: `npm`, `git`, `npx`, `node`, `python`, `python3`, `pytest`, `pip`, `pip3`, `uvicorn`, `alembic`.
+### Hooks
+| Event | What runs | Effect |
+|---|---|---|
+| **PostToolUse** `Edit\|Write\|MultiEdit` | `.claude/hooks/lint_edited_file.py`: ruff check + format check for `server/**/*.py`; eslint + `tsc -p tsconfig.app.json` for `client/**/*.ts(x)` | Exit 2 with the errors, which Claude sees and should fix |
+| **PreToolUse** `Bash` (commit gate) | Backend pytest whenever the command contains `git commit` | Exit 2 blocks the commit if tests fail |
+| **Stop** | `.claude/hooks/stop_test_gate.py`: pytest / vitest when `server/` or `client/` has uncommitted changes | Exit 2 keeps the turn going until tests pass (one retry, via `stop_hook_active`) |
+
+### Permissions
+- **Pre-approved edits**: `server/src/**`, `server/tests/**`, `CLAUDE.md`. Other edits prompt.
+- **Pre-approved commands**: `npm run/test/ci/audit`, `npx tsc/eslint/vitest/playwright test`,
+  `node --test`, `python -m pytest`, `python -m src.evals.run`, `python seed_mock_data.py`,
+  `pytest`, `ruff`, `pip install -r requirements*.txt`, `uvicorn src.main:app`.
+- **git** is not in the allow list (removed in f6ca259). Claude Code runs read-only git
+  (`status`, `diff`, `log`) without a prompt; `add`, `commit`, `push` and other writes prompt.
+- **Denied**: reading or editing `.env` / `.env.*` (`.env.example` stays readable); editing
+  `node_modules/**` and `.git/**`; `git push --force`/`-f`/`+refspec`, `git reset --hard`,
+  `git clean`, `git branch -D`, recursive `rm`, `vercel`, `render`, `psql`, `pg_dump`,
+  `pg_restore`, and any command containing a `postgres://` URL or `DATABASE_URL=`.
+- **Ask** (always prompts, even in auto mode): edits to `.claude/settings.json` and
+  `.claude/hooks/**`, so an agent can't switch off its own checks without the owner seeing it.
+- Use `Edit(path)` for file rules; Claude Code ignores `Write(path)` rules and warns at startup.
+- Deny rules match the command text Claude writes. They are a guardrail, not a sandbox.
 
 ## Context Management
 

@@ -123,7 +123,7 @@ A big highlight of this project is how we used AI to build it:
 1. **Test-Driven Development (TDD)**
    * To stop AI mistakes, we used Pytest integration loops. This forces the model to follow Pydantic Schemas exactly.
 2. **AI Agent Environment (`.claude`)**
-   * The project has special prompt rules in `CLAUDE.md`. We also set up a Claude Code PreToolUse hook that blocks agent-issued commits until the Pytest suite passes.
+   * The project has special prompt rules in `CLAUDE.md`. Claude Code hooks enforce checks instead of reminding: a PreToolUse commit gate runs Pytest before any agent-issued `git commit` and blocks it on failure, a PostToolUse hook lints each edited file (ruff / eslint + tsc), and a Stop hook runs the test suites before the agent ends a turn with uncommitted changes. See [`.claude/settings.json`](.claude/settings.json).
 3. **Security & CI/CD Pipeline**
    * GitHub Actions run Pytest, Vitest, and Playwright E2E tests, plus CodeQL, Bandit, Gitleaks, and dependency scans on every push and pull request.
 
