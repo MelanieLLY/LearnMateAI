@@ -83,7 +83,7 @@ the LLM judge (`claude-opus-5-5`, override with `EVAL_JUDGE_MODEL`) and costs AP
 When a prompt or agent rule changes, update `data/golden_set.json` / `data/mock_outputs.json` and
 the thresholds in `quiz_agent.py` (the checks import them).
 
-### 2026-10-02: instructor audience guidelines go into the agents' system prompts
+### 2026-10-02 (Issue #78): instructor audience guidelines go into the agents' system prompts
 **Decision**: `generate_quiz`, `generate_flashcards` and `generate_summary` take
 `audience_context` and append it to `SYSTEM_PROMPT` through
 `with_audience_guidelines` (`server/src/agents/prompts/audience.py`). The services build it from
